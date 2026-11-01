@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B1 English Video Quiz: How Reading Changes Your Brain</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .draggable-item { cursor: grab; user-select: none; }
+    .draggable-item:active { cursor: grabbing; }
+    .drop-target { transition: all 0.2s ease; }
+    .drop-target.drag-over { border-color: #3b82f6; background-color: #eff6ff; }
+    .selected-term { ring: 2px; ring-color: #3b82f6; background-color: #dbeafe; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen pb-16">
+
+  <!-- Header -->
+  <header class="bg-indigo-900 text-white shadow-md sticky top-0 z-50">
+    <div class="max-w-5xl mx-auto px-4 py-4 flex flex-wrap justify-between items-center gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="bg-indigo-600 p-2 rounded-lg font-bold text-xl">📖</div>
+        <div>
+          <h1 class="font-bold text-lg md:text-xl leading-tight">BBC Learning English Lab</h1>
+          <p class="text-xs text-indigo-200">Level B1 • How Reading Changes Your Brain</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2 bg-indigo-950/60 px-3 py-1.5 rounded-full border border-indigo-700/50 text-xs md:text-sm">
+        <span>Overall Progress:</span>
+        <span id="overall-progress-text" class="font-bold text-yellow-400">0%</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 mt-6">
+
+    <!-- Navigation Tabs -->
+    <div class="flex border-b border-slate-200 mb-6 space-x-1 sm:space-x-2 overflow-x-auto pb-1">
+      <button onclick="switchTab('tab-video')" id="btn-tab-video" class="tab-btn px-4 py-2.5 rounded-t-lg font-medium text-sm transition-all bg-indigo-600 text-white shadow-sm flex items-center space-x-2 whitespace-nowrap">
+        <span>🎬 Video & Warm-up</span>
+      </button>
+      <button onclick="switchTab('tab-match')" id="btn-tab-match" class="tab-btn px-4 py-2.5 rounded-t-lg font-medium text-sm transition-all bg-white text-slate-600 hover:bg-slate-100 flex items-center space-x-2 whitespace-nowrap">
+        <span>🧩 Vocab Matching</span>
+        <span id="badge-match" class="hidden bg-emerald-500 text-white text-xs px-2 py-0.5 rounded-full">✓</span>
+      </button>
+      <button onclick="switchTab('tab-fill')" id="btn-tab-fill" class="tab-btn px-4 py-2.5 rounded-t-lg font-medium text-sm transition-all bg-white text-slate-600 hover:bg-slate-100 flex items-center space-x-2 whitespace-nowrap">
+        <span>✍️ Drag & Drop Vocab</span>
+        <span id="badge-fill" class="hidden bg-emerald-500 text-white text-xs px-2 py-0.5 rounded-full">✓</span>
+      </button>
+      <button onclick="switchTab('tab-quiz')" id="btn-tab-quiz" class="tab-btn px-4 py-2.5 rounded-t-lg font-medium text-sm transition-all bg-white text-slate-600 hover:bg-slate-100 flex items-center space-x-2 whitespace-nowrap">
+        <span>❓ 10 Quiz Questions</span>
+        <span id="badge-quiz" class="hidden bg-emerald-500 text-white text-xs px-2 py-0.5 rounded-full">✓</span>
+      </button>
+      <button onclick="switchTab('tab-debrief')" id="btn-tab-debrief" class="tab-btn px-4 py-2.5 rounded-t-lg font-medium text-sm transition-all bg-white text-slate-600 hover:bg-slate-100 flex items-center space-x-2 whitespace-nowrap">
+        <span>💬 Debrief</span>
+      </button>
+    </div>
+
+    <!-- TAB 1: VIDEO & DISCUSSION -->
+    <section id="tab-video" class="tab-content block space-y-8">
+      
+      <!-- Video Player Card -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 md:p-6">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-2">
+          <div>
+            <span class="inline-block px-2.5 py-1 bg-indigo-100 text-indigo-700 text-xs font-semibold rounded-md mb-1">BBC World Service</span>
+            <h2 class="text-xl font-bold text-slate-900">Watch the Video: How reading changes the way your brain works</h2>
+          </div>
+          <p class="text-xs text-slate-500 bg-slate-100 px-3 py-1.5 rounded-lg">⏱️ Duration: 5 mins 55 secs</p>
+        </div>
+        
+        <div class="aspect-video w-full rounded-xl overflow-hidden bg-black shadow-inner">
+          <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/X1L1Hd3xfrU?rel=0" title="How reading changes the way your brain works" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p class="text-xs text-slate-500 mt-2 italic">Tip: Watch the video with English subtitles if you need extra support while listening.</p>
+        <p class="text-sm mt-3">If the video does not play here, <a class="text-indigo-700 underline font-semibold" href="https://www.youtube.com/watch?v=X1L1Hd3xfrU" target="_blank" rel="noopener noreferrer">watch it directly on YouTube</a>.</p>
+      </div>
+
+      <!-- Discussion Questions Section -->
+      <div class="bg-indigo-50 border border-indigo-100 rounded-2xl p-5 md:p-6">
+        <div class="flex items-center space-x-2 mb-4">
+          <span class="text-2xl">🗣️</span>
+          <div>
+            <h3 class="text-lg font-bold text-indigo-950">Part 1: Warm-up & Discussion Questions</h3>
+            <p class="text-xs text-indigo-700">Reflect on these questions before or after watching the video. Practicing speaking or writing helps build your fluency!</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Discussion Card 1 -->
+          <div class="bg-white p-5 rounded-xl border border-indigo-100 shadow-sm flex flex-col justify-between">
+            <div>
+              <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">Discussion 1</span>
+              <h4 class="font-semibold text-slate-800 text-base mt-2 mb-2">Reading Formats</h4>
+              <p class="text-sm text-slate-600">Do you prefer reading physical printed books or reading on digital screens (phones or tablets)? How does your concentration change between the two?</p>
+            </div>
+            
+            <div class="mt-4 pt-4 border-t border-slate-100">
+              <button onclick="toggleHelp('help-disc-1')" class="text-xs text-indigo-600 font-medium hover:underline flex items-center space-x-1">
+                <span>💡 Need ideas & helpful vocabulary?</span>
+              </button>
+              <div id="help-disc-1" class="hidden mt-3 p-3 bg-slate-50 rounded-lg text-xs text-slate-600 space-y-2 border border-slate-200">
+                <p><strong>Useful phrases:</strong> "I prefer printed books because...", "When reading on screens, I tend to skim...", "I get easily distracted by notifications..."</p>
+                <p><strong>Keywords:</strong> concentration, distraction, tactile feel, screen fatigue, convenience.</p>
+              </div>
+              
+              <textarea class="w-full mt-3 p-2.5 text-xs text-slate-700 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none" rows="3" placeholder="Type your notes or response here to practice writing..."></textarea>
+            </div>
+          </div>
+
+          <!-- Discussion Card 2 -->
+          <div class="bg-white p-5 rounded-xl border border-indigo-100 shadow-sm flex flex-col justify-between">
+            <div>
+              <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">Discussion 2</span>
+              <h4 class="font-semibold text-slate-800 text-base mt-2 mb-2">Encouraging Reading</h4>
+              <p class="text-sm text-slate-600">The video mentions that deep reading builds critical thinking. How can parents and teachers encourage young people to read more books in today's digital world?</p>
+            </div>
+
+            <div class="mt-4 pt-4 border-t border-slate-100">
+              <button onclick="toggleHelp('help-disc-2')" class="text-xs text-indigo-600 font-medium hover:underline flex items-center space-x-1">
+                <span>💡 Need ideas & helpful vocabulary?</span>
+              </button>
+              <div id="help-disc-2" class="hidden mt-3 p-3 bg-slate-50 rounded-lg text-xs text-slate-600 space-y-2 border border-slate-200">
+                <p><strong>Useful phrases:</strong> "Adults should lead by example...", "Setting daily screen-free time could help...", "Introducing exciting storybooks early..."</p>
+                <p><strong>Keywords:</strong> lead by example, screen time limits, daily habit, curiosity, immersion.</p>
+              </div>
+
+              <textarea class="w-full mt-3 p-2.5 text-xs text-slate-700 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none" rows="3" placeholder="Type your notes or response here to practice writing..."></textarea>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="mt-6 text-center">
+          <button onclick="switchTab('tab-match')" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm rounded-xl shadow transition-all inline-flex items-center space-x-2">
+            <span>Continue to Vocabulary Matching</span>
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: VOCABULARY MATCHING -->
+    <section id="tab-match" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 md:p-6">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-100 pb-4 mb-6 gap-2">
+          <div>
+            <span class="inline-block px-2.5 py-1 bg-amber-100 text-amber-800 text-xs font-semibold rounded-md mb-1">Vocabulary Exercise 1</span>
+            <h2 class="text-xl font-bold text-slate-900">Match Words to Definitions</h2>
+            <p class="text-xs text-slate-500">Click a word on the left, then click its matching definition on the right.</p>
+          </div>
+          <button onclick="resetMatching()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded-lg transition-all">
+            🔄 Reset Exercise
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Terms Left -->
+          <div class="space-y-3" id="match-terms-container">
+            <!-- JS populated -->
+          </div>
+
+          <!-- Definitions Right -->
+          <div class="space-y-3" id="match-defs-container">
+            <!-- JS populated -->
+          </div>
+        </div>
+
+        <div id="match-feedback" class="mt-6 p-4 rounded-xl text-center hidden font-medium text-sm"></div>
+      </div>
+
+      <div class="flex justify-between items-center">
+        <button onclick="switchTab('tab-video')" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium text-xs md:text-sm rounded-xl transition-all">
+          ← Back to Video
+        </button>
+        <button onclick="switchTab('tab-fill')" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-xs md:text-sm rounded-xl shadow transition-all">
+          Next: Drag & Drop Exercise →
+        </button>
+      </div>
+    </section>
+
+    <!-- TAB 3: DRAG & DROP SENTENCE COMPLETION -->
+    <section id="tab-fill" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 md:p-6">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-100 pb-4 mb-6 gap-2">
+          <div>
+            <span class="inline-block px-2.5 py-1 bg-emerald-100 text-emerald-800 text-xs font-semibold rounded-md mb-1">Vocabulary Exercise 2</span>
+            <h2 class="text-xl font-bold text-slate-900">Complete the Sentences</h2>
+            <p class="text-xs text-slate-500">Drag words from the word bank into the blank spaces, or tap a word then tap a slot.</p>
+          </div>
+          <button onclick="resetFillBlanks()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded-lg transition-all">
+            🔄 Reset Sentences
+          </button>
+        </div>
+
+        <!-- Word Bank -->
+        <div class="mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <p class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3">Word Bank (8 terms)</p>
+          <div id="word-bank" class="flex flex-wrap gap-2">
+            <!-- JS populated -->
+          </div>
+        </div>
+
+        <!-- Sentences List -->
+        <div class="space-y-4" id="fill-sentences-container">
+          <!-- JS populated -->
+        </div>
+
+        <div class="mt-6 flex flex-wrap justify-between items-center gap-4">
+          <button onclick="checkFillAnswers()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-sm rounded-xl shadow transition-all">
+            Check Answers
+          </button>
+          <div id="fill-score-display" class="text-sm font-bold text-slate-700"></div>
+        </div>
+      </div>
+
+      <div class="flex justify-between items-center">
+        <button onclick="switchTab('tab-match')" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium text-xs md:text-sm rounded-xl transition-all">
+          ← Back to Matching
+        </button>
+        <button onclick="switchTab('tab-quiz')" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-xs md:text-sm rounded-xl shadow transition-all">
+          Next: 10 Quiz Questions →
+        </button>
+      </div>
+    </section>
+
+    <!-- TAB 4: MULTIPLE CHOICE QUIZ -->
+    <section id="tab-quiz" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 md:p-6">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-100 pb-4 mb-6 gap-2">
+          <div>
+            <span class="inline-block px-2.5 py-1 bg-purple-100 text-purple-800 text-xs font-semibold rounded-md mb-1">Comprehension Assessment</span>
+            <h2 class="text-xl font-bold text-slate-900">10 Video Comprehension Questions</h2>
+            <p class="text-xs text-slate-500">Test your understanding of the key concepts presented in the BBC video.</p>
+          </div>
+          <div class="flex items-center space-x-3">
+            <span class="text-xs text-slate-500">Score: <strong id="quiz-score-num" class="text-indigo-600 text-base">0</strong>/10</span>
+            <button onclick="resetQuiz()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded-lg transition-all">
+              🔄 Reset Quiz
+            </button>
+          </div>
+        </div>
+
+        <!-- Quiz Navigation Dots -->
+        <div class="flex flex-wrap gap-2 mb-6 justify-center" id="quiz-nav-dots">
+          <!-- JS populated -->
+        </div>
+
+        <!-- Question Container -->
+        <div id="quiz-question-card" class="bg-slate-50/70 border border-slate-200 rounded-2xl p-5 md:p-6 space-y-4">
+          <!-- JS populated single question -->
+        </div>
+
+        <!-- Quiz Navigation Controls -->
+        <div class="flex justify-between items-center mt-6">
+          <button id="btn-prev-q" onclick="navigateQuiz(-1)" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium text-xs md:text-sm rounded-xl transition-all disabled:opacity-50">
+            ← Previous Question
+          </button>
+          <span id="quiz-current-num" class="text-xs text-slate-500 font-medium">Question 1 of 10</span>
+          <button id="btn-next-q" onclick="navigateQuiz(1)" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-xs md:text-sm rounded-xl shadow transition-all">
+            Next Question →
+          </button>
+        </div>
+      </div>
+
+      <!-- Final Results Summary Card -->
+      <div id="quiz-summary-card" class="hidden bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-2xl p-6 md:p-8 shadow-xl text-center space-y-4">
+        <div class="text-4xl">🎉</div>
+        <h3 class="text-2xl font-bold">Quiz Completed!</h3>
+        <p class="text-indigo-200 text-sm max-w-md mx-auto" id="summary-msg">Great job testing your listening comprehension!</p>
+        <div class="inline-block bg-white/10 backdrop-blur px-6 py-3 rounded-xl border border-white/20">
+          <span class="text-xs uppercase tracking-wider text-indigo-300 block">Final Quiz Score</span>
+          <span class="text-3xl font-extrabold text-yellow-400" id="summary-score-val">0 / 10</span>
+        </div>
+        <div>
+          <button onclick="resetQuiz(); switchTab('tab-quiz')" class="px-6 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-bold text-sm rounded-xl transition-all shadow-lg">
+            Retake Quiz
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: DEBRIEFING -->
+    <section id="tab-debrief" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 md:p-7">
+        <span class="inline-block px-2.5 py-1 bg-rose-100 text-rose-800 text-xs font-semibold rounded-md mb-2">Speaking • Reflection</span>
+        <h2 class="text-xl font-bold text-slate-900">Debriefing: Reading in a Digital World</h2>
+        <p class="text-sm text-slate-600 mt-2 mb-6">Discuss the questions in pairs or small groups. Give reasons and examples, and refer to ideas from the video where possible.</p>
+        <div class="space-y-5">
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <h3 class="font-bold text-slate-900">1. Your reading habits</h3>
+            <p class="text-sm text-slate-700 mt-1">When do you read deeply, and when do you skim? What helps you concentrate on a text?</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <h3 class="font-bold text-slate-900">2. Paper or screen?</h3>
+            <p class="text-sm text-slate-700 mt-1">Do you understand and remember information better on paper or on a screen? Does the type of text make a difference?</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <h3 class="font-bold text-slate-900">3. Reading and empathy</h3>
+            <p class="text-sm text-slate-700 mt-1">Can a novel help us understand people whose lives are very different from our own? Explain your answer.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <h3 class="font-bold text-slate-900">4. Children and technology</h3>
+            <p class="text-sm text-slate-700 mt-1">What is a sensible way for parents and teachers to balance screen use and reading? Should the same rules apply to everyone?</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <h3 class="font-bold text-slate-900">5. Critical thinking and society</h3>
+            <p class="text-sm text-slate-700 mt-1">How can deep reading help people recognise misinformation and make informed decisions?</p>
+          </div>
+          <div class="p-4 rounded-xl bg-indigo-50 border border-indigo-100">
+            <h3 class="font-bold text-indigo-950">Final reflection</h3>
+            <p class="text-sm text-indigo-900 mt-1">Has the video changed the way you think about reading? Name one idea you agree or disagree with, and explain why.</p>
+            <textarea class="w-full mt-3 p-3 text-sm text-slate-700 border border-indigo-200 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none" rows="3" placeholder="Write a few notes before the discussion..."></textarea>
+          </div>
+        </div>
+        <div class="mt-6 flex justify-between gap-3">
+          <button onclick="switchTab('tab-quiz')" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium text-sm rounded-xl">← Back to Quiz</button>
+          <button onclick="switchTab('tab-video')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm rounded-xl">Return to Start ↑</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Script Logic -->
+  <script>
+    // Fisher-Yates shuffle: unbiased in-place shuffle of a copied array.
+    function fisherYatesShuffle(items) {
+      const shuffled = [...items];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    }
+
+    // --- DATA STRUCTURES ---
+
+    // 1. Vocabulary Matching Data
+    const vocabMatchData = [
+      { id: 'v1', term: 'Circuitry', def: 'The system of connected neural pathways in the brain or electrical channels that work together.' },
+      { id: 'v2', term: 'Co-opt', def: 'To take an existing function, system, or object and adapt it for a new purpose.' },
+      { id: 'v3', term: 'Hieroglyphics', def: 'An ancient writing system that uses pictures or symbols instead of alphabetical letters.' },
+      { id: 'v4', term: 'Logographic', def: 'A writing system where each symbol represents a whole word or concept (e.g., Chinese characters).' },
+      { id: 'v5', term: 'Empathy', def: 'The capacity to understand, share, and feel the emotions or experiences of another person.' },
+      { id: 'v6', term: 'Susceptible', def: 'Easily influenced, affected, or harmed by something external.' },
+      { id: 'v7', term: 'Executive function', def: 'High-level cognitive processes used for planning, focusing attention, and controlling behavior.' },
+      { id: 'v8', term: 'Antidote', def: 'A remedy, cure, or solution that counteracts a negative situation or harmful effect.' }
+    ];
+
+    // 2. Sentence Fill Blanks Data
+    const fillBlanksData = [
+      {
+        id: 's1',
+        prefix: 'Reading is not a natural process, so the brain must ',
+        answer: 'co-opt',
+        suffix: ' existing visual and auditory pathways to process written language.'
+      },
+      {
+        id: 's2',
+        prefix: 'Neuroscientists study neural ',
+        answer: 'circuitry',
+        suffix: ' to observe how different lobes of the brain connect during reading.'
+      },
+      {
+        id: 's3',
+        prefix: 'Ancient Egyptians developed ',
+        answer: 'hieroglyphics',
+        suffix: ' around 3300 BC to record historical events on stone monuments.'
+      },
+      {
+        id: 's4',
+        prefix: 'Chinese is an example of a ',
+        answer: 'logographic',
+        suffix: ' system where symbols represent entire objects or concepts.'
+      },
+      {
+        id: 's5',
+        prefix: 'Engaging with fiction builds ',
+        answer: 'empathy',
+        suffix: ' by allowing readers to feel the characters\' emotions directly in their body.'
+      },
+      {
+        id: 's6',
+        prefix: 'People who rapidly skim articles on smartphones are more ',
+        answer: 'susceptible',
+        suffix: ' to believing misinformation.'
+      },
+      {
+        id: 's7',
+        prefix: 'Excessive digital stimulation during early childhood can weaken ',
+        answer: 'executive function',
+        suffix: ' and attention skills.'
+      },
+      {
+        id: 's8',
+        prefix: 'Immersing children in books is considered the best ',
+        answer: 'antidote',
+        suffix: ' to short attention spans caused by screen distraction.'
+      }
+    ];
+
+    // 3. Quiz Data (10 MCQs)
+    const quizData = [
+      {
+        id: 1,
+        question: "According to the video, why is reading different from seeing and speaking?",
+        timestamp: "0:20",
+        options: [
+          { text: "Reading is learned automatically in early childhood.", isCorrect: false },
+          { text: "The human brain is not born with a built-in area dedicated to reading.", isCorrect: true },
+          { text: "Reading requires far less brain activity than listening.", isCorrect: false },
+          { text: "Human eyes are the only sense organs involved in reading.", isCorrect: false }
+        ],
+        hint: "Consider whether humans evolved dedicated reading circuits naturally over evolutionary time.",
+        rationale: "Seeing and speaking are natural abilities we are born with, but the brain does not have an innate reading center. Instead, it must adapt and co-opt other neural areas to read."
+      },
+      {
+        id: 2,
+        question: "Which two ancient writing systems from around 3300 BC are highlighted in the video?",
+        timestamp: "0:55",
+        options: [
+          { text: "Sumerian cuneiform and Egyptian hieroglyphics", isCorrect: true },
+          { text: "Morse code and the Latin alphabet", isCorrect: false },
+          { text: "Chinese oracle bones and Roman numerals", isCorrect: false },
+          { text: "Greek symbols and Maya glyphs", isCorrect: false }
+        ],
+        hint: "Look for the early writing systems developed in Mesopotamia and Egypt.",
+        rationale: "Sumerian cuneiform and Egyptian hieroglyphics are noted as two of the earliest writing systems in human history, dating back to roughly 3300 BC."
+      },
+      {
+        id: 3,
+        question: "How does reading a logographic language (like Chinese) activate the brain differently than an alphabet language (like English)?",
+        timestamp: "1:50",
+        options: [
+          { text: "Logographic systems engage more visual memory and visual association brain areas.", isCorrect: true },
+          { text: "Alphabet languages only activate the right hemisphere of the brain.", isCorrect: false },
+          { text: "Logographic languages require zero auditory processing in the brain.", isCorrect: false },
+          { text: "Alphabet languages alter brain structure, whereas logographic languages do not.", isCorrect: false }
+        ],
+        hint: "Think about what individual Chinese characters represent compared to single letters.",
+        rationale: "Because each Chinese character represents an entire word or idea rather than a phonetic letter, reading it requires increased visual memory and visual association processing."
+      },
+      {
+        id: 4,
+        question: "What remarkable discovery was made when studying the bilingual patient who knew both English and Chinese?",
+        timestamp: "2:15",
+        options: [
+          { text: "After a stroke, he lost the ability to read Chinese, but could still read English.", isCorrect: true },
+          { text: "He forgot English completely but gained fluent speaking skills in Chinese.", isCorrect: false },
+          { text: "He lost all reading ability across both languages permanently.", isCorrect: false },
+          { text: "His stroke allowed him to read Chinese faster than he could before.", isCorrect: false }
+        ],
+        hint: "Observe how damage to specific brain regions affected one writing system while leaving the other intact.",
+        rationale: "The stroke damaged the visual-processing pathways required for Chinese characters, yet his ability to read English remained intact, proving that different writing systems rely on distinct brain networks."
+      },
+      {
+        id: 5,
+        question: "Why can reading a dramatic or emotional book cause real physical feelings in your stomach?",
+        timestamp: "3:10",
+        options: [
+          { text: "The anterior insula region processes both stomach reactions and emotional empathy.", isCorrect: true },
+          { text: "Reading causes severe muscle strain in the abdomen.", isCorrect: false },
+          { text: "Focusing on small printed letters lowers blood sugar levels.", isCorrect: false },
+          { text: "Reading triggers an allergic reflex in the nervous system.", isCorrect: false }
+        ],
+        hint: "Remember the brain area (anterior insula) responsible for both gut feelings and empathic responses.",
+        rationale: "The anterior insula controls gastromotoric feelings (like stomach butterflies or discomfort) and is also heavily involved in empathic understanding of others."
+      },
+      {
+        id: 6,
+        question: "What commonly happens when people read articles on smartphone or tablet screens?",
+        timestamp: "3:40",
+        options: [
+          { text: "They tend to skim text quickly and become more susceptible to misinformation.", isCorrect: true },
+          { text: "They memorize facts twice as fast compared to reading on paper.", isCorrect: false },
+          { text: "They experience deeper critical thinking due to bright screen colors.", isCorrect: false },
+          { text: "They activate fewer brain lobes than when reading printed books.", isCorrect: false }
+        ],
+        hint: "Think about how alerts, scrolling, and skimming affect our attention on digital devices.",
+        rationale: "Screen reading often involves passive scrolling and skimming, which reduces deep analytical processing and makes readers more prone to accepting misinformation."
+      },
+      {
+        id: 7,
+        question: "According to research mentioned in the video, how can high digital screen exposure at age 8 affect children?",
+        timestamp: "4:15",
+        options: [
+          { text: "It predicts poorer attentional control, executive function, and academic performance.", isCorrect: true },
+          { text: "It improves their spatial reasoning and mathematical testing scores.", isCorrect: false },
+          { text: "It accelerates their ability to master second languages rapidly.", isCorrect: false },
+          { text: "It enhances their long-term memory for factual definitions.", isCorrect: false }
+        ],
+        hint: "Consider what happens to developing minds when exposed to frequent digital stimulation.",
+        rationale: "Studies showed a negative correlation: higher digital exposure at age eight predicted lower attention spans, weaker executive functioning, and reduced academic success."
+      },
+      {
+        id: 8,
+        question: "Why do children often complain that they are 'bored' when they go offline?",
+        timestamp: "4:45",
+        options: [
+          { text: "Their brains become accustomed to fast digital stimuli and crave constant stimulation.", isCorrect: true },
+          { text: "Offline environments have lower light levels than backlit smartphone screens.", isCorrect: false },
+          { text: "Physical books contain fewer vocabulary words than online sites.", isCorrect: false },
+          { text: "Their eyes are unable to focus on non-digital printed materials.", isCorrect: false }
+        ],
+        hint: "Think about hyper-stimulation and shorter intervals between digital rewards.",
+        rationale: "Constant digital exposure conditions the brain to expect rapid, continuous stimuli. When offline, real-world pace feels under-stimulating or 'boring' by comparison."
+      },
+      {
+        id: 9,
+        question: "What is the 'antidote' recommended by experts for parents concerned about screen time?",
+        timestamp: "5:10",
+        options: [
+          { text: "Immerse children in reading, read aloud with them, and model a reading life.", isCorrect: true },
+          { text: "Ban all electronic technology until children reach high school.", isCorrect: false },
+          { text: "Replace physical books with mandatory educational computer games.", isCorrect: false },
+          { text: "Encourage children to watch videos instead of reading text.", isCorrect: false }
+        ],
+        hint: "Look for the simple, traditional habits parents and teachers can demonstrate daily.",
+        rationale: "The video states that the best remedy is immersing children in reading, reading to them, and showing them that adults love and value reading."
+      },
+      {
+        id: 10,
+        question: "Why is deep reading considered fundamental to society and democracy?",
+        timestamp: "3:55",
+        options: [
+          { text: "It develops critical thinking, empathy, and the ability to analyze complex information.", isCorrect: true },
+          { text: "It ensures that all citizens learn to speak identical accents.", isCorrect: false },
+          { text: "It lowers the cost of printing physical newspapers and textbooks.", isCorrect: false },
+          { text: "It speeds up the voting process during national elections.", isCorrect: false }
+        ],
+        hint: "Consider how analyzing information deeply helps citizens make thoughtful decisions.",
+        rationale: "Democracy relies on citizens who can think critically, evaluate information deeply, and feel empathy for others—skills directly fostered by deep reading."
+      }
+    ];
+
+    function shuffleQuizOptions() {
+      quizData.forEach(q => {
+        q.options = fisherYatesShuffle(q.options);
+      });
+    }
+
+    // --- STATE VARIABLES ---
+    let currentTab = 'tab-video';
+    
+    // Matching state
+    let selectedTermId = null;
+    let matchPairs = {}; // termId -> defId
+    let matchCompleted = false;
+
+    // Fill blanks state
+    let fillAnswers = {}; // sentenceId -> word
+    let activeTapWord = null;
+
+    // Quiz state
+    let currentQuizIndex = 0;
+    let userQuizAnswers = {}; // questionId -> optionIndex
+    let quizSubmitted = false;
+
+    // --- TAB SWITCHING ---
+    function switchTab(tabId) {
+      currentTab = tabId;
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-indigo-600', 'text-white', 'shadow-sm');
+        btn.classList.add('bg-white', 'text-slate-600');
+      });
+
+      document.getElementById(tabId).classList.remove('hidden');
+      const activeBtn = document.getElementById('btn-' + tabId);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-white', 'text-slate-600');
+        activeBtn.classList.add('bg-indigo-600', 'text-white', 'shadow-sm');
+      }
+
+      updateOverallProgress();
+    }
+
+    function toggleHelp(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('hidden');
+    }
+
+    // --- EXERCISE 1: VOCABULARY MATCHING ---
+    function initMatching() {
+      const termsContainer = document.getElementById('match-terms-container');
+      const defsContainer = document.getElementById('match-defs-container');
+      termsContainer.innerHTML = '';
+      defsContainer.innerHTML = '';
+
+      // Shuffle definitions copy
+      const shuffledDefs = fisherYatesShuffle(vocabMatchData);
+
+      vocabMatchData.forEach(item => {
+        const termBtn = document.createElement('button');
+        termBtn.id = `match-term-${item.id}`;
+        termBtn.className = `w-full text-left p-3 rounded-xl border border-slate-200 bg-slate-50 font-semibold text-sm transition-all hover:border-indigo-400 flex justify-between items-center`;
+        termBtn.onclick = () => selectTerm(item.id);
+        termBtn.innerHTML = `<span>${item.term}</span> <span id="status-term-${item.id}" class="text-xs text-slate-400">➡️</span>`;
+        termsContainer.appendChild(termBtn);
+      });
+
+      shuffledDefs.forEach(item => {
+        const defBtn = document.createElement('button');
+        defBtn.id = `match-def-${item.id}`;
+        defBtn.className = `w-full text-left p-3 rounded-xl border border-slate-200 bg-slate-50 text-xs md:text-sm text-slate-700 transition-all hover:border-indigo-400 flex justify-between items-start gap-2`;
+        defBtn.onclick = () => selectDef(item.id);
+        defBtn.innerHTML = `<span class="flex-1">${item.def}</span> <span id="status-def-${item.id}" class="text-xs"></span>`;
+        defsContainer.appendChild(defBtn);
+      });
+    }
+
+    function selectTerm(termId) {
+      if (matchCompleted) return;
+      selectedTermId = termId;
+
+      vocabMatchData.forEach(item => {
+        const el = document.getElementById(`match-term-${item.id}`);
+        if (el) {
+          if (item.id === termId) {
+            el.className = `w-full text-left p-3 rounded-xl border-2 border-indigo-500 bg-indigo-50 font-semibold text-sm transition-all flex justify-between items-center shadow-sm`;
+          } else if (!matchPairs[item.id]) {
+            el.className = `w-full text-left p-3 rounded-xl border border-slate-200 bg-slate-50 font-semibold text-sm transition-all hover:border-indigo-400 flex justify-between items-center`;
+          }
+        }
+      });
+    }
+
+    function selectDef(defId) {
+      if (matchCompleted || !selectedTermId) return;
+
+      // Assign pair
+      matchPairs[selectedTermId] = defId;
+
+      // Update styling
+      const termEl = document.getElementById(`match-term-${selectedTermId}`);
+      const defEl = document.getElementById(`match-def-${defId}`);
+
+      const matchedTerm = vocabMatchData.find(v => v.id === selectedTermId);
+      const isCorrect = (selectedTermId === defId);
+
+      if (isCorrect) {
+        termEl.className = `w-full text-left p-3 rounded-xl border border-emerald-300 bg-emerald-50 text-emerald-900 font-semibold text-sm flex justify-between items-center`;
+        termEl.querySelector(`#status-term-${selectedTermId}`).innerHTML = `✓`;
+        
+        defEl.className = `w-full text-left p-3 rounded-xl border border-emerald-300 bg-emerald-50 text-emerald-900 text-xs md:text-sm flex justify-between items-start gap-2`;
+        defEl.querySelector(`#status-def-${defId}`).innerHTML = `<span class="text-emerald-600 font-bold">Matched with ${matchedTerm.term}</span>`;
+      } else {
+        termEl.className = `w-full text-left p-3 rounded-xl border border-rose-300 bg-rose-50 text-rose-900 font-semibold text-sm flex justify-between items-center`;
+        termEl.querySelector(`#status-term-${selectedTermId}`).innerHTML = `✕`;
+
+        defEl.className = `w-full text-left p-3 rounded-xl border border-rose-300 bg-rose-50 text-rose-900 text-xs md:text-sm flex justify-between items-start gap-2`;
+        defEl.querySelector(`#status-def-${defId}`).innerHTML = `<span class="text-rose-600 font-bold">Incorrect match</span>`;
+      }
+
+      selectedTermId = null;
+      checkMatchingCompletion();
+    }
+
+    function checkMatchingCompletion() {
+      const total = vocabMatchData.length;
+      const matchedKeys = Object.keys(matchPairs);
+
+      if (matchedKeys.length === total) {
+        let correctCount = 0;
+        matchedKeys.forEach(k => {
+          if (k === matchPairs[k]) correctCount++;
+        });
+
+        matchCompleted = true;
+        const feedback = document.getElementById('match-feedback');
+        feedback.classList.remove('hidden');
+
+        if (correctCount === total) {
+          feedback.className = "mt-6 p-4 rounded-xl text-center font-medium text-sm bg-emerald-100 text-emerald-800 border border-emerald-200";
+          feedback.innerHTML = "🎉 Excellent! You matched all 8 vocabulary terms correctly!";
+          document.getElementById('badge-match').classList.remove('hidden');
+        } else {
+          feedback.className = "mt-6 p-4 rounded-xl text-center font-medium text-sm bg-amber-100 text-amber-800 border border-amber-200";
+          feedback.innerHTML = `You matched ${correctCount} out of ${total} terms correctly. Click 'Reset Exercise' to try again!`;
+        }
+        updateOverallProgress();
+      }
+    }
+
+    function resetMatching() {
+      selectedTermId = null;
+      matchPairs = {};
+      matchCompleted = false;
+      document.getElementById('match-feedback').classList.add('hidden');
+      initMatching();
+    }
+
+
+    // --- EXERCISE 2: DRAG & DROP SENTENCE COMPLETION ---
+    function initFillBlanks() {
+      const wordBank = document.getElementById('word-bank');
+      const container = document.getElementById('fill-sentences-container');
+      wordBank.innerHTML = '';
+      container.innerHTML = '';
+
+      // Shuffle words for bank
+      const words = fisherYatesShuffle(vocabMatchData.map(v => v.term));
+
+      words.forEach(w => {
+        const badge = document.createElement('div');
+        badge.id = `word-chip-${w.replace(/\s+/g, '-')}`;
+        badge.className = `draggable-item px-3 py-1.5 bg-white border border-indigo-200 text-indigo-800 rounded-lg text-xs md:text-sm font-semibold shadow-sm hover:bg-indigo-50`;
+        badge.draggable = true;
+        badge.innerText = w;
+
+        badge.ondragstart = (e) => {
+          e.dataTransfer.setData('text/plain', w);
+        };
+
+        badge.onclick = () => {
+          // Tap selection fallback for touch screens
+          activeTapWord = w;
+          document.querySelectorAll('.draggable-item').forEach(el => el.classList.remove('ring-2', 'ring-indigo-500'));
+          badge.classList.add('ring-2', 'ring-indigo-500');
+        };
+
+        wordBank.appendChild(badge);
+      });
+
+      fillBlanksData.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = "p-4 bg-slate-50 border border-slate-200 rounded-xl text-sm md:text-base leading-relaxed text-slate-800 flex flex-wrap items-center gap-1.5";
+        
+        card.innerHTML = `
+          <span class="font-bold text-xs text-slate-400 mr-1">${index + 1}.</span>
+          <span>${item.prefix}</span>
+          <span id="target-slot-${item.id}" 
+                class="drop-target inline-block min-w-[120px] px-3 py-1 mx-1 border-2 border-dashed border-slate-300 rounded-lg bg-white text-center font-bold text-indigo-700 text-sm cursor-pointer shadow-inner"
+                onclick="handleSlotClick('${item.id}')">
+            ${fillAnswers[item.id] || '<span class="text-slate-300 text-xs font-normal">drop word here</span>'}
+          </span>
+          <span>${item.suffix}</span>
+        `;
+
+        // Drag & Drop event handlers
+        const slot = card.querySelector(`#target-slot-${item.id}`);
+        slot.ondragover = (e) => {
+          e.preventDefault();
+          slot.classList.add('drag-over');
+        };
+        slot.ondragleave = () => {
+          slot.classList.remove('drag-over');
+        };
+        slot.ondrop = (e) => {
+          e.preventDefault();
+          slot.classList.remove('drag-over');
+          const word = e.dataTransfer.getData('text/plain');
+          placeWordInSlot(item.id, word);
+        };
+
+        container.appendChild(card);
+      });
+    }
+
+    function handleSlotClick(sentenceId) {
+      if (activeTapWord) {
+        placeWordInSlot(sentenceId, activeTapWord);
+        activeTapWord = null;
+        document.querySelectorAll('.draggable-item').forEach(el => el.classList.remove('ring-2', 'ring-indigo-500'));
+      } else if (fillAnswers[sentenceId]) {
+        // Clear slot on click
+        delete fillAnswers[sentenceId];
+        initFillBlanks();
+      }
+    }
+
+    function placeWordInSlot(sentenceId, word) {
+      fillAnswers[sentenceId] = word;
+      initFillBlanks();
+    }
+
+    function checkFillAnswers() {
+      let score = 0;
+      fillBlanksData.forEach(item => {
+        const slot = document.getElementById(`target-slot-${item.id}`);
+        const userAns = fillAnswers[item.id];
+        if (userAns && userAns.toLowerCase() === item.answer.toLowerCase()) {
+          score++;
+          slot.className = "inline-block min-w-[120px] px-3 py-1 mx-1 border-2 border-emerald-500 rounded-lg bg-emerald-50 text-emerald-800 text-center font-bold text-sm";
+        } else {
+          slot.className = "inline-block min-w-[120px] px-3 py-1 mx-1 border-2 border-rose-400 rounded-lg bg-rose-50 text-rose-800 text-center font-bold text-sm";
+        }
+      });
+
+      const display = document.getElementById('fill-score-display');
+      display.innerHTML = `Score: <span class="${score === 8 ? 'text-emerald-600' : 'text-indigo-600'}">${score} / 8</span>`;
+
+      if (score === 8) {
+        document.getElementById('badge-fill').classList.remove('hidden');
+      }
+      updateOverallProgress();
+    }
+
+    function resetFillBlanks() {
+      fillAnswers = {};
+      activeTapWord = null;
+      document.getElementById('fill-score-display').innerText = '';
+      initFillBlanks();
+    }
+
+
+    // --- EXERCISE 3: MULTIPLE CHOICE QUIZ ---
+    function initQuizNavDots() {
+      const container = document.getElementById('quiz-nav-dots');
+      container.innerHTML = '';
+      quizData.forEach((q, i) => {
+        const dot = document.createElement('button');
+        dot.id = `quiz-dot-${i}`;
+        dot.className = `w-8 h-8 rounded-lg text-xs font-bold transition-all border ${i === currentQuizIndex ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-slate-100 text-slate-600 border-slate-200'}`;
+        dot.innerText = i + 1;
+        dot.onclick = () => {
+          currentQuizIndex = i;
+          renderQuizQuestion();
+        };
+        container.appendChild(dot);
+      });
+    }
+
+    function renderQuizQuestion() {
+      initQuizNavDots();
+      const q = quizData[currentQuizIndex];
+      const card = document.getElementById('quiz-question-card');
+      
+      document.getElementById('quiz-current-num').innerText = `Question ${currentQuizIndex + 1} of ${quizData.length}`;
+      document.getElementById('btn-prev-q').disabled = (currentQuizIndex === 0);
+
+      const userSelected = userQuizAnswers[q.id];
+
+      let optionsHTML = '';
+      q.options.forEach((opt, idx) => {
+        let optStyle = "border-slate-200 bg-white hover:border-indigo-300 text-slate-800";
+        let badgeHTML = '';
+
+        if (userSelected !== undefined) {
+          if (opt.isCorrect) {
+            optStyle = "border-emerald-500 bg-emerald-50/80 text-emerald-950 font-semibold";
+            badgeHTML = `<span class="text-xs bg-emerald-600 text-white px-2 py-0.5 rounded">Correct</span>`;
+          } else if (userSelected === idx) {
+            optStyle = "border-rose-400 bg-rose-50 text-rose-950";
+            badgeHTML = `<span class="text-xs bg-rose-500 text-white px-2 py-0.5 rounded">Your Answer</span>`;
+          }
+        }
+
+        optionsHTML += `
+          <button onclick="selectQuizOption(${q.id}, ${idx})" 
+                  class="w-full text-left p-4 rounded-xl border-2 transition-all flex justify-between items-center ${optStyle}">
+            <div class="flex items-start space-x-3">
+              <span class="w-6 h-6 rounded-full bg-slate-100 text-slate-600 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
+                ${String.fromCharCode(65 + idx)}
+              </span>
+              <span class="text-sm md:text-base">${opt.text}</span>
+            </div>
+            ${badgeHTML}
+          </button>
+        `;
+      });
+
+      let hintRationaleHTML = '';
+      if (userSelected !== undefined) {
+        hintRationaleHTML = `
+          <div class="mt-4 p-4 rounded-xl bg-indigo-50 border border-indigo-100 text-xs md:text-sm text-indigo-950 space-y-2">
+            <p><strong>💡 Explanation:</strong> ${q.rationale}</p>
+            <p class="text-xs text-indigo-700">⏱️ Video reference at ~${q.timestamp}</p>
+          </div>
+        `;
+      } else {
+        hintRationaleHTML = `
+          <div class="mt-3">
+            <button onclick="toggleHelp('hint-q-${q.id}')" class="text-xs text-indigo-600 font-medium hover:underline flex items-center space-x-1">
+              <span>💡 Need a hint?</span>
+            </button>
+            <div id="hint-q-${q.id}" class="hidden mt-2 p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-900">
+              ${q.hint}
+            </div>
+          </div>
+        `;
+      }
+
+      card.innerHTML = `
+        <div class="flex justify-between items-start gap-2">
+          <span class="px-2.5 py-1 bg-indigo-100 text-indigo-800 rounded-md text-xs font-bold">Question ${q.id}</span>
+          <span class="text-xs text-slate-400 font-medium">Video timestamp: ~${q.timestamp}</span>
+        </div>
+        <h3 class="text-base md:text-lg font-bold text-slate-900 leading-snug">${q.question}</h3>
+        <div class="space-y-3 pt-2">
+          ${optionsHTML}
+        </div>
+        ${hintRationaleHTML}
+      `;
+
+      updateQuizScore();
+    }
+
+    function selectQuizOption(questionId, optionIdx) {
+      if (userQuizAnswers[questionId] !== undefined) return; // locked once selected
+      userQuizAnswers[questionId] = optionIdx;
+      renderQuizQuestion();
+
+      if (Object.keys(userQuizAnswers).length === quizData.length) {
+        document.getElementById('badge-quiz').classList.remove('hidden');
+        showQuizSummary();
+      }
+      updateOverallProgress();
+    }
+
+    function navigateQuiz(direction) {
+      const newIdx = currentQuizIndex + direction;
+      if (newIdx >= 0 && newIdx < quizData.length) {
+        currentQuizIndex = newIdx;
+        renderQuizQuestion();
+      }
+    }
+
+    function updateQuizScore() {
+      let score = 0;
+      quizData.forEach(q => {
+        const userAns = userQuizAnswers[q.id];
+        if (userAns !== undefined && q.options[userAns].isCorrect) {
+          score++;
+        }
+      });
+      document.getElementById('quiz-score-num').innerText = score;
+      return score;
+    }
+
+    function showQuizSummary() {
+      const score = updateQuizScore();
+      const card = document.getElementById('quiz-summary-card');
+      card.classList.remove('hidden');
+
+      document.getElementById('summary-score-val').innerText = `${score} / 10`;
+      const msg = document.getElementById('summary-msg');
+
+      if (score >= 9) {
+        msg.innerText = "🌟 Outstanding! You have an exceptional understanding of the video content and neuroscience concepts!";
+      } else if (score >= 7) {
+        msg.innerText = "👏 Great job! You captured most of the key ideas accurately. Keep practicing your English listening!";
+      } else {
+        msg.innerText = "👍 Good effort! Review the video again with subtitles and check the hints to improve your score!";
+      }
+    }
+
+    function resetQuiz() {
+      userQuizAnswers = {};
+      shuffleQuizOptions();
+      currentQuizIndex = 0;
+      document.getElementById('quiz-summary-card').classList.add('hidden');
+      renderQuizQuestion();
+    }
+
+
+    // --- OVERALL PROGRESS TRACKER ---
+    function updateOverallProgress() {
+      let totalPoints = 0;
+
+      // Match: 8 pts
+      let matchPts = 0;
+      Object.keys(matchPairs).forEach(k => {
+        if (k === matchPairs[k]) matchPts++;
+      });
+      totalPoints += matchPts;
+
+      // Fill: 8 pts
+      let fillPts = 0;
+      fillBlanksData.forEach(item => {
+        if (fillAnswers[item.id] && fillAnswers[item.id].toLowerCase() === item.answer.toLowerCase()) fillPts++;
+      });
+      totalPoints += fillPts;
+
+      // Quiz: 10 pts
+      let quizPts = updateQuizScore();
+      totalPoints += quizPts;
+
+      // Max total = 26 pts
+      const pct = Math.round((totalPoints / 26) * 100);
+      document.getElementById('overall-progress-text').innerText = `${pct}%`;
+    }
+
+    // --- INITIALIZATION ---
+    window.onload = () => {
+      shuffleQuizOptions();
+      initMatching();
+      initFillBlanks();
+      renderQuizQuestion();
+    };
+  </script>
+</body>
+</html>

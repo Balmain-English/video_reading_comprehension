@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESL Worksheet: Why Are Families Disappearing from London?</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        bbc: {
+                            red: '#B80000',
+                            darkred: '#8B0000',
+                            blue: '#005A9C',
+                            dark: '#121212',
+                            card: '#1E1E1E',
+                            accent: '#3B82F6'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Vue 3 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        /* Flip card styles */
+        .perspective {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+        
+        /* Print styles */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            .print-break {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
+    <div id="app" class="flex-grow flex flex-col">
+        
+        <!-- TOP HEADER & NAVBAR -->
+        <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur border-b border-slate-200 dark:border-slate-800 no-print shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-bbc-red text-white font-bold px-2.5 py-1 text-sm tracking-wider rounded flex items-center">
+                        <span>BBC</span>
+                        <span class="ml-1 pl-1 border-l border-red-300 text-xs font-medium">ESL</span>
+                    </div>
+                    <span class="font-bold text-base sm:text-lg tracking-tight truncate hidden sm:inline">Why are families disappearing from London?</span>
+                </div>
+
+                <!-- Step Tabs / Navigation -->
+                <div class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <button v-for="(step, idx) in steps" :key="idx" 
+                            @click="currentStep = idx + 1"
+                            :class="[
+                                'px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center space-x-1.5',
+                                currentStep === idx + 1 
+                                    ? 'bg-bbc-red text-white shadow-md' 
+                                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                            ]">
+                        <span class="w-4 h-4 rounded-full flex items-center justify-center text-[10px] border"
+                              :class="currentStep === idx + 1 ? 'border-white bg-white/20' : 'border-slate-400 dark:border-slate-600'">
+                            {{ idx + 1 }}
+                        </span>
+                        <span>{{ step.shortTitle }}</span>
+                    </button>
+                </div>
+
+                <!-- Theme Toggle & Save Indicator -->
+                <div class="flex items-center space-x-3">
+                    <div class="text-xs text-emerald-600 dark:text-emerald-400 flex items-center bg-emerald-50 dark:bg-emerald-950/50 px-2.5 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse mr-1.5"></span>
+                        <span class="hidden sm:inline">Progress Auto-Saved</span>
+                        <span class="sm:hidden">Saved</span>
+                    </div>
+
+                    <button @click="toggleDarkMode" 
+                            class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
+                            :title="isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
+                        <svg v-if="!isDark" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                        <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Step Progress Sub-bar -->
+            <div class="md:hidden flex border-t border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 overflow-x-auto py-2 px-3 space-x-2">
+                <button v-for="(step, idx) in steps" :key="idx" 
+                        @click="currentStep = idx + 1"
+                        :class="[
+                            'px-2.5 py-1 text-xs font-semibold rounded-md flex-shrink-0 flex items-center space-x-1',
+                            currentStep === idx + 1 ? 'bg-bbc-red text-white' : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300'
+                        ]">
+                    <span>{{ idx + 1 }}.</span>
+                    <span>{{ step.shortTitle }}</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- MAIN CONTAINER -->
+        <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+            <!-- SECTION HEADER BANNER -->
+            <div class="mb-8 no-print">
+                <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-bbc-blue dark:text-blue-400 mb-1">
+                    <span>Section {{ currentStep }} of 5</span>
+                    <span>Completion: {{ overallProgress }}%</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+                    {{ steps[currentStep - 1].title }}
+                </h1>
+                <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">
+                    {{ steps[currentStep - 1].subtitle }}
+                </p>
+
+                <!-- Progress Bar -->
+                <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2 mt-4 overflow-hidden">
+                    <div class="bg-bbc-red h-full transition-all duration-300" :style="{ width: ((currentStep / 5) * 100) + '%' }"></div>
+                </div>
+            </div>
+
+
+            <!-- ================= SECTION 1: WARM-UP DISCUSSION ================= -->
+            <div v-show="currentStep === 1" class="space-y-8">
+                
+                <!-- Warm up Intro Card -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-red-100 dark:bg-red-950/60 text-bbc-red dark:text-red-400 p-3 rounded-xl flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Part 1: Key Warm-Up Questions</h2>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">Consider these major urban socio-economic questions before diving into the London video case study.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200/80 dark:border-slate-700/60">
+                            <span class="text-xs font-bold text-bbc-red uppercase">Topic A</span>
+                            <h3 class="font-semibold text-slate-800 dark:text-slate-200 mt-1 text-sm">City Living vs Family Life</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs mt-2">Is a major international metropolis like London, New York, or Tokyo a practical place to raise young children today?</p>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200/80 dark:border-slate-700/60">
+                            <span class="text-xs font-bold text-bbc-red uppercase">Topic B</span>
+                            <h3 class="font-semibold text-slate-800 dark:text-slate-200 mt-1 text-sm">Financial Realities</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs mt-2">How do high rent, property prices, and childcare fees influence young adults' decisions to delay or forego children?</p>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200/80 dark:border-slate-700/60">
+                            <span class="text-xs font-bold text-bbc-red uppercase">Topic C</span>
+                            <h3 class="font-semibold text-slate-800 dark:text-slate-200 mt-1 text-sm">Career vs Family Timeline</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs mt-2">Should professionals reach the "pinnacle of their career" before planning a family? What are the trade-offs?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Opinion Poll / Sliders -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Part 2: Agree or Disagree Sliders</h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-6">Adjust the sliders to show your stance (1 = Strongly Disagree, 5 = Strongly Agree).</p>
+
+                    <div class="space-y-6">
+                        <div v-for="(slider, index) in warmUpSliders" :key="index" class="bg-slate-50 dark:bg-slate-800/30 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-sm font-medium text-slate-800 dark:text-slate-200">
+                                    {{ slider.question }}
+                                </label>
+                                <span class="px-2.5 py-1 text-xs font-bold rounded-md bg-bbc-red/10 text-bbc-red dark:bg-bbc-red/20 dark:text-red-300">
+                                    {{ sliderLabels[slider.value - 1] }} ({{ slider.value }}/5)
+                                </span>
+                            </div>
+                            <input type="range" min="1" max="5" step="1" v-model.number="slider.value" 
+                                   class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-bbc-red">
+                            <div class="flex justify-between text-[11px] text-slate-400 mt-1">
+                                <span>Strongly Disagree</span>
+                                <span>Neutral</span>
+                                <span>Strongly Agree</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Discussion Response Box with Sentence Starters -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-1">Part 3: Personal Response & Discussion Notes</h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">Click a phrase starter below to insert it into your notes, then complete your thoughts.</p>
+
+                    <!-- Sentence Starters -->
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <button v-for="starter in sentenceStarters" :key="starter"
+                                @click="insertSentenceStarter(starter)"
+                                class="text-xs bg-slate-100 dark:bg-slate-800 hover:bg-bbc-red hover:text-white dark:hover:bg-bbc-red text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 transition">
+                            + "{{ starter }}"
+                        </button>
+                    </div>
+
+                    <textarea v-model="userNotes.warmup" 
+                              placeholder="Type your initial thoughts on whether big cities are becoming unviable for families..."
+                              rows="5"
+                              class="w-full p-4 text-sm bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-slate-100 rounded-xl border border-slate-300 dark:border-slate-700 focus:ring-2 focus:ring-bbc-red focus:outline-none transition"></textarea>
+                </div>
+            </div>
+
+
+            <!-- ================= SECTION 2: VOCABULARY INTRODUCTION ================= -->
+            <div v-show="currentStep === 2" class="space-y-8">
+                
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Part 1: Key Vocabulary Flashcards</h2>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm">Click any card to flip it and reveal its context, definition, and video example. Click the speaker icon to hear pronunciation.</p>
+                        </div>
+                    </div>
+
+                    <!-- Flashcard Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div v-for="(vocab, idx) in vocabList" :key="idx"
+                             @click="vocab.flipped = !vocab.flipped"
+                             class="perspective h-64 cursor-pointer group">
+                            <div class="relative w-full h-full duration-500 transform-style-3d transition-transform rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md"
+                                 :class="{ 'rotate-y-180': vocab.flipped }">
+                                
+                                <!-- FRONT -->
+                                <div class="absolute inset-0 w-full h-full bg-slate-50 dark:bg-slate-800 p-5 rounded-2xl backface-hidden flex flex-col justify-between border-t-4 border-bbc-red">
+                                    <div>
+                                        <div class="flex justify-between items-start">
+                                            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded">
+                                                {{ vocab.partOfSpeech }}
+                                            </span>
+                                            <button @click.stop="speakText(vocab.term)" class="text-slate-400 hover:text-bbc-red p-1 rounded-full transition" title="Listen to pronunciation">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+                                            </button>
+                                        </div>
+                                        <h3 class="text-xl font-extrabold text-slate-900 dark:text-white mt-3">{{ vocab.term }}</h3>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400 italic mt-1 font-mono">{{ vocab.phonetic }}</p>
+                                    </div>
+                                    
+                                    <div class="text-center pt-2 border-t border-slate-200 dark:border-slate-700/60">
+                                        <span class="text-xs text-bbc-red dark:text-red-400 font-medium flex items-center justify-center">
+                                            <span>Click to see definition</span>
+                                            <svg class="w-3.5 h-3.5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- BACK -->
+                                <div class="absolute inset-0 w-full h-full bg-slate-900 text-white p-5 rounded-2xl backface-hidden rotate-y-180 flex flex-col justify-between border-t-4 border-bbc-blue">
+                                    <div>
+                                        <h4 class="font-bold text-blue-400 text-sm uppercase tracking-wide">Definition</h4>
+                                        <p class="text-xs text-slate-200 mt-1 leading-relaxed">{{ vocab.definition }}</p>
+                                        
+                                        <h4 class="font-bold text-blue-400 text-xs uppercase tracking-wide mt-3">Video Context</h4>
+                                        <p class="text-[11px] text-slate-300 italic mt-0.5 leading-snug">"{{ vocab.example }}"</p>
+                                    </div>
+                                    <div class="text-center text-[10px] text-slate-400 pt-2 border-t border-slate-800">
+                                        Click to flip back
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Vocabulary Practice Quiz -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-6 gap-2">
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Part 2: Vocabulary Fill-In-The-Blanks</h2>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm">Select the correct vocabulary item to complete each sentence from the video discussion.</p>
+                        </div>
+                        <button @click="resetVocabQuiz" class="self-start sm:self-auto text-xs px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+                            Reset Quiz
+                        </button>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div v-for="(q, index) in vocabQuiz" :key="index" class="p-4 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-800">
+                            <p class="text-sm text-slate-800 dark:text-slate-200 leading-relaxed mb-3">
+                                <span class="font-bold text-bbc-red mr-2">{{ index + 1 }}.</span>
+                                <span v-html="formatSentenceWithBlank(q.sentence, q.userAnswer)"></span>
+                            </p>
+
+                            <div class="flex flex-wrap gap-2">
+                                <select v-model="q.userAnswer" 
+                                        :disabled="q.checked"
+                                        class="text-xs p-2 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg border border-slate-300 dark:border-slate-700 focus:ring-bbc-red focus:outline-none">
+                                    <option value="" disabled>-- Select Vocabulary Term --</option>
+                                    <option v-for="term in vocabOptions" :key="term" :value="term">{{ term }}</option>
+                                </select>
+
+                                <button v-if="!q.checked" @click="checkVocabItem(q)" 
+                                        :disabled="!q.userAnswer"
+                                        class="text-xs px-3 py-1.5 bg-bbc-red text-white rounded-lg disabled:opacity-50 hover:bg-bbc-darkred transition">
+                                    Check
+                                </button>
+
+                                <div v-if="q.checked" class="flex items-center text-xs font-semibold space-x-2">
+                                    <span v-if="q.isCorrect" class="text-emerald-600 dark:text-emerald-400 flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                        Correct!
+                                    </span>
+                                    <span v-else class="text-rose-600 dark:text-rose-400 flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                        Incorrect (Correct: {{ q.correctAnswer }})
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- ================= SECTION 3: VIDEO VIEWING & GUIDE ================= -->
+            <div v-show="currentStep === 3" class="space-y-8">
+                
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Part 1: BBC London Video Player</h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">Watch the video report below. Use the timestamp jump buttons to jump to key segments of the video.</p>
+
+                    <!-- Embedded Responsive Video Player -->
+                    <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-lg">
+                        <iframe id="bbc-video"
+                                :src="currentVideoUrl" 
+                                class="w-full h-full border-0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen></iframe>
+                    </div>
+
+                    <!-- Timestamps Interactive Buttons -->
+                    <div class="mt-6">
+                        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Jump to Key Video Chapters</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+                            <button v-for="ts in videoTimestamps" :key="ts.time"
+                                    @click="jumpToTimestamp(ts.seconds)"
+                                    class="p-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-bbc-red hover:text-white dark:hover:bg-bbc-red text-slate-800 dark:text-slate-200 rounded-xl border border-slate-200 dark:border-slate-700 text-left transition group">
+                                <span class="font-mono font-bold text-bbc-red group-hover:text-white dark:text-red-400 text-xs block mb-0.5">
+                                    [{{ ts.time }}]
+                                </span>
+                                <span class="text-[11px] font-medium leading-tight block truncate">{{ ts.label }}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Video Notes Tracker -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center justify-between mb-2">
+                        <h2 class="text-lg font-bold text-slate-900 dark:text-white">Part 2: Video Notes & Observations Tracker</h2>
+                        <span class="text-xs text-slate-500">Auto-saves to browser</span>
+                    </div>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">Record key facts, personal observations, or questions as you watch the video.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                📊 Key Statistics & Quotes Heard
+                            </label>
+                            <textarea v-model="userNotes.videoStats" 
+                                      placeholder="e.g. In Islington, the average home price is 12x average annual earnings..."
+                                      rows="4"
+                                      class="w-full p-3 text-xs bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-slate-100 rounded-xl border border-slate-300 dark:border-slate-700 focus:ring-bbc-red focus:outline-none"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                💭 Causes & Social Impacts Mentioned
+                            </label>
+                            <textarea v-model="userNotes.videoCauses" 
+                                      placeholder="e.g. High cost of rent, nurseries closing, school closures, families moving to outer suburbs..."
+                                      rows="4"
+                                      class="w-full p-3 text-xs bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-slate-100 rounded-xl border border-slate-300 dark:border-slate-700 focus:ring-bbc-red focus:outline-none"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- ================= SECTION 4: COMPREHENSION & DATA ANALYSIS ================= -->
+            <div v-show="currentStep === 4" class="space-y-8">
+                
+                <!-- Data Matching Challenge -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Part 1: Data Matching Challenge</h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-6">Match the numerical figures mentioned in the BBC video to their correct description.</p>
+
+                    <div class="space-y-4">
+                        <div v-for="(item, idx) in dataMatchingList" :key="idx"
+                             class="p-4 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <div class="flex-grow">
+                                <p class="text-sm font-medium text-slate-800 dark:text-slate-200">{{ item.description }}</p>
+                            </div>
+
+                            <div class="flex items-center space-x-2">
+                                <select v-model="item.userSelect" :disabled="dataMatchedChecked"
+                                        class="text-xs p-2 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-mono font-bold rounded-lg border border-slate-300 dark:border-slate-700">
+                                    <option value="" disabled>-- Select Value --</option>
+                                    <option v-for="val in dataValues" :key="val" :value="val">{{ val }}</option>
+                                </select>
+
+                                <span v-if="dataMatchedChecked" class="text-sm">
+                                    <span v-if="item.userSelect === item.correctVal" class="text-emerald-500 font-bold">✓</span>
+                                    <span v-else class="text-rose-500 font-bold">✗ ({{ item.correctVal }})</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex justify-between items-center">
+                        <button @click="checkDataMatching" :disabled="dataMatchedChecked"
+                                class="px-4 py-2 bg-bbc-red text-white text-xs font-semibold rounded-xl hover:bg-bbc-darkred transition disabled:opacity-50">
+                            Check Data Matching
+                        </button>
+                        <span v-if="dataMatchedChecked" class="text-xs font-bold text-bbc-blue dark:text-blue-400">
+                            Score: {{ dataScore }} / {{ dataMatchingList.length }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Multiple Choice & True/False Questions -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Part 2: Video Comprehension Questions</h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-6">Answer the questions based on the video report details.</p>
+
+                    <div class="space-y-6">
+                        <div v-for="(q, qIdx) in comprehensionQuestions" :key="qIdx"
+                             class="p-5 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-800">
+                            <p class="text-sm font-bold text-slate-900 dark:text-slate-100 mb-3">
+                                {{ qIdx + 1 }}. {{ q.question }}
+                            </p>
+
+                            <div class="space-y-2">
+                                <label v-for="(opt, optIdx) in q.options" :key="optIdx"
+                                       class="flex items-center p-2.5 rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition">
+                                    <input type="radio" :name="'q_' + qIdx" :value="optIdx" v-model="q.userAnswer" :disabled="q.checked"
+                                           class="text-bbc-red focus:ring-bbc-red h-4 w-4">
+                                    <span class="ml-3 text-xs text-slate-800 dark:text-slate-200">{{ opt }}</span>
+                                </label>
+                            </div>
+
+                            <div v-if="q.checked" class="mt-3 p-3 text-xs rounded-lg" :class="q.userAnswer === q.correct ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300' : 'bg-rose-100 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300'">
+                                <p class="font-bold">{{ q.userAnswer === q.correct ? 'Correct!' : 'Incorrect.' }}</p>
+                                <p class="mt-1">{{ q.explanation }}</p>
+                            </div>
+
+                            <div class="mt-3" v-if="!q.checked">
+                                <button @click="q.checked = true" :disabled="q.userAnswer === null"
+                                        class="text-xs px-3 py-1.5 bg-slate-800 text-white dark:bg-slate-700 rounded-lg hover:bg-slate-700 transition disabled:opacity-50">
+                                    Submit Answer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- ================= SECTION 5: DEBRIEFING & POLICY ACTION ================= -->
+            <div v-show="currentStep === 5" class="space-y-8">
+                
+                <!-- Perspective Role-Play Activity -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Part 1: Perspective Role-Play</h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">Choose a stakeholder persona from London's demographic debate and write your stance.</p>
+
+                    <!-- Persona Selector Cards -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                        <button v-for="persona in personas" :key="persona.id"
+                                @click="selectedPersona = persona.id"
+                                :class="[
+                                    'p-3 rounded-xl border text-left transition flex flex-col justify-between',
+                                    selectedPersona === persona.id 
+                                        ? 'border-bbc-red bg-red-50 dark:bg-red-950/30 ring-2 ring-bbc-red' 
+                                        : 'border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/40'
+                                ]">
+                            <span class="text-2xl mb-2">{{ persona.icon }}</span>
+                            <div>
+                                <span class="font-bold text-xs text-slate-900 dark:text-white block">{{ persona.name }}</span>
+                                <span class="text-[10px] text-slate-500 block leading-tight">{{ persona.role }}</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <!-- Selected Persona Prompt Box -->
+                    <div v-if="activePersona" class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                        <div class="flex items-center space-x-2 mb-2">
+                            <span class="text-xl">{{ activePersona.icon }}</span>
+                            <h3 class="font-bold text-sm text-slate-900 dark:text-white">Role: {{ activePersona.name }}</h3>
+                        </div>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 italic mb-3">"{{ activePersona.prompt }}"</p>
+
+                        <textarea v-model="userNotes.personaResponses[activePersona.id]" 
+                                  placeholder="Write your response from this persona's perspective..."
+                                  rows="4"
+                                  class="w-full p-3 text-xs bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-xl border border-slate-300 dark:border-slate-700 focus:ring-bbc-red focus:outline-none"></textarea>
+                    </div>
+                </div>
+
+                <!-- "Fix the City" Interactive Policy Simulator -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-4 gap-2">
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Part 2: "Fix the City" Policy Simulator</h2>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm">Select policy interventions to improve London's Family Health Index Score.</p>
+                        </div>
+
+                        <!-- Meter Score -->
+                        <div class="bg-slate-100 dark:bg-slate-800 p-3 rounded-xl flex items-center space-x-3 border border-slate-200 dark:border-slate-700">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold text-slate-500 block">Family Health Score</span>
+                                <span class="text-xl font-extrabold" :class="familyHealthScore >= 70 ? 'text-emerald-600 dark:text-emerald-400' : 'text-bbc-red'">
+                                    {{ familyHealthScore }} / 100
+                                </span>
+                            </div>
+                            <div class="text-right border-l border-slate-300 dark:border-slate-700 pl-3">
+                                <span class="text-[10px] uppercase font-bold text-slate-500 block">Proj. Fertility Rate</span>
+                                <span class="text-sm font-bold text-bbc-blue dark:text-blue-400">{{ projectedFertilityRate }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Policy Toggles -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+                        <div v-for="policy in policies" :key="policy.id"
+                             @click="policy.active = !policy.active"
+                             :class="[
+                                 'p-3.5 rounded-xl border cursor-pointer transition flex items-start justify-between',
+                                 policy.active 
+                                     ? 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-500 dark:border-emerald-600' 
+                                     : 'bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-slate-800'
+                             ]">
+                            <div class="pr-2">
+                                <div class="flex items-center space-x-2">
+                                    <span class="font-bold text-xs text-slate-900 dark:text-white">{{ policy.name }}</span>
+                                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
+                                        +{{ policy.impact }} pts
+                                    </span>
+                                </div>
+                                <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-1 leading-snug">{{ policy.description }}</p>
+                            </div>
+
+                            <div class="w-5 h-5 rounded-md border flex items-center justify-center flex-shrink-0 mt-0.5"
+                                 :class="policy.active ? 'bg-emerald-600 border-emerald-600 text-white' : 'border-slate-400 bg-white dark:bg-slate-800'">
+                                <svg v-if="policy.active" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Export & Summary Section -->
+                <div class="bg-gradient-to-r from-bbc-red to-red-800 text-white p-6 rounded-2xl shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-lg font-bold">Worksheet Complete!</h2>
+                        <p class="text-xs text-red-100 mt-0.5">Generate your printable summary report containing your quiz results, vocabulary scores, and discussion notes.</p>
+                    </div>
+                    <button @click="showSummaryModal = true"
+                            class="px-5 py-2.5 bg-white text-bbc-red font-bold text-xs rounded-xl hover:bg-red-50 transition shadow">
+                        📄 View & Print Summary Report
+                    </button>
+                </div>
+
+            </div>
+
+
+            <!-- NEXT / PREVIOUS FOOTER CONTROLS -->
+            <div class="mt-8 flex justify-between items-center pt-4 border-t border-slate-200 dark:border-slate-800 no-print">
+                <button @click="currentStep--" :disabled="currentStep === 1"
+                        class="px-4 py-2 bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-semibold text-xs rounded-xl hover:bg-slate-300 dark:hover:bg-slate-700 transition disabled:opacity-40">
+                    ← Previous Step
+                </button>
+
+                <div class="text-xs font-semibold text-slate-500">
+                    Step {{ currentStep }} of 5
+                </div>
+
+                <button @click="currentStep++" :disabled="currentStep === 5"
+                        class="px-4 py-2 bg-bbc-red text-white font-semibold text-xs rounded-xl hover:bg-bbc-darkred transition disabled:opacity-40">
+                    Next Step →
+                </button>
+            </div>
+
+        </main>
+
+
+        <!-- SUMMARY & EXPORT MODAL -->
+        <div v-if="showSummaryModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+            <div class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-2xl max-w-3xl w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800 max-h-[90vh] overflow-y-auto">
+                
+                <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-4 mb-4">
+                    <div class="flex items-center space-x-2">
+                        <span class="bg-bbc-red text-white font-bold text-xs px-2 py-0.5 rounded">BBC ESL</span>
+                        <h2 class="text-lg font-bold">Student Summary Report</h2>
+                    </div>
+                    <button @click="showSummaryModal = false" class="text-slate-400 hover:text-slate-600 p-1">✕</button>
+                </div>
+
+                <!-- Report Content Area -->
+                <div id="printable-report" class="space-y-6 text-xs">
+                    
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl">
+                        <h3 class="font-bold text-sm text-bbc-red uppercase">1. Warm-Up & Opinion Stances</h3>
+                        <div class="mt-2 space-y-1">
+                            <p v-for="(slider, idx) in warmUpSliders" :key="idx">
+                                • <strong>{{ slider.question }}</strong>: {{ slider.value }}/5 ({{ sliderLabels[slider.value - 1] }})
+                            </p>
+                        </div>
+                        <div class="mt-3">
+                            <strong>Discussion Notes:</strong>
+                            <p class="italic text-slate-600 dark:text-slate-300 mt-1">{{ userNotes.warmup || 'No response typed.' }}</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl">
+                        <h3 class="font-bold text-sm text-bbc-red uppercase">2. Vocabulary Practice</h3>
+                        <p>Completed Vocab Quiz Score: <strong>{{ vocabScore }} / {{ vocabQuiz.length }}</strong></p>
+                    </div>
+
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl">
+                        <h3 class="font-bold text-sm text-bbc-red uppercase">3. Video Observations</h3>
+                        <p><strong>Stats Noted:</strong> {{ userNotes.videoStats || 'None' }}</p>
+                        <p class="mt-1"><strong>Causes Noted:</strong> {{ userNotes.videoCauses || 'None' }}</p>
+                    </div>
+
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl">
+                        <h3 class="font-bold text-sm text-bbc-red uppercase">4. Data & Comprehension Score</h3>
+                        <p>Data Matching: <strong>{{ dataScore }} / {{ dataMatchingList.length }}</strong></p>
+                        <p>Comprehension Quiz: <strong>{{ compScore }} / {{ comprehensionQuestions.length }}</strong></p>
+                    </div>
+
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl">
+                        <h3 class="font-bold text-sm text-bbc-red uppercase">5. Role-Play & Policy Action</h3>
+                        <p>Selected Persona: <strong>{{ activePersona ? activePersona.name : 'None' }}</strong></p>
+                        <p class="italic text-slate-600 dark:text-slate-300 mt-1">
+                            "{{ activePersona && userNotes.personaResponses[activePersona.id] ? userNotes.personaResponses[activePersona.id] : 'No persona response typed.' }}"
+                        </p>
+                        <p class="mt-2">Simulated Family Health Score: <strong>{{ familyHealthScore }} / 100</strong></p>
+                    </div>
+
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mt-6 flex justify-end space-x-3 border-t border-slate-200 dark:border-slate-800 pt-4">
+                    <button @click="printReport" class="px-4 py-2 bg-bbc-blue text-white font-semibold text-xs rounded-xl hover:bg-blue-700 transition">
+                        🖨️ Print / Save PDF
+                    </button>
+                    <button @click="showSummaryModal = false" class="px-4 py-2 bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-semibold text-xs rounded-xl transition">
+                        Close
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    currentStep: 1,
+                    isDark: false,
+                    showSummaryModal: false,
+                    currentVideoUrl: 'https://www.youtube.com/embed/Lo6WZ4DhhKw?enablejsapi=1',
+
+                    steps: [
+                        { shortTitle: 'Warm-Up', title: 'Warm-Up & Discussion', subtitle: 'Explore initial opinions regarding city living, birth rates, and housing.' },
+                        { shortTitle: 'Vocabulary', title: 'Vocabulary Introduction', subtitle: 'Learn 8 key terms used in the BBC video transcript.' },
+                        { shortTitle: 'Video Guide', title: 'Video Viewing & Guide', subtitle: 'Watch the report and jump across key analytical chapters.' },
+                        { shortTitle: 'Comprehension', title: 'Comprehension & Data Analysis', subtitle: 'Match key statistics and answer conceptual questions.' },
+                        { shortTitle: 'Debrief & Policy', title: 'Debrief & Policy Action', subtitle: 'Role-play perspectives and simulate city planning interventions.' }
+                    ],
+
+                    // Section 1 Data
+                    warmUpSliders: [
+                        { question: '1. Big cities (like London) are good places to raise children.', value: 3 },
+                        { question: '2. Career stability comes before starting a family.', value: 4 },
+                        { question: '3. Government subsidies for childcare should be universal.', value: 5 },
+                        { question: '4. Living in a smaller space is an acceptable tradeoff for city life.', value: 2 }
+                    ],
+                    sliderLabels: ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree'],
+                    sentenceStarters: [
+                        'In my opinion,',
+                        'From my perspective,',
+                        'On the one hand,',
+                        'Compared to previous generations,',
+                        'It seems evident that'
+                    ],
+
+                    // Section 2 Data
+                    vocabList: [
+                        { term: 'Fertility Rate', partOfSpeech: 'Noun', phonetic: '/fərˈtɪl.ə.ti reɪt/', definition: 'The average number of children born to a woman over her lifetime.', example: 'Islington has a fertility rate of just 0.99, well below the replacement level.', flipped: false },
+                        { term: 'Pinnacle', partOfSpeech: 'Noun', phonetic: '/ˈpɪn.ə.kəl/', definition: 'The highest, most successful or decisive point of a career or effort.', example: 'Many young professionals feel they must reach the pinnacle of their career before having kids.', flipped: false },
+                        { term: 'Juggle', partOfSpeech: 'Verb', phonetic: '/ˈdʒʌɡ.əl/', definition: 'To manage or balance several things (space, finances, jobs) at the same time.', example: 'Parents are having to juggle limited space in 1-bedroom flats with growing children.', flipped: false },
+                        { term: 'Cost of living', partOfSpeech: 'Noun', phonetic: '/kɒst əv ˈlɪv.ɪŋ/', definition: 'The amount of money needed to cover basic necessities like housing and food.', example: 'The high cost of living in inner London is pushing young families outwards.', flipped: false },
+                        { term: 'Hollowing out', partOfSpeech: 'Noun / Verb Phrase', phonetic: '/ˈhɒl.əʊ.ɪŋ aʊt/', definition: 'The process of removing or losing the inner core or central population of an area.', example: 'The hollowing out of London means central boroughs are losing their local families.', flipped: false },
+                        { term: 'Indicator species', partOfSpeech: 'Noun Phrase', phonetic: '/ˈɪn.dɪ.keɪ.tər ˈspiː.ʃiːz/', definition: 'An organism or group whose condition reflects the overall health of an ecosystem.', example: 'Urban planners view young children as an indicator species for city liveability.', flipped: false },
+                        { term: 'Donut effect', partOfSpeech: 'Noun Phrase', phonetic: '/ˈdəʊ.nʌt ɪˈfɛkt/', definition: 'A pattern where the inner city empties out while surrounding outer regions grow.', example: 'The donut effect leaves central schools with empty classrooms.', flipped: false },
+                        { term: 'Existential challenge', partOfSpeech: 'Noun Phrase', phonetic: '/ˌɛɡ.zɪˈstɛn.ʃəl/', definition: 'A major threat to the fundamental existence or operation of a system.', example: 'The loss of young families is an existential challenge for city public services.', flipped: false }
+                    ],
+
+                    vocabQuiz: [
+                        { sentence: "The average number of children born per woman is known as the ___.", correctAnswer: "Fertility Rate", userAnswer: "", checked: false, isCorrect: false },
+                        { sentence: "Urban planners describe children as an ___ because their presence shows the city is healthy.", correctAnswer: "Indicator species", userAnswer: "", checked: false, isCorrect: false },
+                        { sentence: "When the city center loses population while outer areas expand, it is called the ___.", correctAnswer: "Donut effect", userAnswer: "", checked: false, isCorrect: false },
+                        { sentence: "Young professionals often try to reach the ___ of their career before taking time off for family.", correctAnswer: "Pinnacle", userAnswer: "", checked: false, isCorrect: false }
+                    ],
+
+                    // Section 3 Data
+                    videoTimestamps: [
+                        { time: '00:00', label: 'Intro: Islington Low Fertility', seconds: 0 },
+                        { time: '01:03', label: 'Baby Music Class & Parents', seconds: 63 },
+                        { time: '02:30', label: 'Young Adults & Career Choice', seconds: 150 },
+                        { time: '03:41', label: 'The Numbers: Rent & House Prices', seconds: 221 },
+                        { time: '04:38', label: 'Urban Planning & Donut Effect', seconds: 278 },
+                        { time: '05:15', label: 'Policy Solutions & Mayor', seconds: 315 }
+                    ],
+
+                    userNotes: {
+                        warmup: '',
+                        videoStats: '',
+                        videoCauses: '',
+                        personaResponses: {}
+                    },
+
+                    // Section 4 Data
+                    dataValues: ['0.99', '1.44', '34.7', '12x', '50%'],
+                    dataMatchingList: [
+                        { description: 'Islington fertility rate (one of the lowest in the UK)', correctVal: '0.99', userSelect: '' },
+                        { description: 'Average fertility rate across England & Wales', correctVal: '1.44', userSelect: '' },
+                        { description: 'Average age of first-time mothers in Islington', correctVal: '34.7', userSelect: '' },
+                        { description: 'Multiple of average earnings needed to buy an average home', correctVal: '12x', userSelect: '' },
+                        { description: 'Percentage of average salary spent on rent in central London', correctVal: '50%', userSelect: '' }
+                    ],
+                    dataMatchedChecked: false,
+
+                    comprehensionQuestions: [
+                        {
+                            question: 'Why is Luxembourg mentioned by one of the parents in the baby class?',
+                            options: ['It has lower property taxes', 'It offers universal free childcare for working parents', 'It has larger housing options', 'It has better primary schools'],
+                            correct: 1,
+                            userAnswer: null,
+                            checked: false,
+                            explanation: 'The mother mentions Luxembourg because childcare fees there are subsidized by the government, unlike the high costs in London.'
+                        },
+                        {
+                            question: 'What housing dilemma is described by the father with two young children?',
+                            options: ['They are forced to move into a high-rise building', 'They live in a 1-bedroom flat where the living room functions as a bedroom', 'They commute 2 hours each day', 'They share a home with another family'],
+                            correct: 1,
+                            userAnswer: null,
+                            checked: false,
+                            explanation: 'The family stays in a small 1-bedroom apartment where living spaces are constantly repurposed to accommodate children.'
+                        },
+                        {
+                            question: 'What primary threat do urban planners warn about when families disappear from cities?',
+                            options: ['Traffic congestion increases', 'Schools and maternity hospital units face closure', 'City tax revenues double', 'Public transport stops operating'],
+                            correct: 1,
+                            userAnswer: null,
+                            checked: false,
+                            explanation: 'Fewer children leads directly to underfunded local schools and maternity wards shutting down.'
+                        }
+                    ],
+
+                    // Section 5 Data
+                    personas: [
+                        { id: 'student', name: 'Young Student/Worker', role: 'Age 23, Renting in London', icon: '👨‍🎓', prompt: 'How do rent prices affect your plans for staying in London long-term and eventually having a family?' },
+                        { id: 'parent', name: 'Parent of Two', role: 'Living in 1-Bed Flat', icon: '👨‍👩‍👧‍👦', prompt: 'What trade-offs are you making between remaining in central London versus moving away for space?' },
+                        { id: 'planner', name: 'City Urban Planner', role: 'Demographic Researcher', icon: '🏗️', prompt: 'Why is a balanced age demographic vital for the long-term economy and vitality of the city?' },
+                        { id: 'mayor', name: 'Mayor of London', role: 'Policy Maker', icon: '🏛️', prompt: 'What concrete policy interventions will you prioritize to prevent the "hollowing out" of London?' }
+                    ],
+                    selectedPersona: 'student',
+
+                    policies: [
+                        { id: 1, name: 'Universal Free Childcare', impact: 20, active: false, description: 'Fully fund nursery and toddler care for working parents.' },
+                        { id: 2, name: 'Affordable Housing Mandate', impact: 25, active: false, description: 'Require 40% of new housing developments to be affordable family units.' },
+                        { id: 3, name: 'Rent Control Caps', impact: 15, active: false, description: 'Cap annual residential rent increases to match inflation.' },
+                        { id: 4, name: 'Flexible Work Incentives', impact: 10, active: false, description: 'Tax relief for companies offering remote/hybrid flexible work.' },
+                        { id: 5, name: 'School & Park Grants', impact: 10, active: false, description: 'Subsidize inner-city primary schools and urban green playgrounds.' }
+                    ]
+                }
+            },
+
+            computed: {
+                vocabOptions() {
+                    return this.vocabList.map(v => v.term);
+                },
+                activePersona() {
+                    return this.personas.find(p => p.id === this.selectedPersona);
+                },
+                vocabScore() {
+                    return this.vocabQuiz.filter(q => q.isCorrect).length;
+                },
+                dataScore() {
+                    return this.dataMatchingList.filter(item => item.userSelect === item.correctVal).length;
+                },
+                compScore() {
+                    return this.comprehensionQuestions.filter(q => q.checked && q.userAnswer === q.correct).length;
+                },
+                familyHealthScore() {
+                    const baseScore = 30;
+                    const addedScore = this.policies
+                        .filter(p => p.active)
+                        .reduce((sum, p) => sum + p.impact, 0);
+                    return Math.min(100, baseScore + addedScore);
+                },
+                projectedFertilityRate() {
+                    const score = this.familyHealthScore;
+                    const rate = 0.99 + (score / 100) * 0.7;
+                    return rate.toFixed(2);
+                },
+                overallProgress() {
+                    return Math.round((this.currentStep / 5) * 100);
+                }
+            },
+
+            mounted() {
+                this.loadFromStorage();
+            },
+
+            watch: {
+                userNotes: {
+                    deep: true,
+                    handler() {
+                        this.saveToStorage();
+                    }
+                },
+                warmUpSliders: {
+                    deep: true,
+                    handler() {
+                        this.saveToStorage();
+                    }
+                }
+            },
+
+            methods: {
+                toggleDarkMode() {
+                    this.isDark = !this.isDark;
+                    if (this.isDark) {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                },
+
+                insertSentenceStarter(starter) {
+                    if (this.userNotes.warmup) {
+                        this.userNotes.warmup += ' ' + starter + ' ';
+                    } else {
+                        this.userNotes.warmup = starter + ' ';
+                    }
+                },
+
+                speakText(text) {
+                    if ('speechSynthesis' in window) {
+                        const utterance = new SpeechSynthesisUtterance(text);
+                        utterance.lang = 'en-GB';
+                        window.speechSynthesis.speak(utterance);
+                    } else {
+                        alert('Text-to-speech is not supported in your browser.');
+                    }
+                },
+
+                formatSentenceWithBlank(sentence, answer) {
+                    const display = answer ? `<u class="font-bold text-bbc-red">${answer}</u>` : '<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>';
+                    return sentence.replace('___', display);
+                },
+
+                checkVocabItem(q) {
+                    q.checked = true;
+                    q.isCorrect = (q.userAnswer === q.correctAnswer);
+                    this.saveToStorage();
+                },
+
+                resetVocabQuiz() {
+                    this.vocabQuiz.forEach(q => {
+                        q.userAnswer = "";
+                        q.checked = false;
+                        q.isCorrect = false;
+                    });
+                    this.saveToStorage();
+                },
+
+                jumpToTimestamp(seconds) {
+                    this.currentVideoUrl = `https://www.youtube.com/embed/Lo6WZ4DhhKw?autoplay=1&start=${seconds}`;
+                },
+
+                checkDataMatching() {
+                    this.dataMatchedChecked = true;
+                    this.saveToStorage();
+                },
+
+                saveToStorage() {
+                    const state = {
+                        warmUpSliders: this.warmUpSliders,
+                        userNotes: this.userNotes,
+                        currentStep: this.currentStep,
+                        vocabQuiz: this.vocabQuiz
+                    };
+                    localStorage.setItem('bbc_esl_worksheet_state', JSON.stringify(state));
+                },
+
+                loadFromStorage() {
+                    const saved = localStorage.getItem('bbc_esl_worksheet_state');
+                    if (saved) {
+                        try {
+                            const parsed = JSON.parse(saved);
+                            if (parsed.warmUpSliders) this.warmUpSliders = parsed.warmUpSliders;
+                            if (parsed.userNotes) this.userNotes = parsed.userNotes;
+                            if (parsed.vocabQuiz) this.vocabQuiz = parsed.vocabQuiz;
+                        } catch (e) {
+                            console.error('Failed to load saved state', e);
+                        }
+                    }
+                },
+
+                printReport() {
+                    window.print();
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

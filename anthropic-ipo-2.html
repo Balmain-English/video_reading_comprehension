@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-900 text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forbes News Report: Anthropic IPO Interactive Worksheet</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(51, 65, 85, 0.8);
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(71, 85, 105, 1);
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col bg-slate-950 text-slate-100 overflow-x-hidden antialiased">
+
+    <!-- Top Navigation / Header -->
+    <header class="glass-panel sticky top-0 z-50 border-b border-slate-800 bg-slate-900/90 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <!-- Title & Badge -->
+                <div class="flex items-center space-x-3">
+                    <div class="p-2.5 bg-gradient-to-tr from-sky-600 to-indigo-600 rounded-xl shadow-lg shadow-sky-500/20 text-white font-bold text-xl flex items-center justify-center w-10 h-10">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <h1 class="text-lg sm:text-xl font-bold tracking-tight text-white">Forbes News Report</h1>
+                            <span class="px-2 py-0.5 text-xs font-semibold uppercase tracking-wider bg-sky-500/20 text-sky-400 border border-sky-500/30 rounded-md">
+                                Level B1/B2
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-400">Anthropic Officially Files For IPO: Interactive Learning Module</p>
+                    </div>
+                </div>
+
+                <!-- Progress & Score Counter -->
+                <div class="flex items-center space-x-6 justify-between md:justify-end border-t border-slate-800 md:border-t-0 pt-2 md:pt-0">
+                    <div class="flex items-center space-x-3">
+                        <div class="text-right">
+                            <div class="text-xs text-slate-400 font-medium">Overall Progress</div>
+                            <div id="overall-progress-text" class="text-sm font-bold text-sky-400">0%</div>
+                        </div>
+                        <div class="w-24 bg-slate-800 h-2.5 rounded-full overflow-hidden border border-slate-700">
+                            <div id="overall-progress-bar" class="bg-gradient-to-r from-sky-500 to-indigo-500 h-full w-0 transition-all duration-500"></div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-800/80 px-3.5 py-1.5 rounded-lg border border-slate-700/60 flex items-center space-x-2">
+                        <i class="fa-solid fa-trophy text-amber-400 text-sm"></i>
+                        <div>
+                            <span class="text-xs text-slate-400 block -mb-1">Total Score</span>
+                            <span id="total-score-text" class="text-sm font-bold text-emerald-400">0 / 24 pts</span>
+                        </div>
+                    </div>
+
+                    <button onclick="resetAllData()" title="Reset All Progress" class="text-slate-400 hover:text-rose-400 transition-colors p-2 rounded-lg hover:bg-slate-800">
+                        <i class="fa-solid fa-rotate-right text-base"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <nav class="flex space-x-1 sm:space-x-2 mt-4 overflow-x-auto pb-1 no-scrollbar border-t border-slate-800/80 pt-3">
+                <button onclick="switchTab('part1')" id="tab-part1" class="tab-btn px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition-all flex items-center space-x-2 whitespace-nowrap bg-sky-600 text-white shadow-md">
+                    <i class="fa-solid fa-comments text-xs"></i>
+                    <span>Part 1: Warm-Up</span>
+                </button>
+                <button onclick="switchTab('part2')" id="tab-part2" class="tab-btn px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition-all flex items-center space-x-2 whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800/60">
+                    <i class="fa-solid fa-book-bookmark text-xs"></i>
+                    <span>Part 2: Vocabulary</span>
+                    <span id="badge-part2" class="hidden ml-1.5 px-1.5 py-0.2 text-[10px] bg-slate-700 text-slate-300 rounded-full">0/12</span>
+                </button>
+                <button onclick="switchTab('part3')" id="tab-part3" class="tab-btn px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition-all flex items-center space-x-2 whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800/60">
+                    <i class="fa-solid fa-list-check text-xs"></i>
+                    <span>Part 3: Comprehension</span>
+                    <span id="badge-part3" class="hidden ml-1.5 px-1.5 py-0.2 text-[10px] bg-slate-700 text-slate-300 rounded-full">0/12</span>
+                </button>
+                <button onclick="switchTab('part4')" id="tab-part4" class="tab-btn px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition-all flex items-center space-x-2 whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800/60">
+                    <i class="fa-solid fa-pen-nib text-xs"></i>
+                    <span>Part 4: Reflection Memo</span>
+                </button>
+                <button onclick="switchTab('summary')" id="tab-summary" class="tab-btn px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition-all flex items-center space-x-2 whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 ml-auto">
+                    <i class="fa-solid fa-file-invoice text-xs"></i>
+                    <span>Summary Report</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Body -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- ================= PART 1: WARM-UP DISCUSSION ================= -->
+        <section id="content-part1" class="tab-content space-y-6">
+            <div class="glass-panel rounded-2xl p-6 border border-slate-800">
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-sky-400">Warm-Up Activity</span>
+                        <h2 class="text-xl font-bold text-white mt-0.5">Part 1: Pre-Reading & Critical Discussion</h2>
+                    </div>
+                    <span class="bg-sky-500/10 text-sky-400 text-xs px-3 py-1 rounded-full border border-sky-500/20">Discussion & Brainstorming</span>
+                </div>
+                <p class="text-slate-300 text-sm leading-relaxed">
+                    Reflect on or discuss these key themes with a classmate before diving into the financial news report. Use the interactive scratchpads to record your thoughts and key ideas.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Question 1 Card -->
+                <div class="glass-panel rounded-2xl p-6 border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all">
+                    <div>
+                        <div class="flex items-start justify-between gap-3 mb-3">
+                            <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-sky-500/20 text-sky-400 font-bold text-sm border border-sky-500/30">
+                                01
+                            </span>
+                            <button onclick="speakText('q1-text')" class="text-slate-400 hover:text-sky-400 transition-colors text-sm p-1.5 rounded-lg bg-slate-800/50 hover:bg-slate-800" title="Listen to question">
+                                <i class="fa-solid fa-volume-high"></i> Listen
+                            </button>
+                        </div>
+                        <h3 id="q1-text" class="text-base font-semibold text-slate-100 mb-2 leading-snug">
+                            How might artificial intelligence impact critical societal sectors like biology, medicine, or government services over the next decade? What benefits or disruptions do you anticipate?
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-4">
+                            Think about rapid drug discovery, diagnostic accuracy, automated public administration, privacy, or job shifting.
+                        </p>
+                    </div>
+
+                    <div>
+                        <!-- Idea Starters Chips -->
+                        <div class="flex flex-wrap gap-1.5 mb-3">
+                            <span class="text-xs text-slate-400 self-center mr-1">Helper keywords:</span>
+                            <button onclick="addStarter('q1-input', 'Accelerated drug discovery')" class="text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-1 rounded border border-slate-700 transition-colors">+ Drug Discovery</button>
+                            <button onclick="addStarter('q1-input', 'Automated public administration')" class="text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-1 rounded border border-slate-700 transition-colors">+ Government Efficiency</button>
+                            <button onclick="addStarter('q1-input', 'Labor displacement and economic shift')" class="text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-1 rounded border border-slate-700 transition-colors">+ Labor Shift</button>
+                        </div>
+
+                        <label for="q1-input" class="block text-xs font-medium text-slate-400 mb-1">Your Discussion Scratchpad Notes:</label>
+                        <textarea id="q1-input" oninput="savePart1()" rows="4" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl p-3 text-sm text-slate-200 placeholder-slate-500 focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none transition-all custom-scrollbar" placeholder="Type your ideas, discussion bullet points, or vocabulary here..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Question 2 Card -->
+                <div class="glass-panel rounded-2xl p-6 border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all">
+                    <div>
+                        <div class="flex items-start justify-between gap-3 mb-3">
+                            <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-sky-500/20 text-sky-400 font-bold text-sm border border-sky-500/30">
+                                02
+                            </span>
+                            <button onclick="speakText('q2-text')" class="text-slate-400 hover:text-sky-400 transition-colors text-sm p-1.5 rounded-lg bg-slate-800/50 hover:bg-slate-800" title="Listen to question">
+                                <i class="fa-solid fa-volume-high"></i> Listen
+                            </button>
+                        </div>
+                        <h3 id="q2-text" class="text-base font-semibold text-slate-100 mb-2 leading-snug">
+                            What serious risks emerge when advanced AI systems act independently or are controlled by authoritarian governments? How can society protect itself?
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-4">
+                            Consider autonomous threats, surveillance state capabilities, guardrails, policy regulations, and international oversight.
+                        </p>
+                    </div>
+
+                    <div>
+                        <!-- Idea Starters Chips -->
+                        <div class="flex flex-wrap gap-1.5 mb-3">
+                            <span class="text-xs text-slate-400 self-center mr-1">Helper keywords:</span>
+                            <button onclick="addStarter('q2-input', 'Mass surveillance states')" class="text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-1 rounded border border-slate-700 transition-colors">+ Surveillance</button>
+                            <button onclick="addStarter('q2-input', 'Autonomous decision-making risks')" class="text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-1 rounded border border-slate-700 transition-colors">+ AI Autonomy</button>
+                            <button onclick="addStarter('q2-input', 'Safety guardrails and global regulation')" class="text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-1 rounded border border-slate-700 transition-colors">+ Guardrails</button>
+                        </div>
+
+                        <label for="q2-input" class="block text-xs font-medium text-slate-400 mb-1">Your Discussion Scratchpad Notes:</label>
+                        <textarea id="q2-input" oninput="savePart1()" rows="4" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl p-3 text-sm text-slate-200 placeholder-slate-500 focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none transition-all custom-scrollbar" placeholder="Type your ideas, discussion bullet points, or vocabulary here..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Proceed Banner -->
+            <div class="flex justify-end pt-4">
+                <button onclick="switchTab('part2')" class="px-6 py-3 bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 text-white font-medium text-sm rounded-xl shadow-lg shadow-sky-500/20 flex items-center space-x-2 transition-all">
+                    <span>Continue to Part 2: Vocabulary</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+
+        <!-- ================= PART 2: KEY VOCABULARY MATCHING ================= -->
+        <section id="content-part2" class="tab-content hidden space-y-6">
+            <div class="glass-panel rounded-2xl p-6 border border-slate-800">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 pb-3 border-b border-slate-800">
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-sky-400">Vocabulary Mastery</span>
+                        <h2 class="text-xl font-bold text-white mt-0.5">Part 2: Key Financial & Tech Vocabulary</h2>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <button onclick="checkPart2Answers()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center space-x-2">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>Check Answers</span>
+                        </button>
+                        <button onclick="resetPart2()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-xs sm:text-sm rounded-xl transition-all">
+                            <i class="fa-solid fa-rotate-left"></i>
+                        </button>
+                    </div>
+                </div>
+                <p class="text-slate-300 text-sm leading-relaxed">
+                    Match each financial and technology term (1–12) from the Forbes news report with its corresponding definition (A–L). Select the correct definition from the dropdown for each term.
+                </p>
+            </div>
+
+            <!-- Score banner for Part 2 -->
+            <div id="part2-score-banner" class="hidden glass-panel rounded-xl p-4 border border-emerald-500/30 bg-emerald-950/20 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-lg">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <div>
+                        <div id="part2-score-title" class="font-bold text-emerald-300 text-sm sm:text-base">Vocabulary Score</div>
+                        <div id="part2-score-subtitle" class="text-xs text-slate-400">You scored 0 out of 12</div>
+                    </div>
+                </div>
+                <button onclick="switchTab('part3')" class="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium rounded-lg transition-all">
+                    Next Section &rarr;
+                </button>
+            </div>
+
+            <!-- Vocabulary Cards List -->
+            <div id="vocab-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Javascript populates 12 vocabulary cards dynamically -->
+            </div>
+
+            <!-- Bottom Action Bar -->
+            <div class="flex justify-between items-center pt-4">
+                <button onclick="switchTab('part1')" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-sm rounded-xl transition-all">
+                    &larr; Back to Warm-Up
+                </button>
+                <button onclick="checkPart2Answers()" class="px-6 py-3 bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 text-white font-medium text-sm rounded-xl shadow-lg shadow-sky-500/20 flex items-center space-x-2 transition-all">
+                    <span>Check Vocabulary Answers</span>
+                    <i class="fa-solid fa-circle-check"></i>
+                </button>
+            </div>
+        </section>
+
+
+        <!-- ================= PART 3: READING & LISTENING COMPREHENSION ================= -->
+        <section id="content-part3" class="tab-content hidden space-y-6">
+            <div class="glass-panel rounded-2xl p-6 border border-slate-800">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 pb-3 border-b border-slate-800">
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-sky-400">Comprehension Check</span>
+                        <h2 class="text-xl font-bold text-white mt-0.5">Part 3: Reading & Listening Comprehension (True / False)</h2>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <button onclick="checkPart3Answers()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center space-x-2">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>Check Answers</span>
+                        </button>
+                        <button onclick="resetPart3()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-xs sm:text-sm rounded-xl transition-all">
+                            <i class="fa-solid fa-rotate-left"></i>
+                        </button>
+                    </div>
+                </div>
+                <p class="text-slate-300 text-sm leading-relaxed">
+                    Read each statement based on the Forbes report on Anthropic’s S-1 IPO filing. Mark each item as <strong>True (T)</strong> or <strong>False (F)</strong>. Detailed explanations will be revealed upon checking your answers.
+                </p>
+            </div>
+
+            <!-- Score banner for Part 3 -->
+            <div id="part3-score-banner" class="hidden glass-panel rounded-xl p-4 border border-emerald-500/30 bg-emerald-950/20 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-lg">
+                        <i class="fa-solid fa-chart-pie"></i>
+                    </div>
+                    <div>
+                        <div id="part3-score-title" class="font-bold text-emerald-300 text-sm sm:text-base">Comprehension Score</div>
+                        <div id="part3-score-subtitle" class="text-xs text-slate-400">You scored 0 out of 12</div>
+                    </div>
+                </div>
+                <button onclick="switchTab('part4')" class="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium rounded-lg transition-all">
+                    Proceed to Memo &rarr;
+                </button>
+            </div>
+
+            <!-- Questions Grid -->
+            <div id="tf-grid" class="space-y-4">
+                <!-- Javascript populates 12 True/False statements dynamically -->
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div class="flex justify-between items-center pt-4">
+                <button onclick="switchTab('part2')" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-sm rounded-xl transition-all">
+                    &larr; Back to Vocabulary
+                </button>
+                <button onclick="checkPart3Answers()" class="px-6 py-3 bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 text-white font-medium text-sm rounded-xl shadow-lg shadow-sky-500/20 flex items-center space-x-2 transition-all">
+                    <span>Check Comprehension Answers</span>
+                    <i class="fa-solid fa-circle-check"></i>
+                </button>
+            </div>
+        </section>
+
+
+        <!-- ================= PART 4: REFLECTION MEMO & DEBRIEFING ================= -->
+        <section id="content-part4" class="tab-content hidden space-y-6">
+            <div class="glass-panel rounded-2xl p-6 border border-slate-800">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 pb-3 border-b border-slate-800">
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-sky-400">Debriefing & Writing</span>
+                        <h2 class="text-xl font-bold text-white mt-0.5">Part 4: Evaluating Innovation vs. Governance Memo</h2>
+                    </div>
+                    <span class="bg-indigo-500/20 text-indigo-300 text-xs px-3 py-1 rounded-full border border-indigo-500/30">Target: 60 – 90 words</span>
+                </div>
+                <p class="text-slate-300 text-sm leading-relaxed">
+                    Imagine you are a financial & tech ethics advisor. Review the perspectives of Group A and Group B below, then draft a recommendation memo to potential investors.
+                </p>
+            </div>
+
+            <!-- Debriefing Reference Cards (Group A vs Group B) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Group A Brief -->
+                <div class="glass-panel rounded-2xl p-5 border border-sky-500/30 bg-sky-950/10">
+                    <div class="flex items-center space-x-2.5 mb-3 text-sky-400">
+                        <i class="fa-solid fa-chart-line text-lg"></i>
+                        <h3 class="font-bold text-base text-white">Group A: Market Expansion Optimists</h3>
+                    </div>
+                    <ul class="space-y-2 text-xs text-slate-300">
+                        <li class="flex items-start space-x-2">
+                            <i class="fa-solid fa-angle-right text-sky-400 mt-0.5"></i>
+                            <span>Highlight revenue growth to <strong>$16.3 billion</strong> (up from $1.2B) and strong backing from Goldman Sachs, Morgan Stanley, Amazon, and Nvidia.</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <i class="fa-solid fa-angle-right text-sky-400 mt-0.5"></i>
+                            <span>Argue that high-value applications in biology, medicine, and government justify massive capital expenditure.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Group B Brief -->
+                <div class="glass-panel rounded-2xl p-5 border border-amber-500/30 bg-amber-950/10">
+                    <div class="flex items-center space-x-2.5 mb-3 text-amber-400">
+                        <i class="fa-solid fa-shield-halved text-lg"></i>
+                        <h3 class="font-bold text-base text-white">Group B: Risk & Governance Skeptics</h3>
+                    </div>
+                    <ul class="space-y-2 text-xs text-slate-300">
+                        <li class="flex items-start space-x-2">
+                            <i class="fa-solid fa-angle-right text-amber-400 mt-0.5"></i>
+                            <span>Highlight the <strong>$80.7 billion net loss</strong>, rising interest rates, and investor anxiety over AI return on investment (ROI).</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <i class="fa-solid fa-angle-right text-amber-400 mt-0.5"></i>
+                            <span>Emphasize warnings regarding authoritarian surveillance, independent AI threats, and economic labor disruption.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Memo Writing Workspace -->
+            <div class="glass-panel rounded-2xl p-6 border border-slate-800 space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-800">
+                    <div>
+                        <h3 class="font-bold text-slate-100 text-base">Individual Memo Writing Workspace</h3>
+                        <p class="text-xs text-slate-400">Write a recommendation memo advising whether public investors should back Anthropic's IPO. Include at least 3 target vocabulary terms.</p>
+                    </div>
+                    
+                    <!-- Real-time word counter badge -->
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xs text-slate-400">Word Count:</span>
+                        <span id="memo-word-count" class="px-2.5 py-1 bg-slate-800 text-amber-400 border border-slate-700 rounded-lg text-xs font-bold font-mono">0 words</span>
+                    </div>
+                </div>
+
+                <!-- Live Target Vocabulary Tracker -->
+                <div class="bg-slate-900/80 rounded-xl p-3.5 border border-slate-800">
+                    <div class="text-xs font-medium text-slate-400 mb-2 flex items-center justify-between">
+                        <span>Part 2 Target Vocabulary Tracker (Include at least 3):</span>
+                        <span id="vocab-used-count" class="text-sky-400 font-bold">0 / 3 matched</span>
+                    </div>
+                    <div id="vocab-tracker-chips" class="flex flex-wrap gap-1.5">
+                        <!-- Chips generated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Textarea -->
+                <div>
+                    <textarea id="memo-text" oninput="updateMemoTracker()" rows="7" class="w-full bg-slate-950/80 border border-slate-700 rounded-xl p-4 text-sm text-slate-200 placeholder-slate-500 focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none transition-all custom-scrollbar leading-relaxed font-sans" placeholder="MEMORANDUM&#10;TO: Investor Committee&#10;RE: Anthropic S-1 IPO Evaluation&#10;&#10;I recommend that investors proceed with caution regarding Anthropic's upcoming IPO. Although their revenue reached $16.3 billion, the massive $80.7 billion net loss and rising interest rates create substantial financial risks..."></textarea>
+                </div>
+
+                <!-- Sentence Starters Dropdown Helper -->
+                <div class="flex flex-wrap items-center gap-2 pt-1 text-xs">
+                    <span class="text-slate-400 font-medium">Connector & Phrase Helper:</span>
+                    <button onclick="insertPhrase('Despite the substantial net loss of ')" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded border border-slate-700 transition-colors">+ Despite the...</button>
+                    <button onclick="insertPhrase('Considering the necessity for strict guardrails, ')" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded border border-slate-700 transition-colors">+ Considering guardrails...</button>
+                    <button onclick="insertPhrase('In order to achieve a sustainable return on investment (ROI), ')" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded border border-slate-700 transition-colors">+ Return on investment...</button>
+                    <button onclick="insertPhrase('Consequently, investors should ')" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded border border-slate-700 transition-colors">+ Consequently...</button>
+                </div>
+
+                <!-- Evaluation Button & Feedback Panel -->
+                <div class="pt-2">
+                    <button onclick="evaluateMemo()" class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-medium text-sm rounded-xl shadow-lg transition-all flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-spell-check"></i>
+                        <span>Evaluate & Review My Memo</span>
+                    </button>
+                </div>
+
+                <!-- Feedback Display Box -->
+                <div id="memo-feedback-box" class="hidden rounded-xl p-4 border text-xs sm:text-sm leading-relaxed transition-all"></div>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div class="flex justify-between items-center pt-4">
+                <button onclick="switchTab('part3')" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-sm rounded-xl transition-all">
+                    &larr; Back to Comprehension
+                </button>
+                <button onclick="switchTab('summary')" class="px-6 py-3 bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 text-white font-medium text-sm rounded-xl shadow-lg shadow-sky-500/20 flex items-center space-x-2 transition-all">
+                    <span>View Summary Report</span>
+                    <i class="fa-solid fa-file-invoice"></i>
+                </button>
+            </div>
+        </section>
+
+
+        <!-- ================= SUMMARY REPORT SECTION ================= -->
+        <section id="content-summary" class="tab-content hidden space-y-6">
+            <div class="glass-panel rounded-2xl p-6 border border-slate-800">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 pb-3 border-b border-slate-800">
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-sky-400">Completion Summary</span>
+                        <h2 class="text-xl font-bold text-white mt-0.5">Student Interactive Worksheet Report</h2>
+                    </div>
+                    <button onclick="window.print()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium rounded-xl border border-slate-700 transition-all flex items-center space-x-2">
+                        <i class="fa-solid fa-print"></i>
+                        <span>Print / Save PDF Report</span>
+                    </button>
+                </div>
+                <p class="text-slate-300 text-sm">
+                    Review your answers, test scores, and written reflection memo below.
+                </p>
+            </div>
+
+            <!-- Dashboard Overview Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="glass-panel p-5 rounded-2xl border border-slate-800 text-center">
+                    <span class="text-xs text-slate-400 block mb-1">Part 2 Vocabulary Score</span>
+                    <span id="summary-part2-score" class="text-2xl font-bold text-sky-400">0 / 12</span>
+                </div>
+                <div class="glass-panel p-5 rounded-2xl border border-slate-800 text-center">
+                    <span class="text-xs text-slate-400 block mb-1">Part 3 Comprehension Score</span>
+                    <span id="summary-part3-score" class="text-2xl font-bold text-indigo-400">0 / 12</span>
+                </div>
+                <div class="glass-panel p-5 rounded-2xl border border-slate-800 text-center">
+                    <span class="text-xs text-slate-400 block mb-1">Overall Total Score</span>
+                    <span id="summary-total-score" class="text-2xl font-bold text-emerald-400">0 / 24</span>
+                </div>
+            </div>
+
+            <!-- Warmup Summary -->
+            <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4">
+                <h3 class="font-bold text-white text-base border-b border-slate-800 pb-2">Part 1: Discussion Notes</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                        <span class="text-xs font-semibold text-sky-400 block mb-1">Question 1 Notes:</span>
+                        <p id="summary-q1" class="text-xs text-slate-300 italic whitespace-pre-wrap">No notes entered yet.</p>
+                    </div>
+                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                        <span class="text-xs font-semibold text-sky-400 block mb-1">Question 2 Notes:</span>
+                        <p id="summary-q2" class="text-xs text-slate-300 italic whitespace-pre-wrap">No notes entered yet.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Memo Summary -->
+            <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-3">
+                <h3 class="font-bold text-white text-base border-b border-slate-800 pb-2">Part 4: Written Recommendation Memo</h3>
+                <div class="bg-slate-950/80 p-4 rounded-xl border border-slate-800 text-xs text-slate-200 leading-relaxed font-sans whitespace-pre-wrap" id="summary-memo">
+                    No memo written yet.
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 bg-slate-950 py-4 mt-8 text-center text-xs text-slate-500">
+        <p>Forbes News Report Interactive Worksheet &bull; English Language Learning (B1/B2 Level)</p>
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        /* -------------------------------------------------------------
+           DATA DEFINITIONS
+        ------------------------------------------------------------- */
+        const vocabData = [
+            { id: 1, term: "Confidential Filing", correctDef: "B", defText: "Submitting stock registration papers privately to regulators before public release." },
+            { id: 2, term: "Lead Underwriter", correctDef: "A", defText: "An investment bank managing and backing a company's stock debut." },
+            { id: 3, term: "Net Loss", correctDef: "D", defText: "The state where total operating expenses exceed total income during a given period." },
+            { id: 4, term: "Guardrails", correctDef: "C", defText: "Rules, technical safety measures, or restrictions designed to prevent misuse." },
+            { id: 5, term: "Authoritarian", correctDef: "E", defText: "A system of government enforcing strict obedience and surveillance over citizens." },
+            { id: 6, term: "Economic Disruption", correctDef: "F", defText: "Major structural disturbances to industries, traditional businesses, and jobs." },
+            { id: 7, term: "Surveillance State", correctDef: "G", defText: "A nation where authorities continuously track and monitor citizen activities." },
+            { id: 8, term: "Return on Investment (ROI)", correctDef: "I", defText: "The measure of financial profit earned relative to the capital invested." },
+            { id: 9, term: "Billionaire", correctDef: "J", defText: "An individual holding personal financial assets valued at $1 billion or more." },
+            { id: 10, term: "Repression", correctDef: "K", defText: "The forced suppression or restriction of political freedom and human rights." },
+            { id: 11, term: "Threat of the First Order", correctDef: "H", defText: "A primary, grave hazard posing extreme danger to global security." },
+            { id: 12, term: "Interest Rates", correctDef: "L", defText: "The percentage cost charged by financial institutions for borrowing capital." }
+        ];
+
+        // All definitions pool for options dropdown
+        const definitionsList = [
+            { code: "A", text: "A. An investment bank managing and backing a company's stock debut." },
+            { code: "B", text: "B. Submitting stock registration papers privately to regulators before public release." },
+            { code: "C", text: "C. Rules, technical safety measures, or restrictions designed to prevent misuse." },
+            { code: "D", text: "D. The state where total operating expenses exceed total income during a given period." },
+            { code: "E", text: "E. A system of government enforcing strict obedience and surveillance over citizens." },
+            { code: "F", text: "F. Major structural disturbances to industries, traditional businesses, and jobs." },
+            { code: "G", text: "G. A nation where authorities continuously track and monitor citizen activities." },
+            { code: "H", text: "H. A primary, grave hazard posing extreme danger to global security." },
+            { code: "I", text: "I. The measure of financial profit earned relative to the capital invested." },
+            { code: "J", text: "J. An individual holding personal financial assets valued at $1 billion or more." },
+            { code: "K", text: "K. The forced suppression or restriction of political freedom and human rights." },
+            { code: "L", text: "L. The percentage cost charged by financial institutions for borrowing capital." }
+        ];
+
+        const tfData = [
+            {
+                id: 1,
+                statement: "Anthropic was founded in 2021 by a group of former OpenAI employees, including CEO Dario Amodei.",
+                answer: true,
+                explanation: "TRUE. Anthropic was created in 2021 by former OpenAI researchers and executives, including Dario Amodei and Daniela Amodei."
+            },
+            {
+                id: 2,
+                statement: "According to the Forbes report, Anthropic plans to go public during the week of November 16th under ticker ANT.",
+                answer: true,
+                explanation: "TRUE. The report indicates a target debut date during the week of November 16th under ticker symbol ANT following its confidential SEC filing."
+            },
+            {
+                id: 3,
+                statement: "The Wall Street Journal estimates that Anthropic's public market valuation could reach between $1.5 trillion and $2 trillion.",
+                answer: true,
+                explanation: "TRUE. Public market analysts and WSJ estimates place Anthropic's potential valuation at $1.5T to $2.0T."
+            },
+            {
+                id: 4,
+                statement: "Goldman Sachs and Morgan Stanley are serving as the lead underwriters for Anthropic's initial public offering.",
+                answer: true,
+                explanation: "TRUE. Investment banking giants Goldman Sachs and Morgan Stanley are managing and underwriting the stock debut."
+            },
+            {
+                id: 5,
+                statement: "For the first half of the year, Anthropic reported $16.3 billion in revenue alongside an $80.7 billion net loss.",
+                answer: true,
+                explanation: "TRUE. Revenue jumped to $16.3 billion (up from $1.2B), but operating cost and computing hardware investments drove an $80.7B net loss."
+            },
+            {
+                id: 6,
+                statement: "Anthropic's regulatory filing warns that AI acting on its own could become a global security threat of the First Order.",
+                answer: true,
+                explanation: "TRUE. The filing explicitly warns that uncontrolled or autonomous AI systems pose a top-level security hazard."
+            },
+            {
+                id: 7,
+                statement: "The filing claims artificial intelligence carries zero risk of creating economic disruption or shifting labor markets.",
+                answer: false,
+                explanation: "FALSE. The filing explicitly highlights economic disruption and labor market risks, noting Anthropic committed $200 million to study responses."
+            },
+            {
+                id: 8,
+                statement: "Anthropic has committed $200 million to partner with governments to study responses to AI-driven economic disruptions.",
+                answer: true,
+                explanation: "TRUE. $200 million was pledged for governmental partnerships to research labor and economic adaptation strategies."
+            },
+            {
+                id: 9,
+                statement: "Co-founders Dario Amodei and Daniela Amodei were each estimated to be worth $15.5 billion prior to the filing.",
+                answer: true,
+                explanation: "TRUE. Forbes real-time wealth calculations placed both siblings at $15.5 billion net worth."
+            },
+            {
+                id: 10,
+                statement: "Major tech corporations Amazon, Google, and Nvidia have refused to invest in Anthropic's computing infrastructure.",
+                answer: false,
+                explanation: "FALSE. Amazon, Google, and Nvidia are key strategic backers who have invested billions in Anthropic's hardware and cloud infrastructure."
+            },
+            {
+                id: 11,
+                statement: "Rising interest rates and growing investor concern over AI return on investment (ROI) are creating a challenging market.",
+                answer: true,
+                explanation: "TRUE. Macroeconomic conditions including high borrowing rates and demand for clear financial ROI create market headwinds."
+            },
+            {
+                id: 12,
+                statement: "Anthropic's Claude family of models operates without competition from rival systems like ChatGPT or Google's Gemini.",
+                answer: false,
+                explanation: "FALSE. Claude competes fiercely in the market against frontier models from OpenAI (ChatGPT) and Google (Gemini)."
+            }
+        ];
+
+        /* Target terms for Memo auto-detector */
+        const targetKeywords = [
+            { key: "net loss", label: "Net Loss" },
+            { key: "guardrails", label: "Guardrails" },
+            { key: "roi", label: "Return on Investment (ROI)" },
+            { key: "return on investment", label: "Return on Investment" },
+            { key: "economic disruption", label: "Economic Disruption" },
+            { key: "surveillance state", label: "Surveillance State" },
+            { key: "threat of the first order", label: "Threat of First Order" },
+            { key: "interest rates", label: "Interest Rates" },
+            { key: "confidential filing", label: "Confidential Filing" },
+            { key: "lead underwriter", label: "Lead Underwriter" },
+            { key: "authoritarian", label: "Authoritarian" },
+            { key: "billionaire", label: "Billionaire" },
+            { key: "repression", label: "Repression" }
+        ];
+
+        /* -------------------------------------------------------------
+           APP STATE
+        ------------------------------------------------------------- */
+        let state = {
+            part1: { q1: "", q2: "" },
+            part2: {}, // vocabId -> selectedDefCode ('A'...'L')
+            part2Checked: false,
+            part3: {}, // tfId -> boolean (true/false)
+            part3Checked: false,
+            memoText: ""
+        };
+
+        /* -------------------------------------------------------------
+           INITIALIZATION
+        ------------------------------------------------------------- */
+        window.addEventListener('DOMContentLoaded', () => {
+            loadSavedState();
+            renderVocabCards();
+            renderTFQuestions();
+            renderVocabTrackerChips();
+            updateMemoTracker();
+            updateProgress();
+            updateSummaryReport();
+        });
+
+        /* -------------------------------------------------------------
+           TAB NAVIGATION
+        ------------------------------------------------------------- */
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-sky-600', 'text-white', 'shadow-md');
+                btn.classList.add('text-slate-400', 'hover:text-slate-200', 'hover:bg-slate-800/60');
+            });
+
+            const targetContent = document.getElementById(`content-${tabId}`);
+            if (targetContent) targetContent.classList.remove('hidden');
+
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-400', 'hover:text-slate-200', 'hover:bg-slate-800/60');
+                activeBtn.classList.add('bg-sky-600', 'text-white', 'shadow-md');
+            }
+
+            if (tabId === 'summary') {
+                updateSummaryReport();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /* -------------------------------------------------------------
+           TEXT TO SPEECH HELPER
+        ------------------------------------------------------------- */
+        function speakText(elementId) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // Stop ongoing
+                const utterance = new SpeechSynthesisUtterance(el.innerText);
+                utterance.rate = 0.95;
+                utterance.lang = 'en-US';
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        /* -------------------------------------------------------------
+           PART 1 FUNCTIONS
+        ------------------------------------------------------------- */
+        function addStarter(inputId, text) {
+            const textarea = document.getElementById(inputId);
+            if (!textarea) return;
+            if (textarea.value.trim().length > 0) {
+                textarea.value += `, ${text}`;
+            } else {
+                textarea.value = text;
+            }
+            savePart1();
+        }
+
+        function savePart1() {
+            state.part1.q1 = document.getElementById('q1-input').value;
+            state.part1.q2 = document.getElementById('q2-input').value;
+            saveStateToStorage();
+            updateProgress();
+        }
+
+        /* -------------------------------------------------------------
+           PART 2: VOCABULARY MATCHING
+        ------------------------------------------------------------- */
+        function renderVocabCards() {
+            const container = document.getElementById('vocab-grid');
+            container.innerHTML = '';
+
+            vocabData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "glass-panel p-4 rounded-xl border border-slate-800 flex flex-col justify-between transition-all";
+                card.id = `vocab-card-${item.id}`;
+
+                const isSelected = state.part2[item.id] || "";
+                
+                let selectOptionsHtml = `<option value="" class="bg-slate-900 text-slate-400">-- Choose Matching Definition --</option>`;
+                definitionsList.forEach(def => {
+                    const selectedAttr = (isSelected === def.code) ? 'selected' : '';
+                    selectOptionsHtml += `<option value="${def.code}" ${selectedAttr} class="bg-slate-900 text-slate-100">${def.text}</option>`;
+                });
+
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-mono font-semibold px-2 py-0.5 bg-slate-800 text-sky-400 rounded border border-slate-700">Term ${item.id}</span>
+                            <span id="vocab-status-${item.id}" class="text-xs font-semibold"></span>
+                        </div>
+                        <h4 class="text-base font-bold text-white mb-3">${item.term}</h4>
+                    </div>
+                    <div>
+                        <select id="vocab-select-${item.id}" onchange="onVocabSelect(${item.id}, this.value)" class="w-full bg-slate-900/90 border border-slate-700 rounded-lg p-2.5 text-xs text-slate-200 focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none transition-all">
+                            ${selectOptionsHtml}
+                        </select>
+                        <div id="vocab-explain-${item.id}" class="hidden mt-2 p-2.5 rounded-lg text-xs bg-slate-900/80 border border-slate-800 text-slate-300"></div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            if (state.part2Checked) {
+                checkPart2Answers(true);
+            }
+        }
+
+        function onVocabSelect(id, value) {
+            state.part2[id] = value;
+            state.part2Checked = false; // Reset checked status on change
+            document.getElementById('part2-score-banner').classList.add('hidden');
+            
+            // Remove check borders
+            const card = document.getElementById(`vocab-card-${id}`);
+            card.classList.remove('border-emerald-500', 'border-rose-500');
+            card.classList.add('border-slate-800');
+            document.getElementById(`vocab-status-${id}`).innerText = '';
+            document.getElementById(`vocab-explain-${id}`).classList.add('hidden');
+
+            saveStateToStorage();
+            updateProgress();
+        }
+
+        function checkPart2Answers(silent = false) {
+            let score = 0;
+            let answeredCount = 0;
+
+            vocabData.forEach(item => {
+                const userVal = state.part2[item.id];
+                const card = document.getElementById(`vocab-card-${item.id}`);
+                const statusSpan = document.getElementById(`vocab-status-${item.id}`);
+                const explainDiv = document.getElementById(`vocab-explain-${item.id}`);
+
+                if (userVal) answeredCount++;
+
+                if (userVal === item.correctDef) {
+                    score++;
+                    card.classList.remove('border-slate-800', 'border-rose-500');
+                    card.classList.add('border-emerald-500/80', 'bg-emerald-950/10');
+                    statusSpan.className = "text-xs font-bold text-emerald-400";
+                    statusSpan.innerHTML = '<i class="fa-solid fa-check"></i> Correct';
+                    explainDiv.className = "mt-2 p-2.5 rounded-lg text-xs bg-emerald-950/30 border border-emerald-500/30 text-emerald-200";
+                    explainDiv.innerText = `Matched: ${item.defText}`;
+                    explainDiv.classList.remove('hidden');
+                } else {
+                    card.classList.remove('border-slate-800', 'border-emerald-500/80');
+                    card.classList.add('border-rose-500/80', 'bg-rose-950/10');
+                    statusSpan.className = "text-xs font-bold text-rose-400";
+                    statusSpan.innerHTML = userVal ? '<i class="fa-solid fa-xmark"></i> Incorrect' : '<i class="fa-solid fa-circle-exclamation"></i> Unanswered';
+                    explainDiv.className = "mt-2 p-2.5 rounded-lg text-xs bg-rose-950/30 border border-rose-500/30 text-rose-200";
+                    explainDiv.innerText = `Correct Answer [${item.correctDef}]: ${item.defText}`;
+                    explainDiv.classList.remove('hidden');
+                }
+            });
+
+            state.part2Checked = true;
+
+            // Update Score Banner
+            const banner = document.getElementById('part2-score-banner');
+            banner.classList.remove('hidden');
+            document.getElementById('part2-score-title').innerText = `Vocabulary Results: ${score} / 12 Correct`;
+            document.getElementById('part2-score-subtitle').innerText = score === 12 ? "Perfect Score! Excellent financial & tech vocabulary knowledge." : `You have answered ${answeredCount} of 12 terms correctly.`;
+
+            // Badge tab
+            const badge = document.getElementById('badge-part2');
+            badge.innerText = `${score}/12`;
+            badge.classList.remove('hidden');
+
+            saveStateToStorage();
+            updateProgress();
+
+            if (!silent && window.innerWidth < 768) {
+                banner.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function resetPart2() {
+            state.part2 = {};
+            state.part2Checked = false;
+            document.getElementById('part2-score-banner').classList.add('hidden');
+            document.getElementById('badge-part2').classList.add('hidden');
+            renderVocabCards();
+            saveStateToStorage();
+            updateProgress();
+        }
+
+
+        /* -------------------------------------------------------------
+           PART 3: READING & LISTENING COMPREHENSION
+        ------------------------------------------------------------- */
+        function renderTFQuestions() {
+            const container = document.getElementById('tf-grid');
+            container.innerHTML = '';
+
+            tfData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "glass-panel p-4 sm:p-5 rounded-2xl border border-slate-800 transition-all";
+                card.id = `tf-card-${item.id}`;
+
+                const userVal = state.part3[item.id]; // true, false, or undefined
+
+                card.innerHTML = `
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div class="flex items-start space-x-3 flex-1">
+                            <span class="flex-shrink-0 w-7 h-7 rounded-lg bg-slate-800 text-sky-400 font-bold text-xs flex items-center justify-center border border-slate-700">
+                                ${item.id}
+                            </span>
+                            <div>
+                                <p class="text-sm font-medium text-slate-100 leading-snug">${item.statement}</p>
+                            </div>
+                        </div>
+
+                        <!-- T / F Buttons -->
+                        <div class="flex items-center space-x-2 self-end sm:self-center">
+                            <button onclick="selectTF(${item.id}, true)" id="tf-btn-${item.id}-true" class="px-4 py-1.5 rounded-lg text-xs font-bold border transition-all ${userVal === true ? 'bg-sky-600 text-white border-sky-400 shadow' : 'bg-slate-900 text-slate-300 border-slate-700 hover:bg-slate-800'}">
+                                TRUE (T)
+                            </button>
+                            <button onclick="selectTF(${item.id}, false)" id="tf-btn-${item.id}-false" class="px-4 py-1.5 rounded-lg text-xs font-bold border transition-all ${userVal === false ? 'bg-sky-600 text-white border-sky-400 shadow' : 'bg-slate-900 text-slate-300 border-slate-700 hover:bg-slate-800'}">
+                                FALSE (F)
+                            </button>
+                        </div>
+                    </div>
+                    <div id="tf-explain-${item.id}" class="hidden mt-3 p-3 rounded-xl text-xs bg-slate-900/80 border border-slate-800 text-slate-300"></div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            if (state.part3Checked) {
+                checkPart3Answers(true);
+            }
+        }
+
+        function selectTF(id, val) {
+            state.part3[id] = val;
+            state.part3Checked = false;
+            document.getElementById('part3-score-banner').classList.add('hidden');
+
+            const trueBtn = document.getElementById(`tf-btn-${id}-true`);
+            const falseBtn = document.getElementById(`tf-btn-${id}-false`);
+
+            if (val === true) {
+                trueBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold border transition-all bg-sky-600 text-white border-sky-400 shadow";
+                falseBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold border transition-all bg-slate-900 text-slate-300 border-slate-700 hover:bg-slate-800";
+            } else {
+                falseBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold border transition-all bg-sky-600 text-white border-sky-400 shadow";
+                trueBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold border transition-all bg-slate-900 text-slate-300 border-slate-700 hover:bg-slate-800";
+            }
+
+            document.getElementById(`tf-explain-${id}`).classList.add('hidden');
+            const card = document.getElementById(`tf-card-${id}`);
+            card.classList.remove('border-emerald-500', 'border-rose-500');
+            card.classList.add('border-slate-800');
+
+            saveStateToStorage();
+            updateProgress();
+        }
+
+        function checkPart3Answers(silent = false) {
+            let score = 0;
+            let answeredCount = 0;
+
+            tfData.forEach(item => {
+                const userVal = state.part3[item.id];
+                const card = document.getElementById(`tf-card-${item.id}`);
+                const explainDiv = document.getElementById(`tf-explain-${item.id}`);
+
+                if (userVal !== undefined) answeredCount++;
+
+                if (userVal === item.answer) {
+                    score++;
+                    card.classList.remove('border-slate-800', 'border-rose-500');
+                    card.classList.add('border-emerald-500/80', 'bg-emerald-950/10');
+                    explainDiv.className = "mt-3 p-3 rounded-xl text-xs bg-emerald-950/30 border border-emerald-500/30 text-emerald-200";
+                    explainDiv.innerHTML = `<span class="font-bold"><i class="fa-solid fa-check"></i> Correct!</span> ${item.explanation}`;
+                    explainDiv.classList.remove('hidden');
+                } else {
+                    card.classList.remove('border-slate-800', 'border-emerald-500/80');
+                    card.classList.add('border-rose-500/80', 'bg-rose-950/10');
+                    explainDiv.className = "mt-3 p-3 rounded-xl text-xs bg-rose-950/30 border border-rose-500/30 text-rose-200";
+                    explainDiv.innerHTML = `<span class="font-bold"><i class="fa-solid fa-xmark"></i> ${userVal === undefined ? 'Not Answered' : 'Incorrect'}.</span> ${item.explanation}`;
+                    explainDiv.classList.remove('hidden');
+                }
+            });
+
+            state.part3Checked = true;
+
+            // Score Banner
+            const banner = document.getElementById('part3-score-banner');
+            banner.classList.remove('hidden');
+            document.getElementById('part3-score-title').innerText = `Comprehension Results: ${score} / 12 Correct`;
+            document.getElementById('part3-score-subtitle').innerText = score === 12 ? "Outstanding comprehension of the Forbes report!" : `You correctly answered ${score} out of 12 statements.`;
+
+            // Badge tab
+            const badge = document.getElementById('badge-part3');
+            badge.innerText = `${score}/12`;
+            badge.classList.remove('hidden');
+
+            saveStateToStorage();
+            updateProgress();
+
+            if (!silent && window.innerWidth < 768) {
+                banner.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function resetPart3() {
+            state.part3 = {};
+            state.part3Checked = false;
+            document.getElementById('part3-score-banner').classList.add('hidden');
+            document.getElementById('badge-part3').classList.add('hidden');
+            renderTFQuestions();
+            saveStateToStorage();
+            updateProgress();
+        }
+
+
+        /* -------------------------------------------------------------
+           PART 4: MEMO WRITING & REAL-TIME TRACKING
+        ------------------------------------------------------------- */
+        function renderVocabTrackerChips() {
+            const container = document.getElementById('vocab-tracker-chips');
+            container.innerHTML = '';
+
+            targetKeywords.forEach(kw => {
+                const chip = document.createElement('span');
+                chip.id = `chip-kw-${kw.key.replace(/\s+/g, '-')}`;
+                chip.className = "px-2.5 py-1 text-xs rounded-lg border bg-slate-800 text-slate-400 border-slate-700 transition-all flex items-center space-x-1";
+                chip.innerHTML = `<i class="fa-regular fa-circle text-[10px]"></i> <span>${kw.label}</span>`;
+                container.appendChild(chip);
+            });
+        }
+
+        function insertPhrase(phrase) {
+            const textarea = document.getElementById('memo-text');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const text = textarea.value;
+            textarea.value = text.substring(0, start) + phrase + text.substring(end);
+            textarea.focus();
+            textarea.selectionStart = textarea.selectionEnd = start + phrase.length;
+            updateMemoTracker();
+        }
+
+        function updateMemoTracker() {
+            const text = document.getElementById('memo-text').value;
+            state.memoText = text;
+
+            // Calculate words
+            const words = text.trim() ? text.trim().split(/\s+/).filter(w => w.length > 0) : [];
+            const wordCount = words.length;
+
+            const wordBadge = document.getElementById('memo-word-count');
+            wordBadge.innerText = `${wordCount} words`;
+
+            if (wordCount >= 60 && wordCount <= 90) {
+                wordBadge.className = "px-2.5 py-1 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-lg text-xs font-bold font-mono";
+            } else if (wordCount > 0 && wordCount < 60) {
+                wordBadge.className = "px-2.5 py-1 bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded-lg text-xs font-bold font-mono";
+            } else if (wordCount > 90) {
+                wordBadge.className = "px-2.5 py-1 bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-lg text-xs font-bold font-mono";
+            } else {
+                wordBadge.className = "px-2.5 py-1 bg-slate-800 text-slate-400 border border-slate-700 rounded-lg text-xs font-bold font-mono";
+            }
+
+            // Keyword detection
+            let matchedCount = 0;
+            const textLower = text.toLowerCase();
+
+            targetKeywords.forEach(kw => {
+                const chip = document.getElementById(`chip-kw-${kw.key.replace(/\s+/g, '-')}`);
+                if (chip) {
+                    if (textLower.includes(kw.key)) {
+                        matchedCount++;
+                        chip.className = "px-2.5 py-1 text-xs rounded-lg border bg-sky-500/20 text-sky-300 border-sky-500/40 font-medium transition-all flex items-center space-x-1";
+                        chip.innerHTML = `<i class="fa-solid fa-circle-check text-sky-400 text-[10px]"></i> <span>${kw.label}</span>`;
+                    } else {
+                        chip.className = "px-2.5 py-1 text-xs rounded-lg border bg-slate-800 text-slate-400 border-slate-700 transition-all flex items-center space-x-1";
+                        chip.innerHTML = `<i class="fa-regular fa-circle text-[10px]"></i> <span>${kw.label}</span>`;
+                    }
+                }
+            });
+
+            const matchedCounter = document.getElementById('vocab-used-count');
+            matchedCounter.innerText = `${matchedCount} / 3 target vocabulary used`;
+            if (matchedCount >= 3) {
+                matchedCounter.className = "text-emerald-400 font-bold";
+            } else {
+                matchedCounter.className = "text-sky-400 font-bold";
+            }
+
+            saveStateToStorage();
+            updateProgress();
+        }
+
+        function evaluateMemo() {
+            const text = state.memoText.trim();
+            const words = text ? text.split(/\s+/).filter(w => w.length > 0) : [];
+            const wordCount = words.length;
+
+            const textLower = text.toLowerCase();
+            let matchedTerms = [];
+            targetKeywords.forEach(kw => {
+                if (textLower.includes(kw.key) && !matchedTerms.includes(kw.label)) {
+                    matchedTerms.push(kw.label);
+                }
+            });
+
+            const feedbackBox = document.getElementById('memo-feedback-box');
+            feedbackBox.classList.remove('hidden');
+
+            let feedbackHtml = '';
+            let isWordCountValid = wordCount >= 60 && wordCount <= 90;
+            let isVocabValid = matchedTerms.length >= 3;
+
+            if (isWordCountValid && isVocabValid) {
+                feedbackBox.className = "rounded-xl p-4 border bg-emerald-950/30 border-emerald-500/40 text-emerald-200 space-y-2";
+                feedbackHtml = `
+                    <div class="font-bold flex items-center space-x-2 text-base text-emerald-300">
+                        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                        <span>Excellent Recommendation Memo!</span>
+                    </div>
+                    <p>Your memo meets the word count requirement (<strong>${wordCount} words</strong>, target: 60–90 words) and successfully incorporates <strong>${matchedTerms.length} target vocabulary terms</strong> (${matchedTerms.join(', ')}).</p>
+                    <p class="text-xs text-slate-300">Great job balancing market opportunities against global governance risks!</p>
+                `;
+            } else {
+                feedbackBox.className = "rounded-xl p-4 border bg-amber-950/30 border-amber-500/40 text-amber-200 space-y-2";
+                feedbackHtml = `
+                    <div class="font-bold flex items-center space-x-2 text-base text-amber-300">
+                        <i class="fa-solid fa-triangle-exclamation text-amber-400"></i>
+                        <span>Memo Writing Feedback & Recommendations</span>
+                    </div>
+                    <ul class="list-disc list-inside space-y-1 text-xs">
+                        <li><strong>Word Count:</strong> Current word count is <strong>${wordCount} words</strong>. ${wordCount < 60 ? 'Add a bit more reasoning to reach at least 60 words.' : wordCount > 90 ? 'Trim down slightly to stay within the 60–90 word range.' : 'Word count is on target!'}</li>
+                        <li><strong>Target Vocabulary Integration:</strong> You have included <strong>${matchedTerms.length} target terms</strong> (${matchedTerms.length > 0 ? matchedTerms.join(', ') : 'None detected yet'}). Aim for at least <strong>3 target terms</strong> (e.g., <em>net loss, guardrails, ROI, economic disruption, interest rates</em>).</li>
+                    </ul>
+                `;
+            }
+
+            feedbackBox.innerHTML = feedbackHtml;
+            feedbackBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+
+        /* -------------------------------------------------------------
+           SUMMARY REPORT GENERATION
+        ------------------------------------------------------------- */
+        function updateSummaryReport() {
+            // Part 2 Score
+            let p2Score = 0;
+            vocabData.forEach(item => {
+                if (state.part2[item.id] === item.correctDef) p2Score++;
+            });
+            document.getElementById('summary-part2-score').innerText = `${p2Score} / 12`;
+
+            // Part 3 Score
+            let p3Score = 0;
+            tfData.forEach(item => {
+                if (state.part3[item.id] === item.answer) p3Score++;
+            });
+            document.getElementById('summary-part3-score').innerText = `${p3Score} / 12`;
+
+            // Total Score
+            document.getElementById('summary-total-score').innerText = `${p2Score + p3Score} / 24`;
+
+            // Discussion
+            document.getElementById('summary-q1').innerText = state.part1.q1.trim() || "No notes recorded.";
+            document.getElementById('summary-q2').innerText = state.part1.q2.trim() || "No notes recorded.";
+
+            // Memo
+            document.getElementById('summary-memo').innerText = state.memoText.trim() || "No recommendation memo submitted.";
+        }
+
+
+        /* -------------------------------------------------------------
+           PROGRESS TRACKER & OVERALL SCORE CALCULATOR
+        ------------------------------------------------------------- */
+        function updateProgress() {
+            let p2Score = 0;
+            vocabData.forEach(item => {
+                if (state.part2[item.id] === item.correctDef) p2Score++;
+            });
+
+            let p3Score = 0;
+            tfData.forEach(item => {
+                if (state.part3[item.id] === item.answer) p3Score++;
+            });
+
+            const totalScore = p2Score + p3Score;
+            document.getElementById('total-score-text').innerText = `${totalScore} / 24 pts`;
+
+            // Progress percentage
+            let totalTasks = 12 + 12 + 2 + 1; // 12 vocab, 12 TF, 2 warmup notes, 1 memo
+            let completed = 0;
+
+            if (state.part1.q1.trim().length > 5) completed++;
+            if (state.part1.q2.trim().length > 5) completed++;
+
+            completed += Object.keys(state.part2).length;
+            completed += Object.keys(state.part3).length;
+
+            if (state.memoText.trim().split(/\s+/).length >= 30) completed++;
+
+            let percent = Math.min(100, Math.round((completed / totalTasks) * 100));
+
+            document.getElementById('overall-progress-text').innerText = `${percent}%`;
+            document.getElementById('overall-progress-bar').style.width = `${percent}%`;
+        }
+
+
+        /* -------------------------------------------------------------
+           LOCAL STORAGE PERSISTENCE
+        ------------------------------------------------------------- */
+        function saveStateToStorage() {
+            try {
+                localStorage.setItem('anthropic_ipo_worksheet', JSON.stringify(state));
+            } catch(e) {
+                console.error(e);
+            }
+        }
+
+        function loadSavedState() {
+            try {
+                const saved = localStorage.getItem('anthropic_ipo_worksheet');
+                if (saved) {
+                    state = JSON.parse(saved);
+                    if (state.part1) {
+                        if (state.part1.q1) document.getElementById('q1-input').value = state.part1.q1;
+                        if (state.part1.q2) document.getElementById('q2-input').value = state.part1.q2;
+                    }
+                    if (state.memoText) {
+                        document.getElementById('memo-text').value = state.memoText;
+                    }
+                }
+            } catch(e) {
+                console.error(e);
+            }
+        }
+
+        function resetAllData() {
+            if (confirm("Are you sure you want to reset all your answers and progress?")) {
+                localStorage.removeItem('anthropic_ipo_worksheet');
+                state = {
+                    part1: { q1: "", q2: "" },
+                    part2: {},
+                    part2Checked: false,
+                    part3: {},
+                    part3Checked: false,
+                    memoText: ""
+                };
+                document.getElementById('q1-input').value = "";
+                document.getElementById('q2-input').value = "";
+                document.getElementById('memo-text').value = "";
+                document.getElementById('badge-part2').classList.add('hidden');
+                document.getElementById('badge-part3').classList.add('hidden');
+                document.getElementById('part2-score-banner').classList.add('hidden');
+                document.getElementById('part3-score-banner').classList.add('hidden');
+                document.getElementById('memo-feedback-box').classList.add('hidden');
+                renderVocabCards();
+                renderTFQuestions();
+                updateMemoTracker();
+                updateProgress();
+                switchTab('part1');
+            }
+        }
+    </script>
+</body>
+</html>

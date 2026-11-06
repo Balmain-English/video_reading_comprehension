@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESL Worksheet: The Couples Therapists Who Nearly Got Divorced</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        ted: {
+                            red: '#E62B1E',
+                            darkred: '#B81D13',
+                            blue: '#0B5CAD',
+                            dark: '#121212'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Vue 3 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
+        .perspective { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; color: black !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
+    <div id="app" class="flex-grow flex flex-col">
+
+        <!-- TOP HEADER & NAVBAR -->
+        <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur border-b border-slate-200 dark:border-slate-800 no-print shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-ted-red text-white font-bold px-2.5 py-1 text-sm tracking-wider rounded flex items-center">
+                        <span>TED</span>
+                        <span class="ml-1 pl-1 border-l border-red-200 text-xs font-medium">ESL</span>
+                    </div>
+                    <span class="font-bold text-base sm:text-lg tracking-tight truncate hidden sm:inline">The couples therapists who nearly got divorced</span>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <button v-for="(step, idx) in steps" :key="idx"
+                            @click="currentStep = idx + 1"
+                            :class="[
+                                'px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center space-x-1.5',
+                                currentStep === idx + 1
+                                    ? 'bg-ted-red text-white shadow-md'
+                                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                            ]">
+                        <span class="w-4 h-4 rounded-full flex items-center justify-center text-[10px] border"
+                              :class="currentStep === idx + 1 ? 'border-white bg-white/20' : 'border-slate-400 dark:border-slate-600'">
+                            {{ idx + 1 }}
+                        </span>
+                        <span>{{ step.shortTitle }}</span>
+                    </button>
+                </div>
+
+                <div class="flex items-center space-x-3">
+                    <div class="text-xs text-emerald-600 dark:text-emerald-400 flex items-center bg-emerald-50 dark:bg-emerald-950/50 px-2.5 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse mr-1.5"></span>
+                        <span class="hidden sm:inline">Progress Auto-Saved</span>
+                        <span class="sm:hidden">Saved</span>
+                    </div>
+
+                    <button @click="toggleDarkMode"
+                            class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
+                            :title="isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
+                        <svg v-if="!isDark" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                        <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Step Progress Sub-bar -->
+            <div class="md:hidden flex border-t border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 overflow-x-auto py-2 px-3 space-x-2">
+                <button v-for="(step, idx) in steps" :key="idx"
+                        @click="currentStep = idx + 1"
+                        :class="[
+                            'px-2.5 py-1 text-xs font-semibold rounded-md flex-shrink-0 flex items-center space-x-1',
+                            currentStep === idx + 1 ? 'bg-ted-red text-white' : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300'
+                        ]">
+                    <span>{{ idx + 1 }}.</span>
+                    <span>{{ step.shortTitle }}</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- MAIN CONTAINER -->
+        <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+            <!-- SECTION HEADER BANNER -->
+            <div class="mb-8 no-print">
+                <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-ted-blue dark:text-blue-400 mb-1">
+                    <span>Section {{ currentStep }} of 5</span>
+                    <span>Completion: {{ overallProgress }}%</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+                    {{ steps[currentStep - 1].title }}
+                </h1>
+                <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">
+                    {{ steps[currentStep - 1].subtitle }}
+                </p>
+                <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2 mt-4 overflow-hidden">
+                    <div class="bg-ted-red h-full transition-all duration-300" :style="{ width: ((currentStep / 5) * 100) + '%' }"></div>
+                </div>
+            </div>
+
+
+            <!-- ================= SECTION 1: WARM-UP DISCUSSION ================= -->
+            <div v-show="currentStep === 1" class="space-y-8">
+
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-red-100 dark:bg-red-950/60 text-ted-red dark:text-red-400 p-3 rounded-xl flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Part 1: Key Warm-Up Questions</h2>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">Think about these questions about love, conflict and communication before you watch the TED talk.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200/80 dark:border-slate-700/60">
+                            <span class="text-xs font-bold text-ted-red uppercase">Topic A</span>
+                            <h3 class="font-semibold text-slate-800 dark:text-slate-200 mt-1 text-sm">Talking vs Listening</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs mt-2">Which is harder for you: talking about your feelings or listening to someone else's? Why do many people only wait for their turn to speak?</p>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200/80 dark:border-slate-700/60">
+                            <span class="text-xs font-bold text-ted-red uppercase">Topic B</span>
+                            <h3 class="font-semibold text-slate-800 dark:text-slate-200 mt-1 text-sm">Arguments in Relationships</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs mt-2">What do couples (or friends, or family members) argue about most? Is arguing always a bad sign for a relationship?</p>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200/80 dark:border-slate-700/60">
+                            <span class="text-xs font-bold text-ted-red uppercase">Topic C</span>
+                            <h3 class="font-semibold text-slate-800 dark:text-slate-200 mt-1 text-sm">Experts and Real Life</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs mt-2">Can a relationship expert have problems in their own marriage? Does that make their advice less trustworthy, or more?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Opinion Sliders -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Part 2: Agree or Disagree Sliders</h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-6">Move the sliders to show your opinion (1 = Strongly Disagree, 5 = Strongly Agree).</p>
+
+                    <div class="space-y-6">
+                        <div v-for="(slider, index) in warmUpSliders" :key="index" class="bg-slate-50 dark:bg-slate-800/30 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                            <div class="flex justify-between items-center mb-2 gap-3">
+                                <label class="text-sm font-medium text-slate-800 dark:text-slate-200">{{ slider.question }}</label>
+                                <span class="px-2.5 py-1 text-xs font-bold rounded-md bg-ted-red/10 text-ted-red dark:bg-ted-red/20 dark:text-red-300 flex-shrink-0">
+                                    {{ sliderLabels[slider.value - 1] }} ({{ slider.value }}/5)
+                                </span>
+                            </div>
+                            <input type="range" min="1" max="5" step="1" v-model.number="slider.value"
+                                   class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-ted-red">
+                            <div class="flex justify-between text-[11px] text-slate-400 mt-1">
+                                <span>Strongly Disagree</span>
+                                <span>Neutral</span>
+                                <span>Strongly Agree</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Discussion Response Box -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-1">Part 3: Personal Response &amp; Discussion Notes</h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">Click a phrase starter to add it to your notes, then finish your thought.</p>
+
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <button v-for="starter in sentenceStarters" :key="starter"
+                                @click="insertSentenceStarter(starter)"
+                                class="text-xs bg-slate-100 dark:bg-slate-800 hover:bg-ted-red hover:text-white dark:hover:bg-ted-red text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 transition">
+                            + "{{ starter }}"
+                        </button>
+                    </div>
+
+                    <textarea v-model="userNotes.warmup"
+                              placeholder="Type your first thoughts: why do so many people find it hard to really listen to their partner?"
+                              rows="5"
+                              class="w-full p-4 text-sm bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-slate-100 rounded-xl border border-slate-300 dark:border-slate-700 focus:ring-2 focus:ring-ted-red focus:outline-none transition"></textarea>
+                </div>
+            </div>
+
+
+            <!-- ================= SECTION 2: VOCABULARY ================= -->
+            <div v-show="currentStep === 2" class="space-y-8">
+
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="mb-4">
+                        <h2 class="text-xl font-bold text-slate-900 dark:text-white">Part 1: Key Vocabulary Flashcards</h2>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm">Click a card to flip it and see the definition and how the word is used in the talk. Click the speaker icon to hear the pronunciation.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div v-for="(vocab, idx) in vocabList" :key="idx"
+                             @click="vocab.flipped = !vocab.flipped"
+                             class="perspective h-64 cursor-pointer group">
+                            <div class="relative w-full h-full duration-500 transform-style-3d transition-transform rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md"
+                                 :class="{ 'rotate-y-180': vocab.flipped }">
+
+                                <!-- FRONT -->
+                                <div class="absolute inset-0 w-full h-full bg-slate-50 dark:bg-slate-800 p-5 rounded-2xl backface-hidden flex flex-col justify-between border-t-4 border-ted-red">
+                                    <div>
+                                        <div class="flex justify-between items-start">
+                                            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded">
+                                                {{ vocab.partOfSpeech }}
+                                            </span>
+                                            <button @click.stop="speakText(vocab.term)" class="text-slate-400 hover:text-ted-red p-1 rounded-full transition" title="Listen to pronunciation">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+                                            </button>
+                                        </div>
+                                        <h3 class="text-xl font-extrabold text-slate-900 dark:text-white mt-3">{{ vocab.term }}</h3>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400 italic mt-1 font-mono">{{ vocab.phonetic }}</p>
+                                    </div>
+                                    <div class="text-center pt-2 border-t border-slate-200 dark:border-slate-700/60">
+                                        <span class="text-xs text-ted-red dark:text-red-400 font-medium flex items-center justify-center">
+                                            <span>Click to see definition</span>
+                                            <svg class="w-3.5 h-3.5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- BACK -->
+                                <div class="absolute inset-0 w-full h-full bg-slate-900 text-white p-5 rounded-2xl backface-hidden rotate-y-180 flex flex-col justify-between border-t-4 border-ted-blue">
+                                    <div>
+                                        <h4 class="font-bold text-blue-400 text-sm uppercase tracking-wide">Definition</h4>
+                                        <p class="text-xs text-slate-200 mt-1 leading-relaxed">{{ vocab.definition }}</p>
+                                        <h4 class="font-bold text-blue-400 text-xs uppercase tracking-wide mt-3">In the Talk</h4>
+                                        <p class="text-[11px] text-slate-300 italic mt-0.5 leading-snug">{{ vocab.example }}</p>
+                                    </div>
+                                    <div class="text-center text-[10px] text-slate-400 pt-2 border-t border-slate-800">Click to flip back</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vocabulary Fill-In-The-Blanks -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-6 gap-2">
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Part 2: Vocabulary Fill-In-The-Blanks</h2>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm">Choose the correct word or phrase to complete each sentence.</p>
+                        </div>
+                        <button @click="resetVocabQuiz" class="self-start sm:self-auto text-xs px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+                            Reset Quiz
+                        </button>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div v-for="(q, index) in vocabQuiz" :key="index" class="p-4 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-800">
+                            <p class="text-sm text-slate-800 dark:text-slate-200 leading-relaxed mb-3">
+                                <span class="font-bold text-ted-red mr-2">{{ index + 1 }}.</span>
+                                <span v-html="formatSentenceWithBlank(q.sentence, q.userAnswer)"></span>
+                            </p>
+
+                            <div class="flex flex-wrap gap-2">
+                                <select v-model="q.userAnswer" :disabled="q.checked"
+                                        class="text-xs p-2 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg border border-slate-300 dark:border-slate-700 focus:ring-ted-red focus:outline-none">
+                                    <option value="" disabled>-- Select Vocabulary Term --</option>
+                                    <option v-for="term in vocabOptions" :key="term" :value="term">{{ term }}</option>
+                                </select>
+
+                                <button v-if="!q.checked" @click="checkVocabItem(q)" :disabled="!q.userAnswer"
+                                        class="text-xs px-3 py-1.5 bg-ted-red text-white rounded-lg disabled:opacity-50 hover:bg-ted-darkred transition">
+                                    Check
+                                </button>
+
+                                <div v-if="q.checked" class="flex items-center text-xs font-semibold space-x-2">
+                                    <span v-if="q.isCorrect" class="text-emerald-600 dark:text-emerald-400 flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                        Correct!
+                                    </span>
+                                    <span v-else class="text-rose-600 dark:text-rose-400 flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                        Incorrect (Correct: {{ q.correctAnswer }})
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ================= SECTION 3: VIDEO VIEWING & GUIDE ================= -->
+            <div v-show="currentStep === 3" class="space-y-8">
+
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Part 1: TED Talk Video Player</h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">Watch Harville Hendrix's talk (TED2026, about 14 minutes). Use the listening checklist below to follow the story as it unfolds. Turn on English subtitles if you need them.</p>
+
+                    <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-lg">
+                        <iframe id="ted-video"
+                                src="https://embed.ted.com/talks/harville_hendrix_the_couples_therapists_who_nearly_got_divorced"
+                                class="w-full h-full border-0"
+                                allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                                allowfullscreen></iframe>
+                    </div>
+                    <p class="text-[11px] text-slate-500 mt-2">
+                        Video not loading? <a class="text-ted-blue dark:text-blue-400 underline" target="_blank" rel="noopener" href="https://www.ted.com/talks/harville_hendrix_the_couples_therapists_who_nearly_got_divorced">Open it on TED.com</a> (the full transcript is available there too).
+                    </p>
+
+                    <!-- Listening Roadmap -->
+                    <div class="mt-6">
+                        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Listening Roadmap: tick each idea when you hear it</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <label v-for="(seg, i) in videoSegments" :key="i"
+                                   class="flex items-start p-3 bg-slate-100 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-ted-red transition">
+                                <input type="checkbox" v-model="seg.heard" class="mt-0.5 h-4 w-4 accent-ted-red">
+                                <span class="ml-3">
+                                    <span class="font-mono font-bold text-ted-red dark:text-red-400 text-xs block">Part {{ i + 1 }}</span>
+                                    <span class="text-xs font-medium leading-snug block text-slate-800 dark:text-slate-200">{{ seg.label }}</span>
+                                </span>
+                            </label>
+                        </div>
+                        <p class="text-[11px] text-slate-500 mt-2">Heard so far: {{ videoSegments.filter(s => s.heard).length }} / {{ videoSegments.length }}</p>
+                    </div>
+                </div>
+
+                <!-- Video Notes Tracker -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center justify-between mb-2">
+                        <h2 class="text-lg font-bold text-slate-900 dark:text-white">Part 2: Video Notes &amp; Observations Tracker</h2>
+                        <span class="text-xs text-slate-500">Auto-saves to browser</span>
+                    </div>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">Write down key facts, phrases and questions as you watch.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">📊 Key Facts, Numbers &amp; Quotes Heard</label>
+                            <textarea v-model="userNotes.videoStats"
+                                      placeholder="e.g. In 1999, about a million couples got divorced... The therapist said they were..."
+                                      rows="4"
+                                      class="w-full p-3 text-xs bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-slate-100 rounded-xl border border-slate-300 dark:border-slate-700 focus:ring-ted-red focus:outline-none"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">💭 The Method: Steps &amp; Rules of the Conversation</label>
+                            <textarea v-model="userNotes.videoCauses"
+                                      placeholder="e.g. Ask permission first ('Is now a good time to talk?'), then mirroring, validation..."
+                                      rows="4"
+                                      class="w-full p-3 text-xs bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-slate-100 rounded-xl border border-slate-300 dark:border-slate-700 focus:ring-ted-red focus:outline-none"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ================= SECTION 4: COMPREHENSION & DATA ================= -->
+            <div v-show="currentStep === 4" class="space-y-8">
+
+                <!-- Data Matching -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Part 1: Facts &amp; Figures Matching Challenge</h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-6">Match each detail from the talk to the correct number or word.</p>
+
+                    <div class="space-y-4">
+                        <div v-for="(item, idx) in dataMatchingList" :key="idx"
+                             class="p-4 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <div class="flex-grow">
+                                <p class="text-sm font-medium text-slate-800 dark:text-slate-200">{{ item.description }}</p>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <select v-model="item.userSelect" :disabled="dataMatchedChecked"
+                                        class="text-xs p-2 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-mono font-bold rounded-lg border border-slate-300 dark:border-slate-700">
+                                    <option value="" disabled>-- Select Value --</option>
+                                    <option v-for="val in dataValues" :key="val" :value="val">{{ val }}</option>
+                                </select>
+                                <span v-if="dataMatchedChecked" class="text-sm">
+                                    <span v-if="item.userSelect === item.correctVal" class="text-emerald-500 font-bold">✓</span>
+                                    <span v-else class="text-rose-500 font-bold">✗ ({{ item.correctVal }})</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex justify-between items-center">
+                        <button @click="checkDataMatching" :disabled="dataMatchedChecked"
+                                class="px-4 py-2 bg-ted-red text-white text-xs font-semibold rounded-xl hover:bg-ted-darkred transition disabled:opacity-50">
+                            Check Matching
+                        </button>
+                        <span v-if="dataMatchedChecked" class="text-xs font-bold text-ted-blue dark:text-blue-400">
+                            Score: {{ dataScore }} / {{ dataMatchingList.length }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Comprehension Questions -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Part 2: Video Comprehension Questions</h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-6">Choose the best answer based on the talk.</p>
+
+                    <div class="space-y-6">
+                        <div v-for="(q, qIdx) in comprehensionQuestions" :key="qIdx"
+                             class="p-5 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-800">
+                            <p class="text-sm font-bold text-slate-900 dark:text-slate-100 mb-3">{{ qIdx + 1 }}. {{ q.question }}</p>
+
+                            <div class="space-y-2">
+                                <label v-for="(opt, optIdx) in q.options" :key="optIdx"
+                                       class="flex items-center p-2.5 rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition">
+                                    <input type="radio" :name="'q_' + qIdx" :value="optIdx" v-model="q.userAnswer" :disabled="q.checked"
+                                           class="text-ted-red focus:ring-ted-red h-4 w-4">
+                                    <span class="ml-3 text-xs text-slate-800 dark:text-slate-200">{{ opt }}</span>
+                                </label>
+                            </div>
+
+                            <div v-if="q.checked" class="mt-3 p-3 text-xs rounded-lg" :class="q.userAnswer === q.correct ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300' : 'bg-rose-100 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300'">
+                                <p class="font-bold">{{ q.userAnswer === q.correct ? 'Correct!' : 'Incorrect.' }}</p>
+                                <p class="mt-1">{{ q.explanation }}</p>
+                            </div>
+
+                            <div class="mt-3" v-if="!q.checked">
+                                <button @click="q.checked = true" :disabled="q.userAnswer === null"
+                                        class="text-xs px-3 py-1.5 bg-slate-800 text-white dark:bg-slate-700 rounded-lg hover:bg-slate-700 transition disabled:opacity-50">
+                                    Submit Answer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ================= SECTION 5: DEBRIEF & ACTION ================= -->
+            <div v-show="currentStep === 5" class="space-y-8">
+
+                <!-- Perspective Role-Play -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Part 1: Perspective Role-Play</h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">Choose a character from the story and write your response from their point of view.</p>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                        <button v-for="persona in personas" :key="persona.id"
+                                @click="selectedPersona = persona.id"
+                                :class="[
+                                    'p-3 rounded-xl border text-left transition flex flex-col justify-between',
+                                    selectedPersona === persona.id
+                                        ? 'border-ted-red bg-red-50 dark:bg-red-950/30 ring-2 ring-ted-red'
+                                        : 'border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/40'
+                                ]">
+                            <span class="text-2xl mb-2">{{ persona.icon }}</span>
+                            <div>
+                                <span class="font-bold text-xs text-slate-900 dark:text-white block">{{ persona.name }}</span>
+                                <span class="text-[10px] text-slate-500 block leading-tight">{{ persona.role }}</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <div v-if="activePersona" class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                        <div class="flex items-center space-x-2 mb-2">
+                            <span class="text-xl">{{ activePersona.icon }}</span>
+                            <h3 class="font-bold text-sm text-slate-900 dark:text-white">Role: {{ activePersona.name }}</h3>
+                        </div>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 italic mb-3">"{{ activePersona.prompt }}"</p>
+                        <textarea v-model="userNotes.personaResponses[activePersona.id]"
+                                  placeholder="Write your response from this character's perspective..."
+                                  rows="4"
+                                  class="w-full p-3 text-xs bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-xl border border-slate-300 dark:border-slate-700 focus:ring-ted-red focus:outline-none"></textarea>
+                    </div>
+                </div>
+
+                <!-- "Rebuild the Conversation" Simulator -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-4 gap-2">
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Part 2: "Rebuild the Conversation" Simulator</h2>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm">Choose the habits that would turn a bad argument into a safe conversation.</p>
+                        </div>
+
+                        <div class="bg-slate-100 dark:bg-slate-800 p-3 rounded-xl flex items-center space-x-3 border border-slate-200 dark:border-slate-700">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold text-slate-500 block">Connection Score</span>
+                                <span class="text-xl font-extrabold" :class="connectionScore >= 70 ? 'text-emerald-600 dark:text-emerald-400' : 'text-ted-red'">
+                                    {{ connectionScore }} / 100
+                                </span>
+                            </div>
+                            <div class="text-right border-l border-slate-300 dark:border-slate-700 pl-3">
+                                <span class="text-[10px] uppercase font-bold text-slate-500 block">Couple's Mood</span>
+                                <span class="text-sm font-bold text-ted-blue dark:text-blue-400">{{ coupleMood }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+                        <div v-for="habit in habits" :key="habit.id"
+                             @click="habit.active = !habit.active"
+                             :class="[
+                                 'p-3.5 rounded-xl border cursor-pointer transition flex items-start justify-between',
+                                 habit.active
+                                     ? 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-500 dark:border-emerald-600'
+                                     : 'bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-slate-800'
+                             ]">
+                            <div class="pr-2">
+                                <div class="flex items-center space-x-2">
+                                    <span class="font-bold text-xs text-slate-900 dark:text-white">{{ habit.name }}</span>
+                                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300">+{{ habit.impact }} pts</span>
+                                </div>
+                                <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-1 leading-snug">{{ habit.description }}</p>
+                            </div>
+                            <div class="w-5 h-5 rounded-md border flex items-center justify-center flex-shrink-0 mt-0.5"
+                                 :class="habit.active ? 'bg-emerald-600 border-emerald-600 text-white' : 'border-slate-400 bg-white dark:bg-slate-800'">
+                                <svg v-if="habit.active" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Export -->
+                <div class="bg-gradient-to-r from-ted-red to-red-800 text-white p-6 rounded-2xl shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-lg font-bold">Worksheet Complete!</h2>
+                        <p class="text-xs text-red-100 mt-0.5">Generate a printable summary with your quiz results, notes and role-play.</p>
+                    </div>
+                    <button @click="showSummaryModal = true"
+                            class="px-5 py-2.5 bg-white text-ted-red font-bold text-xs rounded-xl hover:bg-red-50 transition shadow">
+                        📄 View &amp; Print Summary Report
+                    </button>
+                </div>
+            </div>
+
+
+            <!-- NEXT / PREVIOUS FOOTER CONTROLS -->
+            <div class="mt-8 flex justify-between items-center pt-4 border-t border-slate-200 dark:border-slate-800 no-print">
+                <button @click="currentStep--" :disabled="currentStep === 1"
+                        class="px-4 py-2 bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-semibold text-xs rounded-xl hover:bg-slate-300 dark:hover:bg-slate-700 transition disabled:opacity-40">
+                    ← Previous Step
+                </button>
+                <div class="text-xs font-semibold text-slate-500">Step {{ currentStep }} of 5</div>
+                <button @click="currentStep++" :disabled="currentStep === 5"
+                        class="px-4 py-2 bg-ted-red text-white font-semibold text-xs rounded-xl hover:bg-ted-darkred transition disabled:opacity-40">
+                    Next Step →
+                </button>
+            </div>
+        </main>
+
+
+        <!-- SUMMARY & EXPORT MODAL -->
+        <div v-if="showSummaryModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+            <div class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-2xl max-w-3xl w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800 max-h-[90vh] overflow-y-auto">
+
+                <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-4 mb-4">
+                    <div class="flex items-center space-x-2">
+                        <span class="bg-ted-red text-white font-bold text-xs px-2 py-0.5 rounded">TED ESL</span>
+                        <h2 class="text-lg font-bold">Student Summary Report</h2>
+                    </div>
+                    <button @click="showSummaryModal = false" class="text-slate-400 hover:text-slate-600 p-1 no-print">✕</button>
+                </div>
+
+                <div id="printable-report" class="space-y-6 text-xs">
+
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl">
+                        <h3 class="font-bold text-sm text-ted-red uppercase">1. Warm-Up &amp; Opinion Stances</h3>
+                        <div class="mt-2 space-y-1">
+                            <p v-for="(slider, idx) in warmUpSliders" :key="idx">
+                                • <strong>{{ slider.question }}</strong>: {{ slider.value }}/5 ({{ sliderLabels[slider.value - 1] }})
+                            </p>
+                        </div>
+                        <div class="mt-3">
+                            <strong>Discussion Notes:</strong>
+                            <p class="italic text-slate-600 dark:text-slate-300 mt-1">{{ userNotes.warmup || 'No response typed.' }}</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl">
+                        <h3 class="font-bold text-sm text-ted-red uppercase">2. Vocabulary Practice</h3>
+                        <p>Vocabulary Quiz Score: <strong>{{ vocabScore }} / {{ vocabQuiz.length }}</strong></p>
+                    </div>
+
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl">
+                        <h3 class="font-bold text-sm text-ted-red uppercase">3. Video Observations</h3>
+                        <p>Ideas heard: <strong>{{ videoSegments.filter(s => s.heard).length }} / {{ videoSegments.length }}</strong></p>
+                        <p class="mt-1"><strong>Facts &amp; Quotes Noted:</strong> {{ userNotes.videoStats || 'None' }}</p>
+                        <p class="mt-1"><strong>Method Noted:</strong> {{ userNotes.videoCauses || 'None' }}</p>
+                    </div>
+
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl">
+                        <h3 class="font-bold text-sm text-ted-red uppercase">4. Data &amp; Comprehension Score</h3>
+                        <p>Facts Matching: <strong>{{ dataScore }} / {{ dataMatchingList.length }}</strong></p>
+                        <p>Comprehension Quiz: <strong>{{ compScore }} / {{ comprehensionQuestions.length }}</strong></p>
+                    </div>
+
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl">
+                        <h3 class="font-bold text-sm text-ted-red uppercase">5. Role-Play &amp; Conversation Habits</h3>
+                        <p>Selected Character: <strong>{{ activePersona ? activePersona.name : 'None' }}</strong></p>
+                        <p class="italic text-slate-600 dark:text-slate-300 mt-1">
+                            "{{ activePersona && userNotes.personaResponses[activePersona.id] ? userNotes.personaResponses[activePersona.id] : 'No role-play response typed.' }}"
+                        </p>
+                        <p class="mt-2">Simulated Connection Score: <strong>{{ connectionScore }} / 100</strong></p>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-end space-x-3 border-t border-slate-200 dark:border-slate-800 pt-4 no-print">
+                    <button @click="printReport" class="px-4 py-2 bg-ted-blue text-white font-semibold text-xs rounded-xl hover:bg-blue-700 transition">
+                        🖨️ Print / Save PDF
+                    </button>
+                    <button @click="showSummaryModal = false" class="px-4 py-2 bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-semibold text-xs rounded-xl transition">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    currentStep: 1,
+                    isDark: false,
+                    showSummaryModal: false,
+
+                    steps: [
+                        { shortTitle: 'Warm-Up', title: 'Warm-Up & Discussion', subtitle: 'Explore your opinions about listening, conflict and relationships.' },
+                        { shortTitle: 'Vocabulary', title: 'Vocabulary Introduction', subtitle: 'Learn 8 key words and phrases from the TED talk.' },
+                        { shortTitle: 'Video Guide', title: 'Video Viewing & Guide', subtitle: 'Watch the talk and follow the story with the listening roadmap.' },
+                        { shortTitle: 'Comprehension', title: 'Comprehension & Facts', subtitle: 'Match key details and answer questions about the talk.' },
+                        { shortTitle: 'Debrief', title: 'Debrief & Action', subtitle: 'Role-play the characters and rebuild a better conversation.' }
+                    ],
+
+                    // Section 1
+                    warmUpSliders: [
+                        { question: '1. Most people are better at talking than at listening.', value: 4 },
+                        { question: '2. Arguments are a normal and healthy part of any relationship.', value: 3 },
+                        { question: '3. Couples should never go to bed angry.', value: 3 },
+                        { question: '4. A relationship expert should have a perfect relationship.', value: 2 }
+                    ],
+                    sliderLabels: ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree'],
+                    sentenceStarters: [
+                        'In my opinion,',
+                        'From my experience,',
+                        'On the one hand,',
+                        'Many people find it hard to',
+                        'It seems clear that'
+                    ],
+
+                    // Section 2
+                    vocabList: [
+                        { term: 'Mirroring', partOfSpeech: 'Noun', phonetic: '/ˈmɪr.ər.ɪŋ/', definition: 'Repeating back what your partner said, as accurately as you can, to show that you really heard it.', example: 'Hendrix explains that mirroring is what turns listening into real engagement.', flipped: false },
+                        { term: 'Validation', partOfSpeech: 'Noun', phonetic: '/ˌvæl.ɪˈdeɪ.ʃən/', definition: 'Telling someone that what they say makes sense from their point of view, even if you see things differently.', example: 'In the second step, partners validate each other while accepting that they are different people.', flipped: false },
+                        { term: 'Empathy', partOfSpeech: 'Noun', phonetic: '/ˈem.pə.θi/', definition: 'The ability to imagine and share what another person is feeling.', example: 'Empathy is the third step of the conversation structure Hendrix and Helen use with couples.', flipped: false },
+                        { term: 'Dialogical conversation', partOfSpeech: 'Noun Phrase', phonetic: '/ˌdaɪ.əˈlɒdʒ.ɪ.kəl/', definition: 'A conversation in which two people take turns speaking and listening, without criticism or judgment.', example: 'Hendrix defines it as listening and talking without criticizing, and connecting beyond your differences.', flipped: false },
+                        { term: 'Couple from hell', partOfSpeech: 'Idiom', phonetic: '/ˈkʌp.əl frəm hel/', definition: 'A couple so difficult or so argumentative that nobody wants to work with them.', example: 'In the third session, their own therapist used this phrase about them.', flipped: false },
+                        { term: 'Untreatable', partOfSpeech: 'Adjective', phonetic: '/ʌnˈtriː.tə.bəl/', definition: 'Impossible to help or cure with treatment.', example: 'The therapist told Harville and Helen they were untreatable, and the audience laughs.', flipped: false },
+                        { term: 'Initiator', partOfSpeech: 'Noun', phonetic: '/ɪˈnɪʃ.i.eɪ.tər/', definition: 'The person who starts an idea, plan or action.', example: 'Hendrix says Helen is the initiator in the relationship, the one who came up with the listening idea.', flipped: false },
+                        { term: 'Haggle', partOfSpeech: 'Verb', phonetic: '/ˈhæɡ.əl/', definition: 'To argue for a long time about the terms of something, trying to get a better deal.', example: 'Hendrix jokes that he haggled with the therapist instead of listening to her.', flipped: false }
+                    ],
+
+                    vocabQuiz: [
+                        { sentence: "Repeating back exactly what your partner said, to show you heard it, is called ___.", correctAnswer: "Mirroring", userAnswer: "", checked: false, isCorrect: false },
+                        { sentence: "Saying \"you make sense\" even when you see things differently is an example of ___.", correctAnswer: "Validation", userAnswer: "", checked: false, isCorrect: false },
+                        { sentence: "Their therapist was so frustrated that she called Harville and Helen the ___.", correctAnswer: "Couple from hell", userAnswer: "", checked: false, isCorrect: false },
+                        { sentence: "Helen is usually the ___ in the relationship: she is the one who comes up with new ideas.", correctAnswer: "Initiator", userAnswer: "", checked: false, isCorrect: false },
+                        { sentence: "A conversation where both people listen and talk without criticism or judgment is a ___.", correctAnswer: "Dialogical conversation", userAnswer: "", checked: false, isCorrect: false }
+                    ],
+
+                    // Section 3
+                    videoSegments: [
+                        { label: 'Hendrix introduces Helen, his partner in life and work, and a startling divorce statistic.', heard: false },
+                        { label: 'Two experts in love admit they considered divorce several times.', heard: false },
+                        { label: 'Their therapist loses patience and calls them the "couple from hell".', heard: false },
+                        { label: 'On the way home, Helen comes up with the idea of a new kind of conversation.', heard: false },
+                        { label: 'The rules: no criticism, no judgment, and connecting beyond differences.', heard: false },
+                        { label: 'The three-step structure: ask permission, mirroring, validation (and empathy).', heard: false },
+                        { label: 'After a few weeks, they realize neither of them felt safe or visible. Their very different childhoods are described.', heard: false },
+                        { label: 'The conclusion: listening is the first act of love, and it is never too late to start.', heard: false }
+                    ],
+
+                    userNotes: {
+                        warmup: '',
+                        videoStats: '',
+                        videoCauses: '',
+                        personaResponses: {}
+                    },
+
+                    // Section 4
+                    dataValues: ['1999', 'Third', '3', 'One year', '10', 'Fifth'],
+                    dataMatchingList: [
+                        { description: 'The year Hendrix mentions when about a million couples got divorced', correctVal: '1999', userSelect: '' },
+                        { description: 'The therapy session in which the therapist called them "the couple from hell"', correctVal: 'Third', userSelect: '' },
+                        { description: 'The number of steps in the structured conversation (mirroring, validation, empathy)', correctVal: '3', userSelect: '' },
+                        { description: 'How long the couple\'s listening experiment lasted', correctVal: 'One year', userSelect: '' }
+                    ],
+                    dataMatchedChecked: false,
+
+                    comprehensionQuestions: [
+                        {
+                            question: 'What did the couple\'s therapist tell them in the third session?',
+                            options: ['They should get divorced immediately', 'They were the "couple from hell" and untreatable', 'They were her favourite clients', 'They should take a long holiday'],
+                            correct: 1,
+                            userAnswer: null,
+                            checked: false,
+                            explanation: 'The therapist nearly yelled that they were "the couple from hell" and untreatable. The audience laughs, because they were professional couples therapists themselves.'
+                        },
+                        {
+                            question: 'What question do you always ask before starting the conversation?',
+                            options: ['"Whose fault is this?"', '"Do you still love me?"', '"Is now a good time to talk?"', '"Can we talk about the money?"'],
+                            correct: 2,
+                            userAnswer: null,
+                            checked: false,
+                            explanation: 'You always begin by asking permission: "Is now a good time to talk?" This prevents the collision of two people who are each busy in their own worlds.'
+                        },
+                        {
+                            question: 'According to Hendrix, what does mirroring do?',
+                            options: ['It turns listening into engagement', 'It helps you win the argument', 'It stops the other person from talking', 'It makes both partners agree'],
+                            correct: 0,
+                            userAnswer: null,
+                            checked: false,
+                            explanation: 'Hendrix says mirroring is what turns listening into engagement: you show your partner that you have really heard them.'
+                        },
+                        {
+                            question: 'What did Harville and Helen discover after a few weeks of talking this way?',
+                            options: ['They had nothing left to say', 'They agreed about everything', 'Neither of them felt safe or visible in the relationship', 'They no longer needed a therapist'],
+                            correct: 2,
+                            userAnswer: null,
+                            checked: false,
+                            explanation: 'Their new conversations showed that neither partner felt safe or visible. They then explored how very different their childhoods had been.'
+                        },
+                        {
+                            question: 'Why does Hendrix call listening "the first act of love"?',
+                            options: ['Because you cannot love someone you do not know, and you cannot know them without listening', 'Because people who listen never argue', 'Because listening is easier than talking', 'Because therapists say so'],
+                            correct: 0,
+                            userAnswer: null,
+                            checked: false,
+                            explanation: 'His reasoning: you cannot love whom you do not know, and you cannot know without listening. He ends by saying it is never too late to start listening and loving.'
+                        }
+                    ],
+
+                    // Section 5
+                    personas: [
+                        { id: 'harville', name: 'Harville', role: 'Therapist & speaker', icon: '🎤', prompt: 'You are Harville. Why was it so hard for you to listen to your own wife, even though you teach couples for a living?' },
+                        { id: 'helen', name: 'Helen', role: 'The initiator', icon: '💡', prompt: 'You are Helen. On the drive home you suggested a yearlong experiment in listening. Explain your idea and why you believed it could work.' },
+                        { id: 'therapist', name: 'The Therapist', role: 'Marriage counselor', icon: '🛋️', prompt: 'You are the counselor who lost patience in the third session. What did you see happening between this couple?' },
+                        { id: 'couple', name: 'A Modern Couple', role: 'Stuck in arguments', icon: '💬', prompt: 'You and your partner argue about the same thing every week. After hearing this talk, what would you ask your partner tonight?' }
+                    ],
+                    selectedPersona: 'harville',
+
+                    habits: [
+                        { id: 1, name: 'Ask Permission First', impact: 15, active: false, description: 'Start with "Is now a good time to talk?" instead of attacking by surprise.' },
+                        { id: 2, name: 'Mirror Before You Reply', impact: 20, active: false, description: 'Repeat what you heard and ask "Did I get that?" before you give your own view.' },
+                        { id: 3, name: 'Validate the Difference', impact: 20, active: false, description: 'Say "You make sense" even when you disagree, because you are two different people.' },
+                        { id: 4, name: 'Show Empathy', impact: 15, active: false, description: 'Imagine how your partner feels and say it out loud.' },
+                        { id: 5, name: 'Drop the Criticism', impact: 15, active: false, description: 'Talk and listen without criticizing or judging, to break the cycle of attack and defense.' },
+                        { id: 6, name: 'Give Full Attention', impact: 5, active: false, description: 'Put the phone away and look at your partner while they speak.' }
+                    ]
+                }
+            },
+
+            computed: {
+                vocabOptions() { return this.vocabList.map(v => v.term); },
+                activePersona() { return this.personas.find(p => p.id === this.selectedPersona); },
+                vocabScore() { return this.vocabQuiz.filter(q => q.isCorrect).length; },
+                dataScore() { return this.dataMatchingList.filter(item => item.userSelect === item.correctVal).length; },
+                compScore() { return this.comprehensionQuestions.filter(q => q.checked && q.userAnswer === q.correct).length; },
+                connectionScore() {
+                    const baseScore = 10;
+                    const added = this.habits.filter(h => h.active).reduce((sum, h) => sum + h.impact, 0);
+                    return Math.min(100, baseScore + added);
+                },
+                coupleMood() {
+                    const s = this.connectionScore;
+                    if (s >= 80) return 'Safe & seen 💞';
+                    if (s >= 55) return 'Getting closer 🙂';
+                    if (s >= 30) return 'Still tense 😬';
+                    return 'Couple from hell 🔥';
+                },
+                overallProgress() { return Math.round((this.currentStep / 5) * 100); }
+            },
+
+            mounted() {
+                this.loadFromStorage();
+            },
+
+            watch: {
+                userNotes: { deep: true, handler() { this.saveToStorage(); } },
+                warmUpSliders: { deep: true, handler() { this.saveToStorage(); } },
+                videoSegments: { deep: true, handler() { this.saveToStorage(); } },
+                currentStep() { this.saveToStorage(); }
+            },
+
+            methods: {
+                toggleDarkMode() {
+                    this.isDark = !this.isDark;
+                    document.documentElement.classList.toggle('dark', this.isDark);
+                },
+
+                insertSentenceStarter(starter) {
+                    this.userNotes.warmup = this.userNotes.warmup
+                        ? this.userNotes.warmup + ' ' + starter + ' '
+                        : starter + ' ';
+                },
+
+                speakText(text) {
+                    if ('speechSynthesis' in window) {
+                        const utterance = new SpeechSynthesisUtterance(text);
+                        utterance.lang = 'en-US';
+                        window.speechSynthesis.speak(utterance);
+                    } else {
+                        alert('Text-to-speech is not supported in your browser.');
+                    }
+                },
+
+                formatSentenceWithBlank(sentence, answer) {
+                    const display = answer
+                        ? `<u class="font-bold text-ted-red">${answer}</u>`
+                        : '<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>';
+                    return sentence.replace('___', display);
+                },
+
+                checkVocabItem(q) {
+                    q.checked = true;
+                    q.isCorrect = (q.userAnswer === q.correctAnswer);
+                    this.saveToStorage();
+                },
+
+                resetVocabQuiz() {
+                    this.vocabQuiz.forEach(q => { q.userAnswer = ""; q.checked = false; q.isCorrect = false; });
+                    this.saveToStorage();
+                },
+
+                checkDataMatching() {
+                    this.dataMatchedChecked = true;
+                    this.saveToStorage();
+                },
+
+                saveToStorage() {
+                    try {
+                        const state = {
+                            warmUpSliders: this.warmUpSliders,
+                            userNotes: this.userNotes,
+                            currentStep: this.currentStep,
+                            vocabQuiz: this.vocabQuiz,
+                            videoHeard: this.videoSegments.map(s => s.heard)
+                        };
+                        localStorage.setItem('ted_hendrix_esl_worksheet_state', JSON.stringify(state));
+                    } catch (e) { /* storage unavailable */ }
+                },
+
+                loadFromStorage() {
+                    try {
+                        const saved = localStorage.getItem('ted_hendrix_esl_worksheet_state');
+                        if (!saved) return;
+                        const parsed = JSON.parse(saved);
+                        if (parsed.warmUpSliders) this.warmUpSliders = parsed.warmUpSliders;
+                        if (parsed.userNotes) this.userNotes = parsed.userNotes;
+                        if (parsed.vocabQuiz) this.vocabQuiz = parsed.vocabQuiz;
+                        if (parsed.currentStep) this.currentStep = parsed.currentStep;
+                        if (parsed.videoHeard) parsed.videoHeard.forEach((h, i) => { if (this.videoSegments[i]) this.videoSegments[i].heard = h; });
+                    } catch (e) {
+                        console.error('Failed to load saved state', e);
+                    }
+                },
+
+                printReport() { window.print(); }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

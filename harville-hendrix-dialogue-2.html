@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESL Worksheet – The Couples Therapists Who Nearly Got Divorced</title>
+<style>
+:root{--ink:#203044;--muted:#617184;--paper:#f4f7fa;--card:#fff;--line:#dce4ec;--accent:#246b72;--accent2:#dcefee;--warm:#c36b45;--good:#18794e;--bad:#b42318;--shadow:0 8px 24px rgba(26,48,70,.07)}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+header{position:sticky;top:0;z-index:10;background:#fffF;border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+.nav{max-width:1100px;margin:auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.brand{font-weight:800;letter-spacing:.02em;color:var(--accent)}.navsteps{display:flex;gap:6px;flex-wrap:wrap}
+button,select,textarea,input{font:inherit}button{cursor:pointer;border:0;border-radius:9px;padding:9px 13px;font-weight:650}
+.navsteps button{background:#eef2f5;color:#435365;font-size:12px}.navsteps button.active{background:var(--accent);color:white}
+.theme{background:transparent;color:var(--muted);border:1px solid var(--line)}
+main{max-width:1000px;margin:30px auto;padding:0 20px 50px}.hero{margin-bottom:24px}.eyebrow{color:var(--accent);font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+h1{font-size:clamp(25px,4vw,36px);line-height:1.15;margin:6px 0 8px}h2{font-size:21px;margin:0 0 8px}h3{font-size:16px;margin:0 0 6px}
+.sub{color:var(--muted);margin:0}.progress{height:7px;background:#e1e8ed;border-radius:10px;margin-top:17px;overflow:hidden}.bar{height:100%;background:var(--accent);transition:width .2s}
+.stephead{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;font-weight:700;margin-bottom:8px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:23px;margin:18px 0;box-shadow:var(--shadow)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:13px}.tile{background:#f5f8fa;border:1px solid var(--line);border-radius:12px;padding:15px}
+.tag{font-size:11px;color:var(--accent);font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+.small{font-size:13px;color:var(--muted)}.statement{padding:14px;background:#f6f8fa;border:1px solid var(--line);border-radius:11px;margin:10px 0}
+input[type=range]{width:100%;accent-color:var(--accent)}textarea{width:100%;min-height:105px;resize:vertical;padding:12px;border:1px solid #cbd5df;border-radius:10px;background:#fbfcfd;color:var(--ink)}
+select{padding:9px;border:1px solid #cbd5df;border-radius:9px;background:#fff;color:var(--ink);max-width:100%}
+.primary{background:var(--accent);color:#fff}.secondary{background:#eaf0f3;color:#314254}.warm{background:#f8eee8;color:#8b472b}
+.flashgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.flash{min-height:190px;text-align:left;background:#f7fafb;border:1px solid var(--line);border-top:4px solid var(--accent);color:var(--ink);padding:16px;display:flex;flex-direction:column;justify-content:space-between}
+.flash .back{display:none;color:#405468;font-size:13px}.flash.flipped .front{display:none}.flash.flipped .back{display:block}
+.quizq{padding:15px;border:1px solid var(--line);border-radius:12px;margin:12px 0;background:#f8fafb}
+.option{display:block;padding:9px 10px;border:1px solid var(--line);border-radius:9px;margin:7px 0;background:#fff;font-size:14px;cursor:pointer}
+.feedback{font-size:13px;padding:10px;border-radius:9px;margin-top:9px}.correct{background:#e8f5ee;color:#155b3c}.incorrect{background:#fff0ee;color:#8f211a}
+.video{width:100%;aspect-ratio:16/9;border:0;border-radius:12px;background:#15212c}.chapters{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.chapters a{background:#eef3f5;color:#31515a;text-decoration:none;padding:7px 10px;border-radius:8px;font-size:12px;font-weight:700}
+.navfoot{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding-top:18px;margin-top:28px}
+.result{font-weight:800;color:var(--accent)}.hidden{display:none!important}
+.persona{border:1px solid var(--line);background:#f7f9fa;border-radius:11px;padding:13px;text-align:left;color:var(--ink)}.persona.selected{border:2px solid var(--accent);background:var(--accent2)}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+body.dark{--ink:#e8eef4;--muted:#aab8c5;--paper:#101a24;--card:#182633;--line:#304352;--accent:#69b7b3;--accent2:#203d42;--shadow:none}
+body.dark .tile,body.dark .statement,body.dark .quizq,body.dark .flash,body.dark .persona{background:#1d2d3a;color:var(--ink)}
+body.dark select,body.dark textarea,body.dark .option{background:#172430;color:var(--ink);border-color:#405463}
+body.dark header{background:#14212bee}body.dark .navsteps button,body.dark .chapters a{background:#253744;color:#dce8ef}body.dark .navsteps button.active{background:var(--accent);color:#102126}
+body.dark .secondary{background:#2a3b49;color:#e6edf2}
+@media(max-width:700px){.nav{align-items:flex-start;flex-direction:column}.navsteps{width:100%}.navsteps button{flex:1}.panel{padding:17px}main{padding:0 13px 35px}}
+@media print{header,.navfoot,.no-print,button{display:none!important}body{background:white;color:#111}.panel{box-shadow:none;break-inside:avoid}.step{display:block!important}.hero{margin-top:0}}
+</style>
+</head>
+<body>
+<header><div class="nav">
+ <div class="brand">ENGLISH WORKSHEET <span style="color:var(--warm)">/ TED TALK</span></div>
+ <div class="navsteps" id="tabs"></div><button class="theme" id="themeBtn">◐ Theme</button>
+</div></header>
+<main>
+<div class="hero">
+ <div class="eyebrow">Listening · Communication · Relationships</div>
+ <h1>The Couples Therapists Who Nearly Got Divorced</h1>
+ <p class="sub">Harville Hendrix · TED Talk · Interactive English-learning worksheet</p>
+ <div class="progress"><div class="bar" id="bar" style="width:20%"></div></div>
+</div>
+
+<section class="step" id="s1">
+ <div class="stephead"><span>SECTION 1 OF 5</span><span>Warm-up & discussion</span></div>
+ <div class="panel">
+  <h2>Part 1: Before you watch</h2><p class="small">Discuss the questions. There are no single correct answers. Think about communication in personal and professional relationships.</p>
+  <div class="grid">
+   <div class="tile"><span class="tag">Topic A</span><h3>Listening or waiting?</h3><p>When people disagree, do they usually listen carefully, or do they wait for their turn to speak?</p></div>
+   <div class="tile"><span class="tag">Topic B</span><h3>Criticism</h3><p>Can frequent criticism damage a relationship even when the criticism is sometimes justified?</p></div>
+   <div class="tile"><span class="tag">Topic C</span><h3>Workplace communication</h3><p>What makes a colleague feel respected, heard and included in a discussion?</p></div>
+  </div>
+ </div>
+ <div class="panel">
+  <h2>Part 2: Agree or disagree</h2><p class="small">Move each slider from 1 (strongly disagree) to 5 (strongly agree). Explain your choices.</p>
+  <div id="sliders"></div>
+ </div>
+ <div class="panel">
+  <h2>Part 3: Your initial thoughts</h2><p class="small">Use the sentence starters to develop your answer.</p>
+  <div id="starters" class="chapters"></div><textarea id="warmNotes" placeholder="I think good communication depends on..."></textarea>
+ </div>
+</section>
+
+<section class="step hidden" id="s2">
+ <div class="stephead"><span>SECTION 2 OF 5</span><span>Vocabulary</span></div>
+ <div class="panel">
+  <h2>Part 1: Key vocabulary flashcards</h2><p class="small">Select a card to reveal its meaning and an example based on the talk. Select it again to return to the word.</p>
+  <div class="flashgrid" id="flashcards"></div>
+ </div>
+ <div class="panel">
+  <h2>Part 2: Vocabulary in context</h2><p class="small">Choose the best word or expression for each sentence. Submit each answer to see feedback.</p>
+  <div id="vocabQuiz"></div><button class="secondary" id="resetVocab">Reset vocabulary quiz</button>
+ </div>
+</section>
+
+<section class="step hidden" id="s3">
+ <div class="stephead"><span>SECTION 3 OF 5</span><span>Watch & take notes</span></div>
+ <div class="panel">
+  <h2>Part 1: Watch the TED Talk</h2>
+  <p class="small">Watch the talk. If the embedded player does not load, use the button to open the official TED page.</p>
+  <iframe class="video" src="https://embed.ted.com/talks/harville_hendrix_the_couples_therapists_who_nearly_got_divorced" title="Harville Hendrix TED Talk" allowfullscreen loading="lazy"></iframe>
+  <p><a class="primary" style="display:inline-block;text-decoration:none;padding:9px 13px;border-radius:9px" href="https://www.ted.com/talks/harville_hendrix_the_couples_therapists_who_nearly_got_divorced" target="_blank" rel="noopener">Open the talk on TED ↗</a></p>
+  <div class="chapters">
+   <a href="https://www.ted.com/talks/harville_hendrix_the_couples_therapists_who_nearly_got_divorced" target="_blank" rel="noopener">Opening: their marriage crisis</a>
+   <a href="https://www.ted.com/talks/harville_hendrix_the_couples_therapists_who_nearly_got_divorced" target="_blank" rel="noopener">The listening experiment</a>
+   <a href="https://www.ted.com/talks/harville_hendrix_the_couples_therapists_who_nearly_got_divorced" target="_blank" rel="noopener">Mirroring, validation, empathy</a>
+   <a href="https://www.ted.com/talks/harville_hendrix_the_couples_therapists_who_nearly_got_divorced" target="_blank" rel="noopener">From criticism to appreciation</a>
+  </div>
+ </div>
+ <div class="panel">
+  <h2>Part 2: Listening notes</h2><p class="small">Write short notes while watching. Focus on what Hendrix actually says.</p>
+  <div class="grid">
+   <div><h3>What happened to their marriage?</h3><textarea id="noteStory" placeholder="Why did they consider divorce? What made the situation surprising?"></textarea></div>
+   <div><h3>Their one-year experiment</h3><textarea id="noteExperiment" placeholder="What did they agree to do every day and every week?"></textarea></div>
+   <div><h3>The three listening steps</h3><textarea id="noteSteps" placeholder="What are mirroring, validation and empathy?"></textarea></div>
+   <div><h3>The change in their attitude</h3><textarea id="noteShift" placeholder="How did they change the way they saw each other?"></textarea></div>
+  </div>
+ </div>
+</section>
+
+<section class="step hidden" id="s4">
+ <div class="stephead"><span>SECTION 4 OF 5</span><span>Comprehension</span></div>
+ <div class="panel">
+  <h2>Part 1: Put the listening process in order</h2><p class="small">Select the correct description for each stage.</p>
+  <div id="sequenceQuiz"></div>
+ </div>
+ <div class="panel">
+  <h2>Part 2: Video comprehension</h2><p class="small">Choose the best answer based on the talk.</p>
+  <div id="compQuiz"></div><div class="result" id="compScore"></div>
+ </div>
+ <div class="panel">
+  <h2>Part 3: True or false?</h2><p class="small">Decide whether each statement is true or false according to the talk.</p>
+  <div id="tfQuiz"></div>
+ </div>
+</section>
+
+<section class="step hidden" id="s5">
+ <div class="stephead"><span>SECTION 5 OF 5</span><span>Application & debrief</span></div>
+ <div class="panel">
+  <h2>Part 1: Apply the ideas – role-play</h2>
+  <p class="small">Choose one situation. Prepare what you would say, using the principles of dialogical conversation: listen without criticism, check your understanding, recognise the other person's point of view and show empathy.</p>
+  <div class="grid" id="personas"></div>
+  <div id="personaPrompt" class="statement">Choose a situation above to begin.</div>
+  <textarea id="roleNotes" placeholder="Prepare your response here..."></textarea>
+ </div>
+ <div class="panel">
+  <h2>Part 2: Practise a dialogical conversation</h2>
+  <p>Work with a partner. Choose a topic on which you have different opinions. Take turns to speak and listen. Do not interrupt or prepare a rebuttal while the other person is speaking.</p>
+  <div class="grid">
+   <div class="tile"><span class="tag">Mirroring</span><h3>Show that you heard</h3><p>“So, what you're saying is...”</p><p>“Let me check that I understood you...”</p></div>
+   <div class="tile"><span class="tag">Validation</span><h3>Recognise their viewpoint</h3><p>“I can see why you might think that.”</p><p>“That makes sense from your perspective.”</p></div>
+   <div class="tile"><span class="tag">Empathy</span><h3>Recognise their feelings</h3><p>“I can understand that you feel...”</p><p>“That must have been difficult for you.”</p></div>
+  </div>
+ </div>
+ <div class="panel">
+  <h2>Part 3: Debriefing questions</h2>
+  <ol>
+   <li>Why do you think it can be difficult to listen without criticising or defending yourself?</li>
+   <li>Which of the three stages – mirroring, validation or empathy – would be most difficult for you? Why?</li>
+   <li>How could dialogical conversation improve communication in your workplace or team?</li>
+   <li>Hendrix says that listening is the first act of love. Do you agree? Can the same idea apply to professional relationships?</li>
+  </ol>
+  <textarea id="debriefNotes" placeholder="Write your conclusions and examples..."></textarea>
+ </div>
+ <div class="panel">
+  <h2>Worksheet complete</h2><p class="small">Generate a summary of your notes and quiz results. You can print it or save it as a PDF.</p>
+  <button class="primary" id="reportBtn">View & print student report</button>
+ </div>
+</section>
+
+<div class="navfoot no-print"><button class="secondary" id="prev">← Previous</button><span id="stepCount" class="small">Step 1 of 5</span><button class="primary" id="next">Next section →</button></div>
+</main>
+<footer>English learning worksheet · Based on Harville Hendrix's TED Talk · Use the official TED page for the video.</footer>
+
+<script>
+const $=s=>document.querySelector(s);
+const steps=['Warm-up','Vocabulary','Video guide','Comprehension','Debrief'];
+let current=1;
+const vocab=[
+ ['parallel monologue','noun phrase','A conversation in which people speak separately and focus on their own arguments rather than listening to each other.','They described ordinary arguments as parallel monologues.'],
+ ['dialogical conversation','noun phrase','A structured conversation in which both people listen and speak without criticism or judgment.','They decided to practise a dialogical conversation every week.'],
+ ['mirroring','noun','Repeating or summarising what another person has said to show that you have listened and understood.','Mirroring is the first stage of their listening process.'],
+ ['validation','noun','Recognising that another person’s point of view is understandable or valid, even when you disagree.','Validation allows two people to have different points of view.'],
+ ['empathy','noun','The ability to understand and share another person’s feelings.','Empathy helps people connect beyond their differences.'],
+ ['criticism','noun','An expression of disapproval that identifies faults or mistakes.','They wanted to remove constant negative criticism from their relationship.'],
+ ['intrinsic value','noun phrase','The value something or someone has simply because they exist, not because of what they provide.','They decided to recognise each other’s intrinsic value.'],
+ ['appreciation','noun','The act of recognising and expressing the positive qualities or actions of another person.','They added daily appreciation to their experiment.']
+];
+const quiz=[
+ ['In a parallel monologue, people mainly focus on…',['understanding the other person','their own argument','finding a compromise'],'their own argument','People wait to speak or defend their own position rather than listening.'],
+ ['Mirroring means…',['repeating or summarising what you heard','agreeing with everything','explaining why the other person is wrong'],'repeating or summarising what you heard','Mirroring checks understanding and shows engagement.'],
+ ['Validation involves…',['changing your opinion immediately','recognising the other person’s point of view','avoiding the subject'],'recognising the other person’s point of view','Validation recognises that two different perspectives can both be understandable.'],
+ ['Empathy is most closely connected with…',['judging behaviour','expressing understanding of feelings','winning an argument'],'expressing understanding of feelings','Empathy expresses acceptance and understanding of the other person’s feelings.'],
+ ['What did the couple add when progress was slow?',['daily appreciation and humour','more public appearances','a new therapist every month'],'daily appreciation and humour','They added appreciation and humour during the process.'],
+ ['What change helped them move beyond their impasse?',['expecting the other person to meet every need','seeing each other as gifts with intrinsic value','avoiding all difficult decisions'],'seeing each other as gifts with intrinsic value','They changed how they perceived each other: from resources to gifts.']
+];
+const comp=[
+ ['Why did Hendrix and his wife stop their public work for a time?',['Their book was no longer selling.','Their private relationship was in serious difficulty.','They wanted to move to another country.'],1,'They felt a conflict between their public professional message and their private relationship.'],
+ ['What happened during their third session with a therapist?',['The therapist said they were untreatable and returned their money.','The therapist recommended a holiday.','The therapist asked them to write a book.'],0,'The therapist gave them a very negative assessment and ended the professional relationship.'],
+ ['What did they agree to do during their one-year experiment?',['Avoid discussing difficult subjects.','Monitor negativity and have a structured weekly conversation.','Work with a different therapist every week.'],1,'They monitored their behaviour daily and held a structured conversation each week.'],
+ ['What did both partners realise about their childhoods?',['They had always felt visible and valued.','They had both experienced feeling invisible.','They had grown up in similar financial circumstances.'],1,'Their backgrounds were very different, but both described feeling invisible to their parents or carers.'],
+ ['What did they mean by changing the relationship from a resource to a gift?',['They stopped helping each other.','They valued each other for who they were, not just for what they provided.','They agreed never to disagree again.'],1,'They recognised each other’s intrinsic value rather than treating each other as resources expected to meet needs.'],
+ ['What wider ambition did Hendrix describe at the end?',['To teach dialogue more widely across society.','To open a relationship clinic in every city.','To replace all forms of professional therapy.'],0,'He said they wanted to extend dialogue beyond couples into wider social systems.']
+];
+const sequence=[
+ ['Mirroring','Repeat or summarise what the other person has said.'],
+ ['Validation','Recognise the other person’s perspective as understandable, even if it differs from yours.'],
+ ['Empathy','Express understanding of the other person’s feelings.']
+];
+const situations=[
+ ['A disagreement about deadlines','A colleague is frustrated because you changed a deadline without consulting them. They say you never listen to the team. Respond without becoming defensive.'],
+ ['A misunderstood instruction','A team member says your instructions were unclear and that they felt blamed when the task went wrong. Find out how they experienced the situation.'],
+ ['A difficult performance discussion','An employee disagrees with feedback you have given. They feel that their efforts are not recognised. Have a constructive conversation.'],
+ ['A family decision','Two family members disagree about how to support an older relative. Each believes the other is ignoring their concerns. Help them have a more balanced discussion.']
+];
+const slidersText=['Good communication is more about listening than speaking.','Criticism can become a habit that damages relationships.','It is possible to understand someone’s point of view without agreeing with it.','The same listening skills are useful at work as they are in personal relationships.'];
+let answers={},tfAnswers={},vocabAnswers={},checked={},selectedSituation=-1;
+function renderTabs(){ $('#tabs').innerHTML=steps.map((s,i)=>`<button class="${current===i+1?'active':''}" data-step="${i+1}">${i+1}. ${s}</button>`).join('');}
+function go(n){current=Math.max(1,Math.min(5,n));document.querySelectorAll('.step').forEach((el,i)=>el.classList.toggle('hidden',i!==current-1));renderTabs();$('#bar').style.width=(current*20)+'%';$('#stepCount').textContent=`Step ${current} of 5`;$('#prev').disabled=current===1;$('#next').disabled=current===5;$('#prev').style.opacity=current===1?.4:1;$('#next').style.opacity=current===5?.4:1;save();}
+$('#tabs').addEventListener('click',e=>{if(e.target.dataset.step)go(+e.target.dataset.step)});$('#prev').onclick=()=>go(current-1);$('#next').onclick=()=>go(current+1);
+$('#themeBtn').onclick=()=>document.body.classList.toggle('dark');
+$('#sliders').innerHTML=slidersText.map((q,i)=>`<div class="statement"><label><b>${i+1}. ${q}</b><div class="small" id="slab${i}">Neutral (3/5)</div><input type="range" min="1" max="5" value="3" id="slide${i}"></label></div>`).join('');
+const labels=['Strongly disagree','Disagree','Neutral','Agree','Strongly agree'];
+slidersText.forEach((_,i)=>$('#slide'+i).oninput=e=>$('#slab'+i).textContent=labels[+e.target.value-1]+` (${e.target.value}/5)`);
+const starters=['In my experience,','I would argue that...','I agree up to a point because...','One important difference is...','I can understand why...'];
+$('#starters').innerHTML=starters.map(x=>`<button class="secondary" data-starter="${x}">+ ${x}</button>`).join('');
+$('#starters').onclick=e=>{if(e.target.dataset.starter){let t=$('#warmNotes');t.value+=(t.value?' ':'')+e.target.dataset.starter+' ';t.focus();save();}};
+$('#flashcards').innerHTML=vocab.map((v,i)=>`<button class="flash" data-flash="${i}"><div class="front"><span class="tag">${v[1]}</span><h3 style="font-size:19px;margin-top:14px">${v[0]}</h3><span class="small">Select to reveal meaning ↻</span></div><div class="back"><b>Meaning</b><p>${v[2]}</p><b>In the talk</b><p>${v[3]}</p><span class="small">Select to flip back ↻</span></div></button>`).join('');
+$('#flashcards').onclick=e=>{let b=e.target.closest('[data-flash]');if(b)b.classList.toggle('flipped')};
+function renderVocab(){ $('#vocabQuiz').innerHTML=quiz.map((q,i)=>`<div class="quizq"><b>${i+1}. ${q[0]}</b><div>${q[1].map(o=>`<label class="option"><input type="radio" name="vq${i}" value="${o}" ${vocabAnswers[i]===o?'checked':''} ${checked['v'+i]?'disabled':''}> ${o}</label>`).join('')}</div><button class="primary" data-vcheck="${i}" ${checked['v'+i]?'disabled':''}>Check</button><div id="vf${i}"></div></div>`).join('');}
+renderVocab();
+$('#vocabQuiz').onclick=e=>{if(e.target.dataset.vcheck!==undefined){let i=+e.target.dataset.vcheck,sel=document.querySelector(`input[name="vq${i}"]:checked`);if(!sel)return;vocabAnswers[i]=sel.value;checked['v'+i]=true;let ok=sel.value===quiz[i][2];$('#vf'+i).innerHTML=`<div class="feedback ${ok?'correct':'incorrect'}">${ok?'Correct.':'Not quite. Correct answer: '+quiz[i][2]+'.'} ${quiz[i][3]}</div>`;renderVocab();$('#vf'+i).innerHTML=`<div class="feedback ${ok?'correct':'incorrect'}">${ok?'Correct.':'Not quite. Correct answer: '+quiz[i][2]+'.'} ${quiz[i][3]}</div>`;save();}};
+$('#resetVocab').onclick=()=>{vocabAnswers={};quiz.forEach((_,i)=>delete checked['v'+i]);renderVocab();save();};
+function renderComp(){ $('#compQuiz').innerHTML=comp.map((q,i)=>`<div class="quizq"><b>${i+1}. ${q[0]}</b>${q[1].map((o,j)=>`<label class="option"><input type="radio" name="cq${i}" value="${j}" ${answers[i]===j?'checked':''} ${checked['c'+i]?'disabled':''}> ${o}</label>`).join('')}<button class="primary" data-ccheck="${i}" ${checked['c'+i]?'disabled':''}>Submit answer</button><div id="cf${i}"></div></div>`).join('');}
+renderComp();
+$('#compQuiz').onclick=e=>{if(e.target.dataset.ccheck!==undefined){let i=+e.target.dataset.ccheck,s=document.querySelector(`input[name="cq${i}"]:checked`);if(!s)return;answers[i]=+s.value;checked['c'+i]=true;renderComp();let ok=answers[i]===comp[i][2];$('#cf'+i).innerHTML=`<div class="feedback ${ok?'correct':'incorrect'}">${ok?'Correct.':'Incorrect. '+comp[i][1][comp[i][2]]+' '} ${comp[i][3]}</div>`;$('#compScore').textContent=`Score: ${comp.filter((q,j)=>checked['c'+j]&&answers[j]===q[2]).length} / ${comp.length}`;save();}};
+$('#sequenceQuiz').innerHTML=sequence.map((s,i)=>`<div class="statement"><b>${i+1}. ${s[0]}</b><p class="small">${s[1]}</p><label class="small">Stage number <select id="seq${i}"><option value="">Select</option><option>1</option><option>2</option><option>3</option></select></label></div>`).join('');
+$('#tfQuiz').innerHTML=[
+ ['The couple’s relationship was in difficulty even though they were well-known relationship therapists.',true],
+ ['Their weekly conversations were intended to help them win arguments.',false],
+ ['Both partners described feeling invisible during childhood.',true],
+ ['They made rapid progress during the first three months.',false],
+ ['They decided to add appreciation and humour to their experiment.',true],
+ ['Hendrix argues that listening can be useful beyond romantic relationships.',true]
+].map((q,i)=>`<div class="quizq"><b>${i+1}. ${q[0]}</b><div><label class="option"><input type="radio" name="tf${i}" value="true" ${tfAnswers[i]==='true'?'checked':''}> True</label><label class="option"><input type="radio" name="tf${i}" value="false" ${tfAnswers[i]==='false'?'checked':''}> False</label></div><div id="tff${i}"></div></div>`).join('')+'<button class="primary" id="checkTF">Check true/false</button><div id="tfScore" class="result"></div>';
+$('#tfQuiz').onclick=e=>{if(e.target.id==='checkTF'){let qs=[true,false,true,false,true,true],score=0;qs.forEach((v,i)=>{let x=document.querySelector(`input[name="tf${i}"]:checked`);tfAnswers[i]=x?.value??'';let ok=tfAnswers[i]===String(v);if(ok)score++;$('#tff'+i).innerHTML=`<div class="feedback ${ok?'correct':'incorrect'}">${ok?'Correct':'Incorrect'} – the statement is ${v?'true':'false'}.</div>`});$('#tfScore').textContent=`Score: ${score} / ${qs.length}`;save();}};
+$('#personas').innerHTML=situations.map((s,i)=>`<button class="persona" data-persona="${i}"><span class="tag">Situation ${i+1}</span><h3>${s[0]}</h3><span class="small">Select scenario</span></button>`).join('');
+$('#personas').onclick=e=>{let b=e.target.closest('[data-persona]');if(!b)return;selectedSituation=+b.dataset.persona;document.querySelectorAll('.persona').forEach((x,i)=>x.classList.toggle('selected',i===selectedSituation));$('#personaPrompt').innerHTML='<b>'+situations[selectedSituation][0]+'</b><p>'+situations[selectedSituation][1]+'</p>';save();};
+function save(){let data={current,warmNotes:$('#warmNotes').value,notes:['noteStory','noteExperiment','noteSteps','noteShift'].map(id=>$('#'+id).value),roleNotes:$('#roleNotes').value,debriefNotes:$('#debriefNotes').value,answers,tfAnswers,vocabAnswers,checked,selectedSituation,sliders:slidersText.map((_,i)=>$('#slide'+i).value)};try{localStorage.setItem('ted_dialogue_worksheet_v1',JSON.stringify(data))}catch(e){}}
+function restore(){try{let d=JSON.parse(localStorage.getItem('ted_dialogue_worksheet_v1')||'{}');if(d.warmNotes)$('#warmNotes').value=d.warmNotes;if(d.notes)d.notes.forEach((v,i)=>$('#'+['noteStory','noteExperiment','noteSteps','noteShift'][i]).value=v);['roleNotes','debriefNotes'].forEach(id=>{if(d[id])$('#'+id).value=d[id]});answers=d.answers||{};tfAnswers=d.tfAnswers||{};vocabAnswers=d.vocabAnswers||{};checked=d.checked||{};selectedSituation=d.selectedSituation??-1;if(d.sliders)d.sliders.forEach((v,i)=>{$('#slide'+i).value=v;$('#slab'+i).textContent=labels[+v-1]+` (${v}/5)`});if(selectedSituation>=0){document.querySelectorAll('.persona')[selectedSituation].classList.add('selected');$('#personaPrompt').innerHTML='<b>'+situations[selectedSituation][0]+'</b><p>'+situations[selectedSituation][1]+'</p>';}renderVocab();renderComp();go(d.current||1)}catch(e){go(1)}}
+document.querySelectorAll('textarea').forEach(t=>t.addEventListener('input',save));document.querySelectorAll('input[type=range]').forEach(t=>t.addEventListener('change',save));
+$('#reportBtn').onclick=()=>{let notes=[['Warm-up discussion',$('#warmNotes').value],['What happened to their marriage?',$('#noteStory').value],['The one-year experiment',$('#noteExperiment').value],['The three listening steps',$('#noteSteps').value],['Change in attitude',$('#noteShift').value],['Role-play preparation',$('#roleNotes').value],['Debriefing',$('#debriefNotes').value]];let score=comp.filter((q,i)=>checked['c'+i]&&answers[i]===q[2]).length;let vscore=quiz.filter((q,i)=>checked['v'+i]&&vocabAnswers[i]===q[2]).length;let w=window.open('','_blank');if(!w){window.print();return;}w.document.write('<html><head><title>Student Summary</title><style>body{font:14px Arial;max-width:800px;margin:35px auto;color:#203044}h1{font-size:25px}h2{font-size:16px;margin-top:22px;color:#246b72}section{border-bottom:1px solid #ddd;padding:8px 0;white-space:pre-wrap}.muted{color:#667}</style></head><body><h1>Student Summary Report</h1><p class="muted">The Couples Therapists Who Nearly Got Divorced · Harville Hendrix</p><h2>Quiz results</h2><p>Vocabulary: '+vscore+' / '+quiz.length+' · Comprehension: '+score+' / '+comp.length+'</p>'+notes.map(n=>'<section><h2>'+n[0]+'</h2>'+(n[1]||'No notes entered.').replace(/</g,'&lt;')+'</section>').join('')+'<p class="muted">Generated from the interactive worksheet.</p><script>window.onload=()=>window.print()<\/script></body></html>');w.document.close();};
+restore();
+</script>
+</body></html>

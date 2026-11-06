@@ -3,18 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#10243a" />
     <title>Video Reading Comprehension</title>
     <style>
       :root {
-        color-scheme: dark;
-        --bg: #0b1422;
-        --panel: #172436;
-        --primary: #9eb8d2;
-        --primary-dark: #d7e3ef;
-        --text: #edf2f7;
-        --muted: #a5b2c2;
-        --border: #52657a;
-        --button-hover: #293d53;
+        color-scheme: light;
+        --navy: #10243a;
+        --navy-light: #1b3856;
+        --steel: #68798a;
+        --steel-light: #d7dfe7;
+        --bg: #eef2f6;
+        --panel: #ffffff;
+        --text: #1c2b3a;
+        --muted: #596b7c;
+        --border: #cbd5df;
+        --accent: #287c83;
+        --accent-dark: #1d6269;
       }
 
       * { box-sizing: border-box; }
@@ -24,8 +28,8 @@
         margin: 0;
         font-family: Arial, Helvetica, sans-serif;
         background:
-          radial-gradient(ellipse at 50% -20%, rgba(116, 145, 174, 0.2), transparent 55%),
-          linear-gradient(145deg, #0b1422 0%, #142238 52%, #0c1726 100%);
+          linear-gradient(135deg, rgba(16, 36, 58, 0.035) 25%, transparent 25%) 0 0 / 8px 8px,
+          linear-gradient(180deg, #f8fafc 0%, var(--bg) 100%);
         color: var(--text);
       }
 
@@ -37,26 +41,27 @@
 
       h1 {
         margin: 0 0 10px;
+        color: var(--navy);
         font-size: clamp(2rem, 3vw, 3rem);
+        font-weight: 700;
         letter-spacing: -0.035em;
-        color: #f4f7fa;
       }
 
       .subtitle {
         margin: 0 0 30px;
         color: var(--muted);
         font-size: 1.05rem;
+        line-height: 1.6;
       }
 
       .panel {
         position: relative;
         overflow: hidden;
-        background:
-          repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.018) 0, rgba(255, 255, 255, 0.018) 1px, transparent 1px, transparent 4px),
-          linear-gradient(145deg, #1d2c40, #142235 75%);
-        border: 1px solid #53677d;
-        border-radius: 16px;
-        box-shadow: 0 22px 55px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-top: 4px solid var(--navy-light);
+        border-radius: 10px;
+        box-shadow: 0 14px 36px rgba(16, 36, 58, 0.09);
         padding: 26px;
       }
 
@@ -70,29 +75,30 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        text-align: center;
         min-height: 58px;
         padding: 14px 18px;
-        background: linear-gradient(180deg, #34475c 0%, #293b50 100%);
-        color: var(--primary-dark);
-        border: 1px solid #647a91;
-        border-radius: 10px;
+        background: linear-gradient(180deg, #ffffff 0%, #f1f4f7 100%);
+        color: var(--navy);
+        border: 1px solid #b9c5d0;
+        border-radius: 7px;
+        text-align: center;
         text-decoration: none;
         font-weight: 700;
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 4px 12px rgba(0, 0, 0, 0.12);
+        line-height: 1.4;
+        box-shadow: inset 0 1px 0 #ffffff, 0 2px 5px rgba(16, 36, 58, 0.06);
         transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
       }
 
       .page-button:hover,
       .page-button:focus-visible {
-        background: linear-gradient(180deg, #40566d 0%, #30465c 100%);
-        border-color: #b4c6d8;
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 7px 18px rgba(0, 0, 0, 0.24);
+        background: #e8f1f2;
+        border-color: var(--accent);
+        box-shadow: 0 5px 14px rgba(16, 36, 58, 0.12);
         transform: translateY(-2px);
       }
 
       .page-button:focus-visible {
-        outline: 2px solid #d5e4f2;
+        outline: 3px solid rgba(40, 124, 131, 0.35);
         outline-offset: 3px;
       }
 
@@ -105,8 +111,9 @@
         margin: 20px 0 0;
         padding-top: 16px;
         color: var(--muted);
-        border-top: 1px solid rgba(158, 184, 210, 0.2);
+        border-top: 1px solid var(--steel-light);
         font-size: 0.95rem;
+        line-height: 1.5;
       }
 
       @media (max-width: 600px) {

@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESL Worksheet (B1 Level): Outback Gold Towns – What Future After the Rush?</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        abc: {
+                            gold: '#D97706',
+                            darkgold: '#B45309',
+                            blue: '#0284C7',
+                            darkblue: '#0369A1',
+                            ochre: '#C2410C',
+                            dark: '#0F172A',
+                            card: '#1E293B'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Vue 3 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        /* 3D Flip Card Animation Styles */
+        .perspective {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(217, 119, 6, 0.4);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(217, 119, 6, 0.7);
+        }
+
+        /* Print Media Styles */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            .print-break {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body class="bg-amber-50/40 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
+    <div id="app" class="flex-grow flex flex-col">
+        
+        <!-- TOP HEADER & NAVBAR -->
+        <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur border-b border-amber-200/80 dark:border-slate-800 no-print shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-abc-gold text-white font-extrabold px-2.5 py-1 text-sm tracking-wider rounded-lg flex items-center shadow-sm">
+                        <span>ABC NEWS</span>
+                        <span class="ml-1.5 pl-1.5 border-l border-amber-300/60 text-xs font-semibold bg-amber-800/20 px-1 py-0.5 rounded">B1 ESL</span>
+                    </div>
+                    <span class="font-bold text-base sm:text-lg tracking-tight truncate hidden sm:inline text-slate-900 dark:text-white">
+                        Outback Gold Towns – What Future After the Rush?
+                    </span>
+                </div>
+
+                <!-- Step Navigation Buttons -->
+                <div class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <button v-for="(step, idx) in steps" :key="idx" 
+                            @click="currentStep = idx + 1"
+                            :class="[
+                                'px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center space-x-1.5',
+                                currentStep === idx + 1 
+                                    ? 'bg-abc-gold text-white shadow-md' 
+                                    : 'text-slate-600 dark:text-slate-400 hover:bg-amber-100/50 dark:hover:bg-slate-800'
+                            ]">
+                        <span class="w-4 h-4 rounded-full flex items-center justify-center text-[10px] border"
+                              :class="currentStep === idx + 1 ? 'border-white bg-white/20' : 'border-slate-400 dark:border-slate-600'">
+                            {{ idx + 1 }}
+                        </span>
+                        <span>{{ step.shortTitle }}</span>
+                    </button>
+                </div>
+
+                <!-- Theme Toggle & Save Indicator -->
+                <div class="flex items-center space-x-3">
+                    <div class="text-xs text-emerald-600 dark:text-emerald-400 flex items-center bg-emerald-50 dark:bg-emerald-950/50 px-2.5 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse mr-1.5"></span>
+                        <span class="hidden sm:inline">Progress Auto-Saved</span>
+                        <span class="sm:hidden">Saved</span>
+                    </div>
+
+                    <button @click="toggleDarkMode" 
+                            class="p-2 text-slate-500 dark:text-slate-400 hover:bg-amber-100/60 dark:hover:bg-slate-800 rounded-lg transition"
+                            :title="isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
+                        <svg v-if="!isDark" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                        <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Sub-navigation -->
+            <div class="md:hidden flex border-t border-amber-200/80 dark:border-slate-800 bg-amber-50/50 dark:bg-slate-900 overflow-x-auto py-2 px-3 space-x-2">
+                <button v-for="(step, idx) in steps" :key="idx" 
+                        @click="currentStep = idx + 1"
+                        :class="[
+                            'px-2.5 py-1 text-xs font-semibold rounded-md flex-shrink-0 flex items-center space-x-1',
+                            currentStep === idx + 1 ? 'bg-abc-gold text-white' : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300'
+                        ]">
+                    <span>{{ idx + 1 }}.</span>
+                    <span>{{ step.shortTitle }}</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT CONTAINER -->
+        <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+            <!-- SECTION TITLE BANNER -->
+            <div class="mb-8 no-print">
+                <div class="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-abc-ochre dark:text-amber-400 mb-1">
+                    <span>B1 Intermediate ESL Module • Step {{ currentStep }} of 5</span>
+                    <span>Progress: {{ overallProgress }}%</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+                    {{ steps[currentStep - 1].title }}
+                </h1>
+                <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">
+                    {{ steps[currentStep - 1].subtitle }}
+                </p>
+
+                <!-- Section Progress Bar -->
+                <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2 mt-4 overflow-hidden">
+                    <div class="bg-abc-gold h-full transition-all duration-300" :style="{ width: ((currentStep / 5) * 100) + '%' }"></div>
+                </div>
+            </div>
+
+
+            <!-- ================= SECTION 1: WARM-UP DISCUSSION (B1 LEVEL) ================= -->
+            <div v-show="currentStep === 1" class="space-y-8">
+                
+                <!-- Topic Cards -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-amber-200/80 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-amber-100 dark:bg-amber-950/60 text-abc-gold p-3 rounded-xl flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h1.5a2.5 2.5 0 002.5-2.5V7.5A2.5 2.5 0 0016.5 5H15a2 2 0 01-2-2V3.055M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Part 1: Life in Remote Towns</h2>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">Before watching the ABC News video about Australian outback towns, consider these key questions about small-town life and work.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                        <div class="bg-amber-50/50 dark:bg-slate-800/50 p-4 rounded-xl border border-amber-200/60 dark:border-slate-700/60">
+                            <span class="text-xs font-bold text-abc-ochre uppercase">Topic A</span>
+                            <h3 class="font-semibold text-slate-800 dark:text-slate-200 mt-1 text-sm">Small Town vs Big City</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs mt-2">What are the advantages and disadvantages of living in a small, isolated town far from big cities?</p>
+                        </div>
+                        <div class="bg-amber-50/50 dark:bg-slate-800/50 p-4 rounded-xl border border-amber-200/60 dark:border-slate-700/60">
+                            <span class="text-xs font-bold text-abc-ochre uppercase">Topic B</span>
+                            <h3 class="font-semibold text-slate-800 dark:text-slate-200 mt-1 text-sm">Essential Local Shops</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs mt-2">What happens to a small community when its last butcher shop, bakery, or local pub closes down forever?</p>
+                        </div>
+                        <div class="bg-amber-50/50 dark:bg-slate-800/50 p-4 rounded-xl border border-amber-200/60 dark:border-slate-700/60">
+                            <span class="text-xs font-bold text-abc-ochre uppercase">Topic C</span>
+                            <h3 class="font-semibold text-slate-800 dark:text-slate-200 mt-1 text-sm">Working in Mining</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs mt-2">Would you prefer to live in a town permanently, or work as a Fly-In Fly-Out (FIFO) worker for higher pay?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Opinion Sliders -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-amber-200/80 dark:border-slate-800 shadow-sm">
+                    <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Part 2: Agree or Disagree Sliders</h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-6">Move the sliders to show your opinion (1 = Strongly Disagree, 5 = Strongly Agree).</p>
+
+                    <div class="space-y-6">
+                        <div v-for="(slider, index) in warmUpSliders" :key="index" class="bg-slate-50 dark:bg-slate-800/30 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-sm font-medium text-slate-800 dark:text-slate-200">
+                                    {{ slider.question }}
+                                </label>
+                                <span class="px-2.5 py-1 text-xs font-bold rounded-md bg-amber-100 text-abc-darkgold dark:bg-amber-950/80 dark:text-amber-300">
+                                    {{ sliderLabels[slider.value - 1] }} ({{ slider.value }}/5)
+                                </span>
+                            </div>
+                            <input type="range" min="1" max="5" step="1" v-model.number="slider.value" 
+                                   class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-abc-gold">
+                            <div class="flex justify-between text-[11px] text-slate-400 mt-1">
+                                <span>Strongly Disagree</span>
+                                <span>Neutral</span>
+                                <span>Strongly Agree</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sentence Starters & Response Area -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-amber-200/80 dark:border-slate-800 shadow-sm">
+                    <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-1">Part 3: Personal Warm-Up Response</h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">Click a B1 phrase starter to add it to your notes, then type your full opinion.</p>
+
+                    <!-- Sentence Starters -->
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <button v-for="starter in sentenceStarters" :key="starter"
+                                @click="insertSentenceStarter(starter)"
+                                class="text-xs bg-amber-50 dark:bg-slate-800 hover:bg-abc-gold hover:text-white dark:hover:bg-abc-gold text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-lg border border-amber-200 dark:border-slate-700 transition">
+                            + "{{ starter }}"
+                        </button>
+                    </div>
+
+                    <textarea v-model="userNotes.warmup" 
+                              placeholder="Type your initial thoughts about remote town life and business challenges..."
+                              rows="5"
+                              class="w-full p-4 text-sm bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-slate-100 rounded-xl border border-slate-300 dark:border-slate-700 focus:ring-2 focus:ring-abc-gold focus:outline-none transition"></textarea>
+                </div>
+            </div>
+
+
+            <!-- ================= SECTION 2: VOCABULARY INTRODUCTION (B1 LEVEL) ================= -->
+            <div v-show="currentStep === 2" class="space-y-8">
+                
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-amber-200/80 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Part 1: Key B1 Vocabulary Cards</h2>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm">Click a card to flip it and read the easy definition and video quote. Click the speaker icon to hear Australian/British English pronunciation.</p>
+                        </div>
+                    </div>
+
+                    <!-- Vocabulary Cards Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div v-for="(vocab, idx) in vocabList" :key="idx"
+                             @click="vocab.flipped = !vocab.flipped"
+                             class="perspective h-64 cursor-pointer group">
+                            <div class="relative w-full h-full duration-500 transform-style-3d transition-transform rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md"
+                                 :class="{ 'rotate-y-180': vocab.flipped }">
+                                
+                                <!-- FRONT -->
+                                <div class="absolute inset-0 w-full h-full bg-amber-50/60 dark:bg-slate-800 p-5 rounded-2xl backface-hidden flex flex-col justify-between border-t-4 border-abc-gold">
+                                    <div>
+                                        <div class="flex justify-between items-start">
+                                            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 bg-amber-200/80 dark:bg-slate-700 text-amber-900 dark:text-slate-300 rounded">
+                                                {{ vocab.partOfSpeech }}
+                                            </span>
+                                            <button @click.stop="speakText(vocab.term)" class="text-slate-400 hover:text-abc-gold p-1 rounded-full transition" title="Listen to pronunciation">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+                                            </button>
+                                        </div>
+                                        <h3 class="text-xl font-extrabold text-slate-900 dark:text-white mt-3">{{ vocab.term }}</h3>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400 italic mt-1 font-mono">{{ vocab.phonetic }}</p>
+                                    </div>
+                                    
+                                    <div class="text-center pt-2 border-t border-slate-200 dark:border-slate-700/60">
+                                        <span class="text-xs text-abc-ochre dark:text-amber-400 font-medium flex items-center justify-center">
+                                            <span>Click to flip card</span>
+                                            <svg class="w-3.5 h-3.5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- BACK -->
+                                <div class="absolute inset-0 w-full h-full bg-slate-900 text-white p-5 rounded-2xl backface-hidden rotate-y-180 flex flex-col justify-between border-t-4 border-abc-blue">
+                                    <div>
+                                        <h4 class="font-bold text-amber-400 text-xs uppercase tracking-wide">B1 Definition</h4>
+                                        <p class="text-xs text-slate-200 mt-1 leading-relaxed">{{ vocab.definition }}</p>
+                                        
+                                        <h4 class="font-bold text-amber-400 text-xs uppercase tracking-wide mt-3">Video Example</h4>
+                                        <p class="text-[11px] text-slate-300 italic mt-0.5 leading-snug">"{{ vocab.example }}"</p>
+                                    </div>
+                                    <div class="text-center text-[10px] text-slate-400 pt-2 border-t border-slate-800">
+                                        Click to flip back
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fill-in-the-Blanks Quiz -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-amber-200/80 dark:border-slate-800 shadow-sm">
+                    <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-6 gap-2">
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Part 2: Vocabulary Practice Quiz</h2>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm">Choose the correct vocabulary term to complete each sentence.</p>
+                        </div>
+                        <button @click="resetVocabQuiz" class="self-start sm:self-auto text-xs px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+                            Reset Quiz
+                        </button>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div v-for="(q, index) in vocabQuiz" :key="index" class="p-4 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-800">
+                            <p class="text-sm text-slate-800 dark:text-slate-200 leading-relaxed mb-3">
+                                <span class="font-bold text-abc-gold mr-2">{{ index + 1 }}.</span>
+                                <span v-html="formatSentenceWithBlank(q.sentence, q.userAnswer)"></span>
+                            </p>
+
+                            <div class="flex flex-wrap gap-2">
+                                <select v-model="q.userAnswer" 
+                                        :disabled="q.checked"
+                                        class="text-xs p-2 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg border border-slate-300 dark:border-slate-700 focus:ring-abc-gold focus:outline-none">
+                                    <option value="" disabled>-- Choose Vocabulary Word --</option>
+                                    <option v-for="term in vocabOptions" :key="term" :value="term">{{ term }}</option>
+                                </select>
+
+                                <button v-if="!q.checked" @click="checkVocabItem(q)" 
+                                        :disabled="!q.userAnswer"
+                                        class="text-xs px-3 py-1.5 bg-abc-gold text-white rounded-lg disabled:opacity-50 hover:bg-abc-darkgold transition">
+                                    Check
+                                </button>
+
+                                <div v-if="q.checked" class="flex items-center text-xs font-semibold space-x-2">
+                                    <span v-if="q.isCorrect" class="text-emerald-600 dark:text-emerald-400 flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                        Correct!
+                                    </span>
+                                    <span v-else class="text-rose-600 dark:text-rose-400 flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                        Incorrect (Answer: {{ q.correctAnswer }})
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- ================= SECTION 3: VIDEO VIEWING & GUIDE ================= -->
+            <div v-show="currentStep === 3" class="space-y-8">
+                
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-amber-200/80 dark:border-slate-800 shadow-sm">
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Part 1: ABC News Video Player</h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">Watch the news report below. Click any timestamp button to jump directly to that chapter in the video.</p>
+
+                    <!-- Responsive Video Player Embed -->
+                    <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-lg">
+                        <iframe id="abc-video"
+                                :src="currentVideoUrl" 
+                                class="w-full h-full border-0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen></iframe>
+                    </div>
+
+                    <!-- Timestamps Controls -->
+                    <div class="mt-6">
+                        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Video Chapters (Click to Jump)</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+                            <button v-for="ts in videoTimestamps" :key="ts.time"
+                                    @click="jumpToTimestamp(ts.seconds)"
+                                    class="p-2.5 bg-amber-50/60 dark:bg-slate-800 hover:bg-abc-gold hover:text-white dark:hover:bg-abc-gold text-slate-800 dark:text-slate-200 rounded-xl border border-amber-200/60 dark:border-slate-700 text-left transition group">
+                                <span class="font-mono font-bold text-abc-ochre group-hover:text-white dark:text-amber-400 text-xs block mb-0.5">
+                                    [{{ ts.time }}]
+                                </span>
+                                <span class="text-[11px] font-medium leading-tight block truncate">{{ ts.label }}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Notes Tracker -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-amber-200/80 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center justify-between mb-2">
+                        <h2 class="text-lg font-bold text-slate-900 dark:text-white">Part 2: Video Notes & Observations</h2>
+                        <span class="text-xs text-slate-500">Auto-saves to browser</span>
+                    </div>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">Record challenges faced by outback towns and positive community strengths as you watch.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                📉 Local Challenges (e.g., closing shops, FIFO camps)
+                            </label>
+                            <textarea v-model="userNotes.videoStats" 
+                                      placeholder="e.g. Young people moving away, FIFO workers staying in camps instead of spending money in local shops..."
+                                      rows="4"
+                                      class="w-full p-3 text-xs bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-slate-100 rounded-xl border border-slate-300 dark:border-slate-700 focus:ring-abc-gold focus:outline-none"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                                🌟 Community Strengths (e.g., local butcher, bakery, pub)
+                            </label>
+                            <textarea v-model="userNotes.videoCauses" 
+                                      placeholder="e.g. Kent waking up early to make fresh meat, Amy operating the bakery, prospectors bringing tourism..."
+                                      rows="4"
+                                      class="w-full p-3 text-xs bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-slate-100 rounded-xl border border-slate-300 dark:border-slate-700 focus:ring-abc-gold focus:outline-none"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- ================= SECTION 4: DATA & COMPREHENSION (B1 LEVEL) ================= -->
+            <div v-show="currentStep === 4" class="space-y-8">
+                
+                <!-- Data Matching Challenge -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-amber-200/80 dark:border-slate-800 shadow-sm">
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Part 1: Data & Numbers Matching</h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-6">Match the numbers mentioned in the video report to their correct description.</p>
+
+                    <div class="space-y-4">
+                        <div v-for="(item, idx) in dataMatchingList" :key="idx"
+                             class="p-4 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <div class="flex-grow">
+                                <p class="text-sm font-medium text-slate-800 dark:text-slate-200">{{ item.description }}</p>
+                            </div>
+
+                            <div class="flex items-center space-x-2">
+                                <select v-model="item.userSelect" :disabled="dataMatchedChecked"
+                                        class="text-xs p-2 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-mono font-bold rounded-lg border border-slate-300 dark:border-slate-700">
+                                    <option value="" disabled>-- Select Number --</option>
+                                    <option v-for="val in dataValues" :key="val" :value="val">{{ val }}</option>
+                                </select>
+
+                                <span v-if="dataMatchedChecked" class="text-sm">
+                                    <span v-if="item.userSelect === item.correctVal" class="text-emerald-500 font-bold">✓</span>
+                                    <span v-else class="text-rose-500 font-bold">✗ (Correct: {{ item.correctVal }})</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex justify-between items-center">
+                        <button @click="checkDataMatching" :disabled="dataMatchedChecked"
+                                class="px-4 py-2 bg-abc-gold text-white text-xs font-semibold rounded-xl hover:bg-abc-darkgold transition disabled:opacity-50">
+                            Check Data Matching
+                        </button>
+                        <span v-if="dataMatchedChecked" class="text-xs font-bold text-abc-blue dark:text-blue-400">
+                            Score: {{ dataScore }} / {{ dataMatchingList.length }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Multiple Choice Questions -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-amber-200/80 dark:border-slate-800 shadow-sm">
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Part 2: B1 Video Comprehension Questions</h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-6">Read each question carefully and select the best answer based on the report.</p>
+
+                    <div class="space-y-6">
+                        <div v-for="(q, qIdx) in comprehensionQuestions" :key="qIdx"
+                             class="p-5 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-800">
+                            <p class="text-sm font-bold text-slate-900 dark:text-slate-100 mb-3">
+                                {{ qIdx + 1 }}. {{ q.question }}
+                            </p>
+
+                            <div class="space-y-2">
+                                <label v-for="(opt, optIdx) in q.options" :key="optIdx"
+                                       class="flex items-center p-2.5 rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 hover:bg-amber-50/50 dark:hover:bg-slate-800 cursor-pointer transition">
+                                    <input type="radio" :name="'q_' + qIdx" :value="optIdx" v-model="q.userAnswer" :disabled="q.checked"
+                                           class="text-abc-gold focus:ring-abc-gold h-4 w-4">
+                                    <span class="ml-3 text-xs text-slate-800 dark:text-slate-200">{{ opt }}</span>
+                                </label>
+                            </div>
+
+                            <div v-if="q.checked" class="mt-3 p-3 text-xs rounded-lg" :class="q.userAnswer === q.correct ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300' : 'bg-rose-100 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300'">
+                                <p class="font-bold">{{ q.userAnswer === q.correct ? 'Correct!' : 'Incorrect.' }}</p>
+                                <p class="mt-1">{{ q.explanation }}</p>
+                            </div>
+
+                            <div class="mt-3" v-if="!q.checked">
+                                <button @click="q.checked = true" :disabled="q.userAnswer === null"
+                                        class="text-xs px-3 py-1.5 bg-slate-800 text-white dark:bg-slate-700 rounded-lg hover:bg-slate-700 transition disabled:opacity-50">
+                                    Submit Answer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- ================= SECTION 5: ROLE-PLAY & OUTBACK SIMULATOR ================= -->
+            <div v-show="currentStep === 5" class="space-y-8">
+                
+                <!-- Stakeholder Role-Play Activity -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-amber-200/80 dark:border-slate-800 shadow-sm">
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Part 1: Outback Personas Role-Play</h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">Select a character from the video report and write your response from their perspective.</p>
+
+                    <!-- Persona Selector Cards -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                        <button v-for="persona in personas" :key="persona.id"
+                                @click="selectedPersona = persona.id"
+                                :class="[
+                                    'p-3 rounded-xl border text-left transition flex flex-col justify-between',
+                                    selectedPersona === persona.id 
+                                        ? 'border-abc-gold bg-amber-50 dark:bg-amber-950/30 ring-2 ring-abc-gold' 
+                                        : 'border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/40'
+                                ]">
+                            <span class="text-2xl mb-2">{{ persona.icon }}</span>
+                            <div>
+                                <span class="font-bold text-xs text-slate-900 dark:text-white block">{{ persona.name }}</span>
+                                <span class="text-[10px] text-slate-500 block leading-tight">{{ persona.role }}</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <!-- Persona Box -->
+                    <div v-if="activePersona" class="bg-amber-50/50 dark:bg-slate-800/50 p-4 rounded-xl border border-amber-200/60 dark:border-slate-700">
+                        <div class="flex items-center space-x-2 mb-2">
+                            <span class="text-xl">{{ activePersona.icon }}</span>
+                            <h3 class="font-bold text-sm text-slate-900 dark:text-white">Role: {{ activePersona.name }}</h3>
+                        </div>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 italic mb-3">"{{ activePersona.prompt }}"</p>
+
+                        <textarea v-model="userNotes.personaResponses[activePersona.id]" 
+                                  placeholder="Write your response from this character's point of view..."
+                                  rows="4"
+                                  class="w-full p-3 text-xs bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-xl border border-slate-300 dark:border-slate-700 focus:ring-abc-gold focus:outline-none"></textarea>
+                    </div>
+                </div>
+
+                <!-- "Save the Outback Town" Simulator -->
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-amber-200/80 dark:border-slate-800 shadow-sm">
+                    <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-4 gap-2">
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Part 2: "Save the Outback Town" Policy Simulator</h2>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm">Select community policies to increase the town's Vitality Score and keep small towns alive.</p>
+                        </div>
+
+                        <!-- Score Box -->
+                        <div class="bg-amber-50 dark:bg-slate-800 p-3 rounded-xl flex items-center space-x-3 border border-amber-200 dark:border-slate-700">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold text-slate-500 block">Town Vitality Score</span>
+                                <span class="text-xl font-extrabold" :class="townVitalityScore >= 70 ? 'text-emerald-600 dark:text-emerald-400' : 'text-abc-ochre'">
+                                    {{ townVitalityScore }} / 100
+                                </span>
+                            </div>
+                            <div class="text-right border-l border-amber-200 dark:border-slate-700 pl-3">
+                                <span class="text-[10px] uppercase font-bold text-slate-500 block">Town Status</span>
+                                <span class="text-sm font-bold text-abc-blue dark:text-blue-400">{{ townStatus }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Policy Toggles -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+                        <div v-for="policy in policies" :key="policy.id"
+                             @click="policy.active = !policy.active"
+                             :class="[
+                                 'p-3.5 rounded-xl border cursor-pointer transition flex items-start justify-between',
+                                 policy.active 
+                                     ? 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-500 dark:border-emerald-600' 
+                                     : 'bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-slate-800'
+                             ]">
+                            <div class="pr-2">
+                                <div class="flex items-center space-x-2">
+                                    <span class="font-bold text-xs text-slate-900 dark:text-white">{{ policy.name }}</span>
+                                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
+                                        +{{ policy.impact }} pts
+                                    </span>
+                                </div>
+                                <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-1 leading-snug">{{ policy.description }}</p>
+                            </div>
+
+                            <div class="w-5 h-5 rounded-md border flex items-center justify-center flex-shrink-0 mt-0.5"
+                                 :class="policy.active ? 'bg-emerald-600 border-emerald-600 text-white' : 'border-slate-400 bg-white dark:bg-slate-800'">
+                                <svg v-if="policy.active" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Export & Summary Banner -->
+                <div class="bg-gradient-to-r from-abc-gold to-amber-700 text-white p-6 rounded-2xl shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-lg font-bold">Worksheet Finished!</h2>
+                        <p class="text-xs text-amber-100 mt-0.5">Click to view and print your complete student summary report containing all quiz scores and written notes.</p>
+                    </div>
+                    <button @click="showSummaryModal = true"
+                            class="px-5 py-2.5 bg-white text-abc-darkgold font-bold text-xs rounded-xl hover:bg-amber-50 transition shadow">
+                        📄 View & Print Summary Report
+                    </button>
+                </div>
+
+            </div>
+
+
+            <!-- FOOTER CONTROLS -->
+            <div class="mt-8 flex justify-between items-center pt-4 border-t border-slate-200 dark:border-slate-800 no-print">
+                <button @click="currentStep--" :disabled="currentStep === 1"
+                        class="px-4 py-2 bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-semibold text-xs rounded-xl hover:bg-slate-300 dark:hover:bg-slate-700 transition disabled:opacity-40">
+                    ← Previous Step
+                </button>
+
+                <div class="text-xs font-semibold text-slate-500">
+                    Step {{ currentStep }} of 5
+                </div>
+
+                <button @click="currentStep++" :disabled="currentStep === 5"
+                        class="px-4 py-2 bg-abc-gold text-white font-semibold text-xs rounded-xl hover:bg-abc-darkgold transition disabled:opacity-40">
+                    Next Step →
+                </button>
+            </div>
+
+        </main>
+
+
+        <!-- SUMMARY & EXPORT MODAL -->
+        <div v-if="showSummaryModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+            <div class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-2xl max-w-3xl w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800 max-h-[90vh] overflow-y-auto">
+                
+                <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-4 mb-4">
+                    <div class="flex items-center space-x-2">
+                        <span class="bg-abc-gold text-white font-bold text-xs px-2 py-0.5 rounded">ABC ESL</span>
+                        <h2 class="text-lg font-bold">B1 Student Summary Report</h2>
+                    </div>
+                    <button @click="showSummaryModal = false" class="text-slate-400 hover:text-slate-600 p-1">✕</button>
+                </div>
+
+                <!-- Printable Content Body -->
+                <div id="printable-report" class="space-y-6 text-xs">
+                    
+                    <div class="bg-amber-50/50 dark:bg-slate-800/50 p-4 rounded-xl">
+                        <h3 class="font-bold text-sm text-abc-ochre uppercase">1. Warm-Up Stances</h3>
+                        <div class="mt-2 space-y-1">
+                            <p v-for="(slider, idx) in warmUpSliders" :key="idx">
+                                • <strong>{{ slider.question }}</strong>: {{ slider.value }}/5 ({{ sliderLabels[slider.value - 1] }})
+                            </p>
+                        </div>
+                        <div class="mt-3">
+                            <strong>Personal Warm-Up Notes:</strong>
+                            <p class="italic text-slate-600 dark:text-slate-300 mt-1">{{ userNotes.warmup || 'No response entered.' }}</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-amber-50/50 dark:bg-slate-800/50 p-4 rounded-xl">
+                        <h3 class="font-bold text-sm text-abc-ochre uppercase">2. Vocabulary Score</h3>
+                        <p>Vocabulary Quiz Result: <strong>{{ vocabScore }} / {{ vocabQuiz.length }}</strong></p>
+                    </div>
+
+                    <div class="bg-amber-50/50 dark:bg-slate-800/50 p-4 rounded-xl">
+                        <h3 class="font-bold text-sm text-abc-ochre uppercase">3. Video Notes</h3>
+                        <p><strong>Challenges Noted:</strong> {{ userNotes.videoStats || 'None' }}</p>
+                        <p class="mt-1"><strong>Community Strengths Noted:</strong> {{ userNotes.videoCauses || 'None' }}</p>
+                    </div>
+
+                    <div class="bg-amber-50/50 dark:bg-slate-800/50 p-4 rounded-xl">
+                        <h3 class="font-bold text-sm text-abc-ochre uppercase">4. Data & Comprehension Results</h3>
+                        <p>Data Matching Score: <strong>{{ dataScore }} / {{ dataMatchingList.length }}</strong></p>
+                        <p>Comprehension Quiz Score: <strong>{{ compScore }} / {{ comprehensionQuestions.length }}</strong></p>
+                    </div>
+
+                    <div class="bg-amber-50/50 dark:bg-slate-800/50 p-4 rounded-xl">
+                        <h3 class="font-bold text-sm text-abc-ochre uppercase">5. Role-Play & Policy Simulator</h3>
+                        <p>Selected Character Role: <strong>{{ activePersona ? activePersona.name : 'None' }}</strong></p>
+                        <p class="italic text-slate-600 dark:text-slate-300 mt-1">
+                            "{{ activePersona && userNotes.personaResponses[activePersona.id] ? userNotes.personaResponses[activePersona.id] : 'No persona text entered.' }}"
+                        </p>
+                        <p class="mt-2">Simulated Town Vitality Score: <strong>{{ townVitalityScore }} / 100</strong> (Status: {{ townStatus }})</p>
+                    </div>
+
+                </div>
+
+                <!-- Modal Actions -->
+                <div class="mt-6 flex justify-end space-x-3 border-t border-slate-200 dark:border-slate-800 pt-4">
+                    <button @click="printReport" class="px-4 py-2 bg-abc-blue text-white font-semibold text-xs rounded-xl hover:bg-blue-700 transition">
+                        🖨️ Print / Save PDF
+                    </button>
+                    <button @click="showSummaryModal = false" class="px-4 py-2 bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-semibold text-xs rounded-xl transition">
+                        Close
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    currentStep: 1,
+                    isDark: false,
+                    showSummaryModal: false,
+                    currentVideoUrl: 'https://www.youtube.com/embed/4Urwh1PpJgQ?enablejsapi=1',
+
+                    steps: [
+                        { shortTitle: 'Warm-Up', title: 'Warm-Up & Discussion', subtitle: 'Share your ideas about remote outback life and small-town challenges.' },
+                        { shortTitle: 'Vocabulary', title: 'B1 Vocabulary Introduction', subtitle: 'Learn 8 useful B1 words and phrases used in the video report.' },
+                        { shortTitle: 'Video Guide', title: 'Video Viewing & Guide', subtitle: 'Watch the ABC News report and jump between key outback towns.' },
+                        { shortTitle: 'Comprehension', title: 'Data Matching & Questions', subtitle: 'Match important numbers and check your understanding.' },
+                        { shortTitle: 'Role-Play & Sim', title: 'Role-Play & Town Simulator', subtitle: 'Role-play outback locals and test policies to save the town.' }
+                    ],
+
+                    // Section 1 Data
+                    warmUpSliders: [
+                        { question: '1. Small towns offer a better quality of life than big cities.', value: 3 },
+                        { question: '2. Governments should give financial support to keep rural shops open.', value: 4 },
+                        { question: '3. High pay makes Fly-In Fly-Out (FIFO) mining jobs attractive.', value: 3 },
+                        { question: '4. Young people should stay and work in their hometowns.', value: 2 }
+                    ],
+                    sliderLabels: ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree'],
+                    sentenceStarters: [
+                        'In my opinion,',
+                        'I think living in a small town',
+                        'Compared to city life,',
+                        'One big challenge for small towns is',
+                        'From my point of view,'
+                    ],
+
+                    // Section 2 Data
+                    vocabList: [
+                        { term: 'Ghost town', partOfSpeech: 'Noun', phonetic: '/ɡəʊst taʊn/', definition: 'A town that used to have many people and businesses, but is now empty.', example: 'Big Bell was once a thriving mining town, but today it is a ghost town.', flipped: false },
+                        { term: 'Heyday', partOfSpeech: 'Noun', phonetic: '/ˈheɪ.deɪ/', definition: 'The period of greatest success, popularity, or activity.', example: 'In its heyday in the 1930s, thousands of miners lived and worked here.', flipped: false },
+                        { term: 'Outback', partOfSpeech: 'Noun', phonetic: '/ˈaʊt.bæk/', definition: 'The remote and empty rural areas of Australia far from big cities.', example: 'Life in the Australian outback requires hard work and self-reliance.', flipped: false },
+                        { term: 'FIFO (Fly-In, Fly-Out)', partOfSpeech: 'Noun / Adjective', phonetic: '/ˌfaɪ.ɪn ˌfaɪ.aʊt/', definition: 'A work pattern where employees fly to remote work sites and return home on break.', example: 'FIFO workers stay in mining camps and often do not spend money in town shops.', flipped: false },
+                        { term: 'Prospector', partOfSpeech: 'Noun', phonetic: '/prəˈspek.tər/', definition: 'A person who searches the ground for gold or precious minerals.', example: 'Amateur gold prospectors still visit Cue hoping to find gold nuggets.', flipped: false },
+                        { term: 'Dying breed', partOfSpeech: 'Noun Phrase', phonetic: '/ˈdaɪ.ɪŋ briːd/', definition: 'A type of person or business that is becoming very rare.', example: 'Independent town butchers like Kent are becoming a dying breed.', flipped: false },
+                        { term: 'Pass the baton', partOfSpeech: 'Verb Phrase', phonetic: '/pɑːs ðə bəˈtɒn/', definition: 'To hand over responsibilities or a business to the next person.', example: 'Older business owners struggle to find young people to pass the baton to.', flipped: false },
+                        { term: 'Domino effect', partOfSpeech: 'Noun Phrase', phonetic: '/ˈdɒm.ɪ.nəʊ ɪˈfekt/', definition: 'A situation where one event causes a chain of similar events to happen.', example: 'When the local bank closes, it starts a domino effect that harms other shops.', flipped: false }
+                    ],
+
+                    vocabQuiz: [
+                        { sentence: "Big Bell was once a bustling mining hub, but today it is completely empty – a true ___.", correctAnswer: "Ghost town", userAnswer: "", checked: false, isCorrect: false },
+                        { sentence: "Independent small-town butchers are becoming a ___ because few young people learn the trade.", correctAnswer: "Dying breed", userAnswer: "", checked: false, isCorrect: false },
+                        { sentence: "Mining companies often use ___ workers who live in self-contained camps outside the town.", correctAnswer: "FIFO (Fly-In, Fly-Out)", userAnswer: "", checked: false, isCorrect: false },
+                        { sentence: "The pub owner wants to retire, but he cannot find anyone to ___ and take over the business.", correctAnswer: "Pass the baton", userAnswer: "", checked: false, isCorrect: false }
+                    ],
+
+                    // Section 3 Data
+                    videoTimestamps: [
+                        { time: '00:08', label: 'Intro: The Last Pub in Yalgoo', seconds: 8 },
+                        { time: '01:36', label: 'Big Bell: Ghost Town History', seconds: 96 },
+                        { time: '02:34', label: 'Mount Magnet: Kent the Butcher', seconds: 154 },
+                        { time: '05:20', label: 'Cue: Guest House & Prospectors', seconds: 320 },
+                        { time: '07:49', label: 'Meekatharra: Amy\'s Bakery & FIFO', seconds: 469 },
+                        { time: '10:12', label: 'Yalgoo: Stan\'s Pub & Future', seconds: 612 }
+                    ],
+
+                    userNotes: {
+                        warmup: '',
+                        videoStats: '',
+                        videoCauses: '',
+                        personaResponses: {}
+                    },
+
+                    // Section 4 Data
+                    dataValues: ['7,000 people', '450 residents', '3:00 AM', '330,000 acres', '3 years for sale'],
+                    dataMatchingList: [
+                        { description: 'Peak population of the mining town Big Bell in its gold rush heyday', correctVal: '7,000 people', userSelect: '' },
+                        { description: 'Current population of Mount Magnet surviving on local trades', correctVal: '450 residents', userSelect: '' },
+                        { description: 'Time Kent the butcher wakes up every morning to prepare fresh meat', correctVal: '3:00 AM', userSelect: '' },
+                        { description: 'Size of the vast outback cattle station featured in the report', correctVal: '330,000 acres', userSelect: '' },
+                        { description: 'Length of time Stan has tried to sell the last remaining pub in Yalgoo', correctVal: '3 years for sale', userSelect: '' }
+                    ],
+                    dataMatchedChecked: false,
+
+                    comprehensionQuestions: [
+                        {
+                            question: 'What is the main challenge facing small outback towns like Mount Magnet and Cue?',
+                            options: [
+                                'There are too many tourists and not enough hotel rooms.',
+                                'Populations are shrinking, businesses are closing, and young people leave.',
+                                'Gold mining companies have completely stopped operating in Western Australia.',
+                                'The government built too many new supermarkets in the area.'
+                            ],
+                            correct: 1,
+                            userAnswer: null,
+                            checked: false,
+                            explanation: 'Outback towns face declining populations as youth move to cities, local business owners retire, and FIFO camps bypass local stores.'
+                        },
+                        {
+                            question: 'How does the Fly-In, Fly-Out (FIFO) mining system affect local town shops?',
+                            options: [
+                                'FIFO workers buy all their groceries at the local town bakery and butcher.',
+                                'FIFO workers live in self-contained camps with their own food, spending little in local towns.',
+                                'FIFO workers build new schools and community centers in the towns.',
+                                'FIFO workers stay in local guest houses every night.'
+                            ],
+                            correct: 1,
+                            userAnswer: null,
+                            checked: false,
+                            explanation: 'FIFO workers are flown directly into mining camps that provide all meals, meaning local small-town businesses miss out on revenue.'
+                        },
+                        {
+                            question: 'Why is it difficult for older outback business owners (like Kent the butcher or Stan the pub owner) to retire?',
+                            options: [
+                                'It is illegal for business owners to retire before age 75 in Australia.',
+                                'They cannot find younger buyers willing to move to the outback and take over their shops.',
+                                'They prefer working 18 hours a day and refuse to stop.',
+                                'The local council took away their property titles.'
+                            ],
+                            correct: 1,
+                            userAnswer: null,
+                            checked: false,
+                            explanation: 'Few young people want to purchase rural trades or work long hours in remote areas, making it hard to "pass the baton" and sell businesses.'
+                        }
+                    ],
+
+                    // Section 5 Data
+                    personas: [
+                        { id: 'butcher', name: 'Kent (Outback Butcher)', role: 'Mount Magnet Butcher', icon: '🥩', prompt: 'You wake up at 3:00 AM every day to supply fresh meat. Why is local craft butchers\' survival crucial for small towns?' },
+                        { id: 'guesthouse', name: 'Joyce (Guest House Owner)', role: 'Historic Cue Operator', icon: '🏨', prompt: 'You welcome gold prospectors and tourists. What makes your town special, and what support do you need?' },
+                        { id: 'baker', name: 'Amy (Local Baker)', role: 'Meekatharra Bakery Owner', icon: '🍞', prompt: 'You work hard to serve your community. How do FIFO mining camps impact your bakery business?' },
+                        { id: 'pubowner', name: 'Stan (Pub Owner)', role: 'Yalgoo Pub Publican', icon: '🍺', prompt: 'You have owned the last pub in town for years. Why is the pub important as a social hub, and why is selling it hard?' }
+                    ],
+                    selectedPersona: 'butcher',
+
+                    policies: [
+                        { id: 1, name: 'Subsidize Rural Independent Shops', impact: 25, active: false, description: 'Provide grants to keep local butchers, bakeries, and pubs open.' },
+                        { id: 2, name: 'Mandate Local Spending by Mining Camps', impact: 25, active: false, description: 'Require FIFO camps to buy at least 30% of their food and supplies from town shops.' },
+                        { id: 3, name: 'Promote Gold Prospecting & Heritage Tourism', impact: 20, active: false, description: 'Advertise outback road trips, historic guest houses, and gold fossicking.' },
+                        { id: 4, name: 'Rural Trades Apprentice Tax Breaks', impact: 15, active: false, description: 'Give financial support to young people learning trades in remote towns.' },
+                        { id: 5, name: 'Fund Local Childcare & School Grants', impact: 15, active: false, description: 'Invest in local daycare centers so young families stay in outback towns.' }
+                    ]
+                }
+            },
+
+            computed: {
+                vocabOptions() {
+                    return this.vocabList.map(v => v.term);
+                },
+                activePersona() {
+                    return this.personas.find(p => p.id === this.selectedPersona);
+                },
+                vocabScore() {
+                    return this.vocabQuiz.filter(q => q.isCorrect).length;
+                },
+                dataScore() {
+                    return this.dataMatchingList.filter(item => item.userSelect === item.correctVal).length;
+                },
+                compScore() {
+                    return this.comprehensionQuestions.filter(q => q.checked && q.userAnswer === q.correct).length;
+                },
+                townVitalityScore() {
+                    const baseScore = 20;
+                    const addedScore = this.policies
+                        .filter(p => p.active)
+                        .reduce((sum, p) => sum + p.impact, 0);
+                    return Math.min(100, baseScore + addedScore);
+                },
+                townStatus() {
+                    const score = this.townVitalityScore;
+                    if (score >= 80) return 'Thriving Community';
+                    if (score >= 50) return 'Stable Outback Hub';
+                    return 'At Risk of Ghost Town';
+                },
+                overallProgress() {
+                    return Math.round((this.currentStep / 5) * 100);
+                }
+            },
+
+            mounted() {
+                this.loadFromStorage();
+            },
+
+            watch: {
+                userNotes: {
+                    deep: true,
+                    handler() {
+                        this.saveToStorage();
+                    }
+                },
+                warmUpSliders: {
+                    deep: true,
+                    handler() {
+                        this.saveToStorage();
+                    }
+                }
+            },
+
+            methods: {
+                toggleDarkMode() {
+                    this.isDark = !this.isDark;
+                    if (this.isDark) {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                },
+
+                insertSentenceStarter(starter) {
+                    if (this.userNotes.warmup) {
+                        this.userNotes.warmup += ' ' + starter + ' ';
+                    } else {
+                        this.userNotes.warmup = starter + ' ';
+                    }
+                },
+
+                speakText(text) {
+                    if ('speechSynthesis' in window) {
+                        const utterance = new SpeechSynthesisUtterance(text);
+                        utterance.lang = 'en-AU';
+                        window.speechSynthesis.speak(utterance);
+                    } else {
+                        console.log('Text-to-speech not supported in this browser.');
+                    }
+                },
+
+                formatSentenceWithBlank(sentence, answer) {
+                    const display = answer ? `<u class="font-bold text-abc-gold">${answer}</u>` : '<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>';
+                    return sentence.replace('___', display);
+                },
+
+                checkVocabItem(q) {
+                    q.checked = true;
+                    q.isCorrect = (q.userAnswer === q.correctAnswer);
+                    this.saveToStorage();
+                },
+
+                resetVocabQuiz() {
+                    this.vocabQuiz.forEach(q => {
+                        q.userAnswer = "";
+                        q.checked = false;
+                        q.isCorrect = false;
+                    });
+                    this.saveToStorage();
+                },
+
+                jumpToTimestamp(seconds) {
+                    this.currentVideoUrl = `https://www.youtube.com/embed/4Urwh1PpJgQ?autoplay=1&start=${seconds}`;
+                },
+
+                checkDataMatching() {
+                    this.dataMatchedChecked = true;
+                    this.saveToStorage();
+                },
+
+                saveToStorage() {
+                    const state = {
+                        warmUpSliders: this.warmUpSliders,
+                        userNotes: this.userNotes,
+                        currentStep: this.currentStep,
+                        vocabQuiz: this.vocabQuiz
+                    };
+                    localStorage.setItem('abc_outback_b1_worksheet_state', JSON.stringify(state));
+                },
+
+                loadFromStorage() {
+                    const saved = localStorage.getItem('abc_outback_b1_worksheet_state');
+                    if (saved) {
+                        try {
+                            const parsed = JSON.parse(saved);
+                            if (parsed.warmUpSliders) this.warmUpSliders = parsed.warmUpSliders;
+                            if (parsed.userNotes) this.userNotes = parsed.userNotes;
+                            if (parsed.vocabQuiz) this.vocabQuiz = parsed.vocabQuiz;
+                        } catch (e) {
+                            console.error('Failed to load saved state', e);
+                        }
+                    }
+                },
+
+                printReport() {
+                    window.print();
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

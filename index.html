@@ -9,19 +9,22 @@
       :root {
         color-scheme: light;
         --navy: #10243a;
-        --navy-light: #1b3856;
+        --navy-2: #1d3557;
         --steel: #68798a;
         --steel-light: #d7dfe7;
-        --bg: #eef2f6;
+        --bg: #eef3f7;
         --panel: #ffffff;
-        --text: #1c2b3a;
-        --muted: #596b7c;
-        --border: #cbd5df;
+        --text: #1d2b3a;
+        --muted: #5a6f82;
+        --border: #cfd9e2;
+        --shadow: rgba(16, 36, 58, 0.08);
         --accent: #287c83;
-        --accent-dark: #1d6269;
+        --accent-strong: #1d6269;
       }
 
       * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
 
       body {
         min-height: 100vh;
@@ -29,30 +32,79 @@
         font-family: Arial, Helvetica, sans-serif;
         font-size: 14px;
         line-height: 1.5;
-        background:
-          linear-gradient(135deg, rgba(16, 36, 58, 0.035) 25%, transparent 25%) 0 0 / 8px 8px,
-          linear-gradient(180deg, #f8fafc 0%, var(--bg) 100%);
+        background: linear-gradient(180deg, #f5f8fb 0%, var(--bg) 100%);
         color: var(--text);
       }
 
       .container {
-        max-width: 1200px;
+        max-width: 1180px;
         margin: 0 auto;
-        padding: 48px 20px 64px;
+        padding: 32px 18px 56px;
+      }
+
+      .masthead {
+        margin-bottom: 22px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.7);
+        color: var(--muted);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--accent);
+        display: inline-block;
+      }
+
+      .title-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 16px;
+        margin-top: 14px;
       }
 
       h1 {
-        margin: 0 0 8px;
+        margin: 0;
         color: var(--navy);
-        font-size: clamp(1.7rem, 2.5vw, 2.35rem);
+        font-size: clamp(1.8rem, 2.5vw, 2.5rem);
         font-weight: 700;
-        letter-spacing: -0.035em;
+        letter-spacing: -0.04em;
+      }
+
+      .meta-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 34px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: var(--navy);
+        color: #fff;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        white-space: nowrap;
       }
 
       .subtitle {
-        margin: 0 0 24px;
+        margin: 12px 0 0;
         color: var(--muted);
-        font-size: .92rem;
+        font-size: 0.95rem;
         line-height: 1.5;
       }
 
@@ -61,54 +113,79 @@
         overflow: hidden;
         background: var(--panel);
         border: 1px solid var(--border);
-        border-top: 4px solid var(--navy-light);
-        border-radius: 10px;
-        box-shadow: 0 14px 36px rgba(16, 36, 58, 0.09);
-        padding: 22px;
+        border-top: 4px solid var(--navy-2);
+        border-radius: 12px;
+        box-shadow: 0 18px 40px var(--shadow);
+        padding: 20px;
       }
 
       .button-grid {
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 12px;
+        gap: 14px;
       }
 
       .page-button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
+        --page-accent: var(--accent);
+        --page-accent-soft: rgba(40, 124, 131, 0.12);
+        --page-accent-strong: var(--accent-strong);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         min-width: 0;
-        min-height: 48px;
-        padding: 10px 12px;
-        background: linear-gradient(180deg, #ffffff 0%, #f1f4f7 100%);
-        color: var(--navy);
-        border: 1px solid #b9c5d0;
-        border-radius: 7px;
-        text-align: center;
+        min-height: 116px;
+        padding: 12px 12px 10px;
+        background: linear-gradient(180deg, #ffffff 0%, #f3f7fa 100%);
+        color: var(--text);
+        border: 1px solid var(--border);
+        border-left: 4px solid var(--page-accent);
+        border-radius: 10px;
         text-decoration: none;
-        font-size: .86rem;
-        font-weight: 700;
-        line-height: 1.35;
-        overflow-wrap: anywhere;
-        box-shadow: inset 0 1px 0 #ffffff, 0 2px 5px rgba(16, 36, 58, 0.06);
-        transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+        box-shadow: 0 4px 12px rgba(16, 36, 58, 0.04);
+        transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
       }
 
       .page-button:hover,
       .page-button:focus-visible {
-        background: #e8f1f2;
-        border-color: var(--accent);
-        box-shadow: 0 5px 14px rgba(16, 36, 58, 0.12);
         transform: translateY(-2px);
+        border-color: var(--page-accent);
+        box-shadow: 0 10px 20px rgba(16, 36, 58, 0.08);
       }
 
       .page-button:focus-visible {
-        outline: 3px solid rgba(40, 124, 131, 0.35);
+        outline: 3px solid color-mix(in srgb, var(--page-accent) 32%, white);
         outline-offset: 3px;
+      }
+
+      .page-label {
+        display: inline-flex;
+        align-self: flex-start;
+        padding: 4px 7px;
+        border-radius: 999px;
+        background: var(--page-accent-soft);
+        color: var(--page-accent-strong);
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .page-title {
+        margin-top: 12px;
+        font-size: 0.94rem;
+        font-weight: 700;
+        line-height: 1.35;
+        color: var(--navy);
+        overflow-wrap: anywhere;
       }
 
       .empty-state {
         grid-column: 1 / -1;
+        padding: 26px 18px;
+        border: 1px dashed var(--border);
+        border-radius: 10px;
+        background: #f9fbfd;
         color: var(--muted);
         font-style: italic;
       }
@@ -118,7 +195,7 @@
         padding-top: 14px;
         color: var(--muted);
         border-top: 1px solid var(--steel-light);
-        font-size: .82rem;
+        font-size: 0.82rem;
         line-height: 1.5;
       }
 
@@ -127,10 +204,15 @@
       }
 
       @media (max-width: 640px) {
-        .container { padding: 36px 16px 48px; }
-        .panel { padding: 16px; }
+        .container { padding: 24px 14px 48px; }
+        .panel { padding: 14px; }
+        .title-row {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 10px;
+        }
         .button-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-        .page-button { min-height: 44px; padding: 9px 10px; font-size: .82rem; }
+        .page-button { min-height: 104px; }
       }
 
       @media (max-width: 360px) {
@@ -138,8 +220,8 @@
       }
 
       @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
         *, *::before, *::after {
-          scroll-behavior: auto !important;
           transition-duration: 0.01ms !important;
         }
       }
@@ -147,8 +229,14 @@
   </head>
   <body>
     <main class="container">
-      <h1>Video Reading Comprehension</h1>
-      <p class="subtitle">Choose a page below to open an activity.</p>
+      <header class="masthead">
+        <div class="eyebrow">Language learning</div>
+        <div class="title-row">
+          <h1>Video Reading Comprehension</h1>
+          <span id="page-count" class="meta-pill">0 pages</span>
+        </div>
+        <p class="subtitle">Choose a page below to open an activity.</p>
+      </header>
 
       <section class="panel">
         <div id="file-list" class="button-grid" aria-live="polite"></div>
@@ -162,6 +250,19 @@
       const branch = 'main';
       const fileList = document.getElementById('file-list');
       const statusText = document.getElementById('status');
+      const pageCountText = document.getElementById('page-count');
+
+      const paletteMap = {
+        default: { accent: '#287c83', accentSoft: 'rgba(40, 124, 131, 0.12)', accentStrong: '#1d6269' },
+        reading: { accent: '#4f46e5', accentSoft: 'rgba(79, 70, 229, 0.12)', accentStrong: '#4338ca' },
+        negotiation: { accent: '#0f766e', accentSoft: 'rgba(15, 118, 110, 0.12)', accentStrong: '#115e59' },
+        environment: { accent: '#0f766e', accentSoft: 'rgba(16, 185, 129, 0.12)', accentStrong: '#047857' },
+        business: { accent: '#a16207', accentSoft: 'rgba(202, 138, 4, 0.12)', accentStrong: '#854d0e' },
+        society: { accent: '#b91c1c', accentSoft: 'rgba(185, 28, 28, 0.12)', accentStrong: '#991b1b' },
+        history: { accent: '#7c3aed', accentSoft: 'rgba(124, 58, 237, 0.12)', accentStrong: '#6d28d9' },
+        technology: { accent: '#2563eb', accentSoft: 'rgba(37, 99, 235, 0.12)', accentStrong: '#1d4ed8' },
+        culture: { accent: '#be185d', accentSoft: 'rgba(190, 24, 93, 0.12)', accentStrong: '#9d174d' }
+      };
 
       function cleanFileName(path) {
         return path
@@ -173,9 +274,32 @@
           .trim();
       }
 
+      function getPageCategory(filePath) {
+        const lowerName = filePath.toLowerCase();
+        if (lowerName.includes('reading')) return 'reading';
+        if (lowerName.includes('negotiat')) return 'negotiation';
+        if (lowerName.includes('water') || lowerName.includes('aircon') || lowerName.includes('heating') || lowerName.includes('environment')) return 'environment';
+        if (lowerName.includes('anthropic') || lowerName.includes('ipo') || lowerName.includes('pharma') || lowerName.includes('business')) return 'business';
+        if (lowerName.includes('families') || lowerName.includes('couples') || lowerName.includes('society')) return 'society';
+        if (lowerName.includes('gold') || lowerName.includes('history') || lowerName.includes('town')) return 'history';
+        if (lowerName.includes('ai') || lowerName.includes('tech')) return 'technology';
+        if (lowerName.includes('hendrix') || lowerName.includes('culture')) return 'culture';
+        return 'default';
+      }
+
+      function getPalette(filePath) {
+        return paletteMap[getPageCategory(filePath)] || paletteMap.default;
+      }
+
       function buildPageUrl(filePath) {
-        // Resolve from the deployed index page so the project's Pages base path is retained.
         return `./${filePath.split('/').map(encodeURIComponent).join('/')}`;
+      }
+
+      function setCardPalette(link, filePath) {
+        const palette = getPalette(filePath);
+        link.style.setProperty('--page-accent', palette.accent);
+        link.style.setProperty('--page-accent-soft', palette.accentSoft);
+        link.style.setProperty('--page-accent-strong', palette.accentStrong);
       }
 
       async function loadHtmlFiles() {
@@ -197,8 +321,11 @@
           if (!htmlFiles.length) {
             fileList.innerHTML = '<div class="empty-state">No HTML files have been added yet.</div>';
             statusText.textContent = 'Add an HTML file to this repository and it will appear here automatically.';
+            pageCountText.textContent = '0 pages';
             return;
           }
+
+          pageCountText.textContent = `${htmlFiles.length} page${htmlFiles.length === 1 ? '' : 's'}`;
 
           htmlFiles.forEach((file) => {
             const link = document.createElement('a');
@@ -206,7 +333,15 @@
             link.target = '_blank';
             link.rel = 'noopener noreferrer';
             link.className = 'page-button';
-            link.textContent = cleanFileName(file.path);
+            setCardPalette(link, file.path);
+
+            const category = getPageCategory(file.path);
+            const label = category === 'default' ? 'resource' : category;
+            link.innerHTML = `
+              <span class="page-label">${label}</span>
+              <span class="page-title">${cleanFileName(file.path)}</span>
+            `;
+
             fileList.appendChild(link);
           });
 
@@ -214,6 +349,7 @@
         } catch (error) {
           fileList.innerHTML = '<div class="empty-state">Unable to load pages right now.</div>';
           statusText.textContent = 'Check that the repository is public and that GitHub Pages has been enabled.';
+          pageCountText.textContent = 'Unavailable';
           console.error(error);
         }
       }

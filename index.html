@@ -174,8 +174,8 @@
       }
 
       function buildPageUrl(filePath) {
-        const encodedPath = filePath.split('/').map(encodeURIComponent).join('/');
-        return `https://${repoOwner.toLowerCase()}.github.io/${repoName}/${encodedPath}`;
+        // Resolve from the deployed index page so the project's Pages base path is retained.
+        return `./${filePath.split('/').map(encodeURIComponent).join('/')}`;
       }
 
       async function loadHtmlFiles() {

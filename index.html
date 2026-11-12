@@ -158,7 +158,7 @@
 
     <script>
       const repoOwner = 'Balmain-English';
-      const repoName = 'video_reading_comprehension';
+      const repoName = 'video-reading';
       const branch = 'main';
       const fileList = document.getElementById('file-list');
       const statusText = document.getElementById('status');
@@ -174,7 +174,8 @@
       }
 
       function buildPageUrl(filePath) {
-        return `https://${repoOwner.toLowerCase()}.github.io/${repoName}/${encodeURI(filePath)}`;
+        const encodedPath = filePath.split('/').map(encodeURIComponent).join('/');
+        return `https://${repoOwner.toLowerCase()}.github.io/${repoName}/${encodedPath}`;
       }
 
       async function loadHtmlFiles() {
